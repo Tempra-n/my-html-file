@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>妥当性・信頼性 - 概念理解アニメーション</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 2.5em;
+            margin: 20px 0;
+            color: #ecf0f1;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #9b59b6, #3498db);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 12px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .animation-area {
+            width: 100%;
+            height: 700px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .target {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 3px solid #ecf0f1;
+            background: radial-gradient(circle at center, rgba(52, 152, 219, 0.1) 0%, rgba(52, 152, 219, 0.3) 100%);
+        }
+        
+        .target::before,
+        .target::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(236, 240, 241, 0.6);
+        }
+        
+        .target::before {
+            width: 66%;
+            height: 66%;
+            top: 17%;
+            left: 17%;
+        }
+        
+        .target::after {
+            width: 33%;
+            height: 33%;
+            top: 33.5%;
+            left: 33.5%;
+            background: rgba(231, 76, 60, 0.3);
+        }
+        
+        .shot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #e74c3c;
+            border-radius: 50%;
+            transition: all 0.5s ease;
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.8);
+        }
+        
+        .measurement-tool {
+            position: absolute;
+            background: rgba(52, 152, 219, 0.8);
+            border-radius: 10px;
+            padding: 15px;
+            color: white;
+            font-weight: bold;
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(5px);
+        }
+        
+        .concept-visual {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.8), rgba(52, 152, 219, 0.8));
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(5px);
+            animation: slideIn 0.8s ease-out;
+        }
+        
+        .validity-timeline {
+            position: absolute;
+            bottom: 50px;
+            left: 50px;
+            right: 50px;
+            height: 100px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            backdrop-filter: blur(5px);
+        }
+        
+        .timeline-step {
+            text-align: center;
+            padding: 10px;
+            background: rgba(52, 152, 219, 0.6);
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            min-width: 120px;
+            opacity: 0.3;
+            transition: all 0.5s ease;
+        }
+        
+        .timeline-step.active {
+            opacity: 1;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.5);
+        }
+        
+        .cronbach-meter {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(46, 204, 113, 0.2) 0%, rgba(231, 76, 60, 0.2) 100%);
+            border-radius: 50%;
+            border: 3px solid #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .meter-needle {
+            position: absolute;
+            width: 2px;
+            height: 80px;
+            background: #e74c3c;
+            transform-origin: bottom center;
+            transition: transform 1s ease;
+            border-radius: 2px;
+        }
+        
+        .floating-stat {
+            position: absolute;
+            background: rgba(230, 126, 34, 0.9);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            animation: float 2s ease-in-out infinite;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+            font-size: 14px;
+        }
+        
+        .correlation-matrix {
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 10px;
+            padding: 20px;
+            font-family: monospace;
+        }
+        
+        .matrix-cell {
+            display: inline-block;
+            width: 60px;
+            height: 40px;
+            margin: 2px;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.5s ease;
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .pulse {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        .explanation {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .explanation h3 {
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        
+        .validity-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            right: 50px;
+        }
+        
+        .validity-box {
+            background: rgba(52, 152, 219, 0.2);
+            border: 2px solid #3498db;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .validity-box.invalid {
+            background: rgba(231, 76, 60, 0.2);
+            border-color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">🎯 妥当性・信頼性の可視化アニメーション</h1>
+        
+        <div class="controls">
+            <button class="btn" onclick="animateReliability()">🎯 信頼性の概念</button>
+            <button class="btn" onclick="animateCronbachAlpha()">📊 クロンバックα</button>
+            <button class="btn" onclick="animateValidityTypes()">✅ 妥当性の種類</button>
+            <button class="btn" onclick="animateValidityTimeline()">⏰ 妥当性の時系列</button>
+            <button class="btn" onclick="animateConstructValidity()">🏗️ 構成概念妥当性</button>
+            <button class="btn" onclick="animateInternalExternal()">🔄 内的・外的妥当性</button>
+            <button class="btn" onclick="animateReliabilityTypes()">📏 信頼性の種類</button>
+            <button class="btn" onclick="resetAnimation()">🔄 リセット</button>
+        </div>
+        
+        <div class="animation-area" id="animationArea">
+        </div>
+        
+        <div class="explanation" id="explanation">
+            <h3>🎯 概念理解アニメーション</h3>
+            <p>上のボタンをクリックして、妥当性と信頼性の「見えない」概念を視覚的に理解しましょう。これらは統計学で最も重要でありながら、最も理解が困難な概念です。</p>
+        </div>
+    </div>
+
+    <script>
+        let currentAnimation = null;
+        const animationArea = document.getElementById('animationArea');
+        const explanation = document.getElementById('explanation');
+        
+        function resetAnimation() {
+            if (currentAnimation) {
+                clearInterval(currentAnimation);
+                currentAnimation = null;
+            }
+            animationArea.innerHTML = '';
+            explanation.innerHTML = `
+                <h3>🎯 概念理解アニメーション</h3>
+                <p>上のボタンをクリックして、妥当性と信頼性の「見えない」概念を視覚的に理解しましょう。</p>
+            `;
+        }
+        
+        function animateReliability() {
+            resetAnimation();
+            
+            explanation.innerHTML = `
+                <h3>🎯 信頼性の概念 - 弓矢の例</h3>
+                <p><strong>信頼性 (Reliability):</strong> 測定の一貫性・安定性</p>
+                <p><strong>高信頼性:</strong> 同じ条件で測定すると、毎回同じような結果が得られる</p>
+                <p><strong>低信頼性:</strong> 測定のたびに結果がバラバラになる</p>
+                <p><strong>視覚化:</strong> 的を狙う弓矢の「集まり具合」で表現</p>
+            `;
+            
+            // 高信頼性のターゲット
+            const highReliabilityTarget = document.createElement('div');
+            highReliabilityTarget.className = 'target';
+            highReliabilityTarget.style.left = '150px';
+            highReliabilityTarget.style.top = '100px';
+            animationArea.appendChild(highReliabilityTarget);
+            
+            const highLabel = document.createElement('div');
+            highLabel.className = 'concept-visual';
+            highLabel.style.left = '150px';
+            highLabel.style.top = '50px';
+            highLabel.style.width = '200px';
+            highLabel.innerHTML = '<strong>高信頼性</strong><br>測定が一貫している';
+            animationArea.appendChild(highLabel);
+            
+            // 低信頼性のターゲット
+            const lowReliabilityTarget = document.createElement('div');
+            lowReliabilityTarget.className = 'target';
+            lowReliabilityTarget.style.left = '600px';
+            lowReliabilityTarget.style.top = '100px';
+            animationArea.appendChild(lowReliabilityTarget);
+            
+            const lowLabel = document.createElement('div');
+            lowLabel.className = 'concept-visual';
+            lowLabel.style.left = '600px';
+            lowLabel.style.top = '50px';
+            lowLabel.style.width = '200px';
+            lowLabel.innerHTML = '<strong>低信頼性</strong><br>測定がバラバラ';
+            animationArea.appendChild(lowLabel);
+            
+            // 矢を射るアニメーション
+            setTimeout(() => {
+                // 高信頼性 - 矢が集まる
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => {
+                        const shot = document.createElement('div');
+                        shot.className = 'shot';
+                        const centerX = 245;
+                        const centerY = 195;
+                        shot.style.left = (centerX + (Math.random() - 0.5) * 30) + 'px';
+                        shot.style.top = (centerY + (Math.random() - 0.5) * 30) + 'px';
+                        shot.style.background = '#27ae60';
+                        animationArea.appendChild(shot);
+                    }, i * 300);
+                }
+                
+                // 低信頼性 - 矢が散らばる
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => {
+                        const shot = document.createElement('div');
+                        shot.className = 'shot';
+                        const centerX = 695;
+                        const centerY = 195;
+                        shot.style.left = (centerX + (Math.random() - 0.5) * 120) + 'px';
+                        shot.style.top = (centerY + (Math.random() - 0.5) * 120) + 'px';
+                        shot.style.background = '#e74c3c';
+                        animationArea.appendChild(shot);
+                    }, i * 300);
+                }
+            }, 1000);
+        }
+        
+        function animateCronbachAlpha() {
+            resetAnimation();
+            
+            explanation.innerHTML = `
+                <h3>📊 クロンバックのα係数 - わかりやすい版</h3>
+                <p><strong>α係数:</strong> 質問項目がどれくらい「一致して」測定しているか</p>
+                <p><strong>例:</strong> うつ病テストの5つの質問が、全部同じ「うつ度」を測っているか？</p>
+                <p><strong>α値の意味:</strong> 0.9→すごく一致、0.7→まあまあ、0.5→バラバラ</p>
+            `;
+            
+            // シンプルなα値表示
+            const alphaDisplay = document.createElement('div');
+            alphaDisplay.className = 'concept-visual';
+            alphaDisplay.style.left = '50px';
+            alphaDisplay.style.top = '100px';
+            alphaDisplay.style.width = '200px';
+            alphaDisplay.style.height = '150px';
+            alphaDisplay.style.textAlign = 'center';
+            alphaDisplay.innerHTML = `
+                <h4>α係数</h4>
+                <div id="alphaValueBig" style="font-size: 48px; font-weight: bold; margin: 20px 0;">0.50</div>
+                <div id="alphaLabel" style="font-size: 16px; color: #e74c3c;">バラバラ</div>
+            `;
+            animationArea.appendChild(alphaDisplay);
+            
+            // 5つの質問項目を可視化
+            const questionsBox = document.createElement('div');
+            questionsBox.className = 'concept-visual';
+            questionsBox.style.left = '300px';
+            questionsBox.style.top = '100px';
+            questionsBox.style.width = '400px';
+            questionsBox.style.height = '200px';
+            questionsBox.innerHTML = `
+                <h4>📋 うつ病テスト（5つの質問）</h4>
+                <div style="text-align: left; margin-top: 15px; font-size: 12px;">
+                    <p>質問1: 「悲しい気持ちになる」</p>
+                    <p>質問2: 「やる気が出ない」</p>
+                    <p>質問3: 「眠れない」</p>
+                    <p>質問4: 「食欲がない」</p>
+                    <p>質問5: 「集中できない」</p>
+                </div>
+            `;
+            animationArea.appendChild(questionsBox);
+            
+            // 人々の回答パターンを表示
+            const responseBox = document.createElement('div');
+            responseBox.className = 'concept-visual';
+            responseBox.style.left = '750px';
+            responseBox.style.top = '100px';
+            responseBox.style.width = '300px';
+            responseBox.style.height = '200px';
+            responseBox.innerHTML = `
+                <h4>👥 人々の回答パターン</h4>
+                <div id="responsePattern" style="margin-top: 15px;">
+                </div>
+            `;
+            animationArea.appendChild(responseBox);
+            
+            // 説明ボックス
+            const explanationBox = document.createElement('div');
+            explanationBox.className = 'floating-stat';
+            explanationBox.style.left = '300px';
+            explanationBox.style.top = '350px';
+            explanationBox.style.width = '400px';
+            explanationBox.style.background = 'rgba(52, 152, 219, 0.9)';
+            explanationBox.innerHTML = `
+                <div id="currentExplanation">α値が変化しています...</div>
+            `;
+            animationArea.appendChild(explanationBox);
+            
+            // アニメーション実行
+            let alpha = 0.3;
+            let direction = 1;
+            
+            function updateAlphaVisualization() {
+                alpha += direction * 0.015;
+                if (alpha >= 0.95) direction = -1;
+                if (alpha <= 0.3) direction = 1;
+                
+                // α値とラベルを更新
+                document.getElementById('alphaValueBig').textContent = alpha.toFixed(2);
+                
+                let label, color, explanation;
+                if (alpha >= 0.9) {
+                    label = 'Excellent!';
+                    color = '#27ae60';
+                    explanation = '🎉 すべての質問が一致！みんな同じパターンで回答している';
+                } else if (alpha >= 0.8) {
+                    label = 'Good';
+                    color = '#f39c12';
+                    explanation = '👍 ほとんどの質問が一致。信頼できる測定';
+                } else if (alpha >= 0.7) {
+                    label = 'Acceptable';
+                    color = '#e67e22';
+                    explanation = '⚠️ まあまあ一致。使えるレベル';
+                } else {
+                    label = 'バラバラ';
+                    color = '#e74c3c';
+                    explanation = '❌ 質問がバラバラ。何を測っているかわからない';
+                }
+                
+                document.getElementById('alphaLabel').textContent = label;
+                document.getElementById('alphaLabel').style.color = color;
+                alphaDisplay.style.borderColor = color;
+                
+                // 説明を更新
+                document.getElementById('currentExplanation').innerHTML = explanation;
+                explanationBox.style.background = `rgba(${color.slice(1).match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.9)`;
+                
+                // 回答パターンを更新
+                let patternHTML = '';
+                for (let person = 1; person <= 3; person++) {
+                    patternHTML += `<p style="font-size: 11px;">人${person}: `;
+                    for (let q = 1; q <= 5; q++) {
+                        // α値が高いほど回答が似る
+                        const baseScore = Math.random() > 0.5 ? 4 : 2;
+                        const variation = (1 - alpha) * 2; // α高い→variation小さい
+                        const score = Math.max(1, Math.min(5, Math.round(baseScore + (Math.random() - 0.5) * variation)));
+                        const emoji = score >= 4 ? '😢' : score >= 3 ? '😐' : '😊';
+                        patternHTML += `${score}${emoji} `;
+                    }
+                    patternHTML += '</p>';
+                }
+                document.getElementById('responsePattern').innerHTML = patternHTML;
+            }
+            
+            // 定期的に更新
+            currentAnimation = setInterval(updateAlphaVisualization, 200);
+            updateAlphaVisualization();
+        }
+        
+        function animateValidityTypes() {
+            resetAnimation();
+            
+            explanation.innerHTML = `
+                <h3>✅ 妥当性の4つの種類</h3>
+                <p><strong>内容妥当性:</strong> 測定内容が概念を適切にカバーしているか</p>
+                <p><strong>構成概念妥当性:</strong> 理論的構造と一致しているか</p>
+                <p><strong>基準関連妥当性:</strong> 他の基準と適切に関連しているか</p>
+                <p><strong>表面妥当性:</strong> 見た目に適切に見えるか</p>
+            `;
+            
+            const validityTypes = [
+                {
+                    title: '内容妥当性',
+                    description: '全領域カバー',
+                    example: 'うつ病尺度で認知・感情・身体・行動すべてを測定',
+                    x: 100, y: 100,
+                    color: '#3498db'
+                },
+                {
+                    title: '構成概念妥当性',
+                    description: '理論との一致',
+                    example: '因子分析で想定通りの構造が出現',
+                    x: 500, y: 100,
+                    color: '#9b59b6'
+                },
+                {
+                    title: '基準関連妥当性',
+                    description: '他尺度との相関',
+                    example: '新尺度が既存の標準尺度と高い相関',
+                    x: 100, y: 350,
+                    color: '#27ae60'
+                },
+                {
+                    title: '表面妥当性',
+                    description: '見た目の適切性',
+                    example: '「悲しい気持ち」項目がうつ病を測るように見える',
+                    x: 500, y: 350,
+                    color: '#e67e22'
+                }
+            ];
+            
+            validityTypes.forEach((validity, index) => {
+                setTimeout(() => {
+                    const box = document.createElement('div');
+                    box.className = 'validity-box';
+                    box.style.left = validity.x + 'px';
+                    box.style.top = validity.y + 'px';
+                    box.style.width = '300px';
+                    box.style.height = '150px';
+                    box.style.borderColor = validity.color;
+                    box.style.background = `rgba(${validity.color.slice(1).match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.2)`;
+                    
+                    box.innerHTML = `
+                        <h4 style="color: ${validity.color}; margin-bottom: 10px;">${validity.title}</h4>
+                        <p style="font-weight: bold; margin-bottom: 8px;">${validity.description}</p>
+                        <p style="font-size: 11px; opacity: 0.9;">${validity.example}</p>
+                    `;
+                    
+                    animationArea.appendChild(box);
+                    
+                    // パルス効果
+                    setTimeout(() => {
+                        box.classList.add('pulse');
+                    }, 500);
+                }, index * 800);
+            });
+        }
+        
+        function animateValidityTimeline() {
+            resetAnimation();
+            
+            explanation.innerHTML = `
+                <h3>⏰ 妥当性確認の時系列</h3>
+                <p><strong>研究計画時:</strong> 内容・表面妥当性の専門家評価</p>
+                <p><strong>予備調査時:</strong> 構成概念妥当性の確認（因子分析等）</p>
+                <p><strong>本調査後:</strong> 基準関連妥当性の検証</p>
+                <p><strong>結果解釈時:</strong> 内的・外的妥当性の検討</p>
+            `;
+            
+            // 縦に配置する時系列
+            const timelineSteps = [
+                {
+                    phase: '📋 研究計画時',
+                    validity: '内容・表面妥当性',
+                    description: '専門家による内容審査',
+                    color: '#3498db',
+                    y: 100
+                },
+                {
+                    phase: '🔬 予備調査時', 
+                    validity: '構成概念妥当性',
+                    description: '因子分析による構造確認',
+                    color: '#9b59b6',
+                    y: 200
+                },
+                {
+                    phase: '📊 本調査後',
+                    validity: '基準関連妥当性', 
+                    description: '既存尺度との相関検証',
+                    color: '#27ae60',
+                    y: 300
+                },
+                {
+                    phase: '📈 結果解釈時',
+                    validity: '内的・外的妥当性',
+                    description: '一般化可能性の慎重検討',
+                    color: '#e67e22',
+                    y: 400
+                }
+            ];
+            
+            timelineSteps.forEach((step, index) => {
+                setTimeout(() => {
+                    // メインボックス
+                    const stepBox = document.createElement('div');
+                    stepBox.className = 'concept-visual';
+                    stepBox.style.left = '100px';
+                    stepBox.style.top = step.y + 'px';
+                    stepBox.style.width = '250px';
+                    stepBox.style.height = '80px';
+                    stepBox.style.background = `linear-gradient(135deg, ${step.color}, rgba(255,255,255,0.1))`;
+                    stepBox.innerHTML = `
+                        <h4 style="margin-bottom: 5px;">${step.phase}</h4>
+                        <p style="font-weight: bold; margin-bottom: 5px;">${step.validity}</p>
+                    `;
+                    animationArea.appendChild(stepBox);
+                    
+                    // 矢印（最後のステップ以外）
+                    if (index < timelineSteps.length - 1) {
+                        setTimeout(() => {
+                            const arrow = document.createElement('div');
+                            arrow.style.position = 'absolute';
+                            arrow.style.left = '220px';
+                            arrow.style.top = (step.y + 85) + 'px';
+                            arrow.style.width = '3px';
+                            arrow.style.height = '25px';
+                            arrow.style.background = step.color;
+                            arrow.style.borderRadius = '2px';
+                            animationArea.appendChild(arrow);
+                            
+                            const arrowHead = document.createElement('div');
+                            arrowHead.style.position = 'absolute';
+                            arrowHead.style.left = '217px';
+                            arrowHead.style.top = (step.y + 105) + 'px';
+                            arrowHead.style.width = '0';
+                            arrowHead.style.height = '0';
+                            arrowHead.style.borderLeft = '5px solid transparent';
+                            arrowHead.style.borderRight = '5px solid transparent';
+                            arrowHead.style.borderTop = `8px solid ${step.color}`;
+                            animationArea.appendChild(arrowHead);
+                        }, 500);
+                    }
+                    
+                    // 詳細説明（重ならないように右側に配置）
+                    setTimeout(() => {
+                        const detail = document.createElement('div');
+                        detail.className = 'floating-stat';
+                        detail.style.left = '450px';
+                        detail.style.top = (step.y + 20) + 'px';
+                        detail.style.background = `rgba(${step.color.slice(1).match(/.{2}/g).map(x => parseInt(x, 16)).join(', ')}, 0.9)`;
+                        detail.style.fontSize = '12px';
+                        detail.style.padding = '10px 15px';
+                        detail.innerHTML = step.description;
+                        animationArea.appendChild(detail);
+                    }, 800);
+                    
+                }, index * 1000);
+            });
+        }
+        
+        function animateConstructValidity() {
+            resetAnimation();
+            
+            explanation.innerHTML = `
+                <h3>🏗️ 構成概念妥当性の可視化</h3>
+                <p><strong>概念:</strong> 測定尺度が理論的に想定した構造と一致しているか</p>
+                <p><strong>確認方法:</strong> 因子分析で想定した因子構造が出現するか</p>
+                <p><strong>例:</strong> うつ病尺度で「認知」「感情」「身体」「行動」の4因子が明確に分離</p>
+            `;
+            
+            // 理論的構造（想定）- 左上に配置
+            const theoreticalBox = document.createElement('div');
+            theoreticalBox.className = 'concept-visual';
+            theoreticalBox.style.left = '100px';
+            theoreticalBox.style.top = '120px';
+            theoreticalBox.style.width = '220px';
+            theoreticalBox.style.height = '180px';
+            theoreticalBox.innerHTML = `
+                <h4>🎯 理論的構造（想定）</h4>
+                <div style="text-align: left; margin-top: 15px;">
+                    <p style="margin: 8px 0;">🧠 認知因子</p>
+                    <p style="margin: 8px 0;">💝 感情因子</p>
+                    <p style="margin: 8px 0;">🏃 身体因子</p>
+                    <p style="margin: 8px 0;">🎭 行動因子</p>
+                </div>
+            `;
+            animationArea.appendChild(theoreticalBox);
+            
+            // 実証的結果 - 右上に配置
+            setTimeout(() => {
+                const empiricalBox = document.createElement('div');
+                empiricalBox.className = 'concept-visual';
+                empiricalBox.style.left = '400px';
+                empiricalBox.style.top = '120px';
+                empiricalBox.style.width = '220px';
+                empiricalBox.style.height = '180px';
+                empiricalBox.style.background = 'linear-gradient(135deg, rgba(46, 204, 113, 0.8), rgba(52, 152, 219, 0.8))';
+                
+                empiricalBox.innerHTML = `
+                    <h4>📊 実証的結果（因子分析）</h4>
+                    <div style="text-align: left; margin-top: 15px;">
+                        <p style="margin: 8px 0;">✅ 認知因子: 確認</p>
+                        <p style="margin: 8px 0;">✅ 感情因子: 確認</p>
+                        <p style="margin: 8px 0;">✅ 身体因子: 確認</p>
+                        <p style="margin: 8px 0;">✅ 行動因子: 確認</p>
+                    </div>
+                `;
+                animationArea.appendChild(empiricalBox);
+                
+                // 矢印で接続
+                setTimeout(() => {
+                    const arrow = document.createElement('div');
+                    arrow.style.position = 'absolute';
+                    arrow.style.left = '330px';
+                    arrow.style.top = '205px';
+                    arrow.style.width = '60px';
+                    arrow.style.height = '3px';
+                    arrow.style.background = '#ecf0f1';
+                    arrow.style.borderRadius = '2px';
+                    animationArea.appendChild(arrow);
+                    
+                    const arrowHead = document.createElement('div');
+                    arrowHead.style.position = 'absolute';
+                    arrowHead.style.left = '385px';
+                    arrowHead.style.top = '200px';
+                    arrowHead.style.width = '0';
+                    arrowHead.style.height = '0';
+                    arrowHead.style.borderLeft = '10px solid #ecf0f1';
+                    arrowHead.style.borderTop = '5px solid transparent';
+                    arrowHead.style.borderBottom = '5px solid transparent';
+                    animationArea.appendChild(arrowHead);
+                    
+                    // 一致度表示 - 下に配置して重ならないように
+                    const matchResult = document.createElement('div');
+                    matchResult.className = 'floating-stat';
+                    matchResult.style.left = '300px';
+                    matchResult.style.top = '350px';
+                    matchResult.style.background = 'rgba(46, 204, 113, 0.9)';
+                    matchResult.style.fontSize = '16px';
+                    matchResult.style.padding = '15px 25px';
+                    matchResult.innerHTML = '🎯 構成概念妥当性<br><strong>確認！</strong>';
+                    animationArea.appendChild(matchResult);
+                }, 1000);
+            }, 1500);
+        }
+        
+        function animateInternalExternal() {
+            resetAnimation();
+            
+            explanation.innerHTML = `
+                <h3>🔄 内的妥当性 vs 外的妥当性</h3>
+                <p><strong>内的妥当性:</strong> 実験内での因果関係の確実性（交絡変数の統制）</p>
+                <p><strong>外的妥当性:</strong> 結果の一般化可能性（他の集団・状況への拡張）</p>
+                <p><strong>トレードオフ:</strong> 統制を厳しくすると内的妥当性↑、外的妥当性↓</p>
+            `;
+            
+            // 内的妥当性の視覚化
+            const internalBox = document.createElement('div');
+            internalBox.className = 'validity-box';
+            internalBox.style.left = '100px';
+            internalBox.style.top = '150px';
+            internalBox.style.width = '250px';
+            internalBox.style.height = '200px';
+            internalBox.style.borderColor = '#e74c3c';
+            internalBox.style.background = 'rgba(231, 76, 60, 0.1)';
+            
+            internalBox.innerHTML = `
+                <h4 style="color: #e74c3c;">🔒 内的妥当性</h4>
+                <p><strong>高統制実験室</strong></p>
+                <ul style="text-align: left; font-size: 12px;">
+                    <li>✅ 交絡変数を厳格に統制</li>
+                    <li>✅ 因果関係が明確</li>
+                    <li>❌ 人工的な環境</li>
+                    <li>❌ 現実世界への適用困難</li>
+                </ul>
+            `;
+            animationArea.appendChild(internalBox);
+            
+            // 外的妥当性の視覚化
+            setTimeout(() => {
+                const externalBox = document.createElement('div');
+                externalBox.className = 'validity-box';
+                externalBox.style.left = '450px';
+                externalBox.style.top = '150px';
+                externalBox.style.width = '250px';
+                externalBox.style.height = '200px';
+                externalBox.style.borderColor = '#27ae60';
+                externalBox.style.background = 'rgba(39, 174, 96, 0.1)';
+                
+                externalBox.innerHTML = `
+                    <h4 style="color: #27ae60;">🌍 外的妥当性</h4>
+                    <p><strong>自然な現場研究</strong></p>
+                    <ul style="text-align: left; font-size: 12px;">
+                        <li>✅ 現実的な環境</li>
+                        <li>✅ 一般化しやすい</li>
+                        <li>❌ 交絡変数多い</li>
+                        <li>❌ 因果関係不明確</li>
+                    </ul>
+                `;
+                animationArea.appendChild(externalBox);
+                
+                // バランスの表示
+                setTimeout(() => {
+                    const balance = document.createElement('div');
+                    balance.className = 'floating-stat';
+                    balance.style.left = '300px';
+                    balance.style.top = '400px';
+                    balance.style.background = 'rgba(155, 89, 182, 0.9)';
+                    balance.innerHTML = '⚖️ トレードオフ関係<br>完全な両立は困難';
+                    animationArea.appendChild(balance);
+                }, 1000);
+            }, 1000);
+        }
+        
+        function animateReliabilityTypes() {
+            resetAnimation();
+            
+            explanation.innerHTML = `
+                <h3>📏 信頼性の種類</h3>
+                <p><strong>内的整合性:</strong> 項目間の一貫性（クロンバックα）</p>
+                <p><strong>再テスト信頼性:</strong> 時間的安定性（同じ人に2回測定）</p>
+                <p><strong>評定者間信頼性:</strong> 判定者間の一致度（カッパ係数）</p>
+                <p><strong>折半信頼性:</strong> 項目を2分割した場合の相関</p>
+            `;
+            
+            const reliabilityTypes = [
+                {
+                    type: 'internal',
+                    title: '内的整合性',
+                    measure: 'クロンバックα',
+                    description: '同一時点での項目間一貫性',
+                    visual: '📊 項目1~5が全て強く相関',
+                    x: 50, y: 100
+                },
+                {
+                    type: 'test-retest',
+                    title: '再テスト信頼性',
+                    measure: '相関係数',
+                    description: '時間経過後の安定性',
+                    visual: '⏰ 1週間後に同じ結果',
+                    x: 350, y: 100
+                },
+                {
+                    type: 'inter-rater',
+                    title: '評定者間信頼性',
+                    measure: 'カッパ係数',
+                    description: '複数評価者間の一致',
+                    visual: '👥 評価者A・Bが同じ判定',
+                    x: 650, y: 100
+                },
+                {
+                    type: 'split-half',
+                    title: '折半信頼性',
+                    measure: 'Spearman-Brown',
+                    description: '項目分割時の相関',
+                    visual: '✂️ 奇数・偶数項目で分割',
+                    x: 950, y: 100
+                }
+            ];
+            
+            reliabilityTypes.forEach((reliability, index) => {
+                setTimeout(() => {
+                    const box = document.createElement('div');
+                    box.className = 'measurement-tool';
+                    box.style.left = reliability.x + 'px';
+                    box.style.top = reliability.y + 'px';
+                    box.style.width = '220px';
+                    box.style.height = '200px';
+                    
+                    box.innerHTML = `
+                        <h4 style="margin-bottom: 10px; color: #ecf0f1;">${reliability.title}</h4>
+                        <p style="font-size: 12px; margin-bottom: 8px;"><strong>指標:</strong> ${reliability.measure}</p>
+                        <p style="font-size: 11px; margin-bottom: 10px;">${reliability.description}</p>
+                        <div style="background: rgba(0,0,0,0.3); padding: 8px; border-radius: 5px; font-size: 11px;">
+                            ${reliability.visual}
+                        </div>
+                    `;
+                    
+                    animationArea.appendChild(box);
+                    
+                    // アニメーション効果
+                    setTimeout(() => {
+                        // 信頼性レベルを表示
+                        const level = Math.random() * 0.4 + 0.6; // 0.6-1.0の範囲
+                        const levelDisplay = document.createElement('div');
+                        levelDisplay.className = 'floating-stat';
+                        levelDisplay.style.left = (reliability.x + 50) + 'px';
+                        levelDisplay.style.top = (reliability.y + 220) + 'px';
+                        levelDisplay.style.fontSize = '12px';
+                        
+                        if (level >= 0.9) {
+                            levelDisplay.style.background = 'rgba(46, 204, 113, 0.9)';
+                            levelDisplay.innerHTML = `excellent<br>${level.toFixed(2)}`;
+                        } else if (level >= 0.8) {
+                            levelDisplay.style.background = 'rgba(243, 156, 18, 0.9)';
+                            levelDisplay.innerHTML = `good<br>${level.toFixed(2)}`;
+                        } else {
+                            levelDisplay.style.background = 'rgba(231, 76, 60, 0.9)';
+                            levelDisplay.innerHTML = `acceptable<br>${level.toFixed(2)}`;
+                        }
+                        
+                        animationArea.appendChild(levelDisplay);
+                    }, 800);
+                }, index * 600);
+            });
+            
+            // 比較表を追加
+            setTimeout(() => {
+                const comparisonTable = document.createElement('div');
+                comparisonTable.className = 'concept-visual';
+                comparisonTable.style.left = '200px';
+                comparisonTable.style.top = '400px';
+                comparisonTable.style.width = '600px';
+                comparisonTable.style.height = '150px';
+                
+                comparisonTable.innerHTML = `
+                    <h4>📊 信頼性の種類別特徴</h4>
+                    <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
+                        <tr style="background: rgba(0,0,0,0.3);">
+                            <th style="padding: 5px; border: 1px solid rgba(255,255,255,0.3);">種類</th>
+                            <th style="padding: 5px; border: 1px solid rgba(255,255,255,0.3);">測定内容</th>
+                            <th style="padding: 5px; border: 1px solid rgba(255,255,255,0.3);">良好な値</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px; border: 1px solid rgba(255,255,255,0.3);">内的整合性</td>
+                            <td style="padding: 5px; border: 1px solid rgba(255,255,255,0.3);">項目間の一貫性</td>
+                            <td style="padding: 5px; border: 1px solid rgba(255,255,255,0.3);">α ≥ 0.7</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px; border: 1px solid rgba(255,255,255,0.3);">再テスト</td>
+                            <td style="padding: 5px; border: 1px solid rgba(255,255,255,0.3);">時間的安定性</td>
+                            <td style="padding: 5px; border: 1px solid rgba(255,255,255,0.3);">r ≥ 0.8</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px; border: 1px solid rgba(255,255,255,0.3);">評定者間</td>
+                            <td style="padding: 5px; border: 1px solid rgba(255,255,255,0.3);">判定者の一致</td>
+                            <td style="padding: 5px; border: 1px solid rgba(255,255,255,0.3);">κ ≥ 0.8</td>
+                        </tr>
+                    </table>
+                `;
+                
+                animationArea.appendChild(comparisonTable);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
