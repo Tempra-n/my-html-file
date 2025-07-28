@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アジア金融テック・暗号通貨マスター ロードマップ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: .5;
+            }
+        }
+
+        .gold-gradient {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div class="p-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- ヘッダー -->
+            <div class="text-center mb-12">
+                <h1 class="text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+                    🚀 アジア金融テック・暗号通貨マスター
+                </h1>
+                <h2 class="text-3xl font-bold text-gray-700 mb-4">ロードマップ 2025-2052</h2>
+                <p class="text-xl text-gray-600 mb-8">クアラルンプール・香港・台北・シンガポールでの活躍を目指して</p>
+                
+                <!-- コントロールパネル -->
+                <div class="flex justify-center space-x-4 mb-8">
+                    <button id="playButton" class="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                        <i data-lucide="play" class="w-5 h-5"></i>
+                        <span>アニメーション開始</span>
+                    </button>
+                    
+                    <button id="resetButton" class="flex items-center space-x-2 bg-gray-500 text-white px-6 py-3 rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                        <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+                        <span>リセット</span>
+                    </button>
+                </div>
+
+                <!-- スピード調整 -->
+                <div class="flex items-center justify-center space-x-4 mb-8">
+                    <span class="text-gray-600">アニメーション速度:</span>
+                    <input id="speedSlider" type="range" min="1000" max="4000" value="2500" class="w-32">
+                    <span id="speedLabel" class="text-gray-600">2.5秒</span>
+                </div>
+            </div>
+
+            <!-- グローバルトレンド -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">📊 世界経済フォーラム 2025年最新データ</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-transparent hover:border-blue-300 transition-all duration-300 transform hover:scale-105">
+                        <div class="flex items-center mb-4">
+                            <i data-lucide="trending-up" class="w-8 h-8 text-blue-600 mr-3"></i>
+                            <div class="text-3xl font-bold text-blue-600">1億7000万</div>
+                        </div>
+                        <p class="text-gray-700 font-medium">新職種創出（2030年まで）</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-transparent hover:border-blue-300 transition-all duration-300 transform hover:scale-105">
+                        <div class="flex items-center mb-4">
+                            <i data-lucide="zap" class="w-8 h-8 text-blue-600 mr-3"></i>
+                            <div class="text-3xl font-bold text-blue-600">39%</div>
+                        </div>
+                        <p class="text-gray-700 font-medium">スキル変化率</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-transparent hover:border-blue-300 transition-all duration-300 transform hover:scale-105">
+                        <div class="flex items-center mb-4">
+                            <i data-lucide="globe" class="w-8 h-8 text-blue-600 mr-3"></i>
+                            <div class="text-3xl font-bold text-blue-600">41% vs 23%</div>
+                        </div>
+                        <p class="text-gray-700 font-medium">アジア貿易制限懸念</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-transparent hover:border-blue-300 transition-all duration-300 transform hover:scale-105">
+                        <div class="flex items-center mb-4">
+                            <i data-lucide="dollar-sign" class="w-8 h-8 text-blue-600 mr-3"></i>
+                            <div class="text-3xl font-bold text-blue-600">15-20%</div>
+                        </div>
+                        <p class="text-gray-700 font-medium">AI人材給与プレミアム</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- タイムライン -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">⚡ 2025-2052年 戦略的キャリアタイムライン</h2>
+                <div class="relative">
+                    <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
+                    <div id="timeline" class="space-y-12">
+                        <!-- タイムラインアイテムはJavaScriptで生成 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- スキルカテゴリー -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">🎯 戦略的スキル獲得プラン</h2>
+                <div id="skillCategories" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- スキルカードはJavaScriptで生成 -->
+                </div>
+            </div>
+
+            <!-- キャリアレベル -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">💼 キャリアレベル進化</h2>
+                <div id="careerLevels" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- キャリアレベルはJavaScriptで生成 -->
+                </div>
+            </div>
+
+            <!-- ターゲット都市 -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">📍 ターゲット都市戦略</h2>
+                <div id="targetCities" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- ターゲット都市はJavaScriptで生成 -->
+                </div>
+            </div>
+
+            <!-- 最強コンビネーション -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">🏆 最高ROIスキル組み合わせ</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="gold-gradient text-white p-6 rounded-xl shadow-2xl">
+                        <h3 class="text-xl font-bold mb-4">🥇 AI + 多言語 + 金融</h3>
+                        <p class="mb-4">香港・シンガポールで地域最高給与</p>
+                        <div class="bg-white bg-opacity-20 rounded p-3">
+                            <p class="text-sm">供給不足 × 高需要 = 最大プレミアム</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-green-500 to-emerald-500 text-white p-6 rounded-xl shadow-2xl">
+                        <h3 class="text-xl font-bold mb-4">🥈 ESG + テクノロジー + アジア知識</h3>
+                        <p class="mb-4">新興分野で競合少数</p>
+                        <div class="bg-white bg-opacity-20 rounded p-3">
+                            <p class="text-sm">規制強化による需要拡大</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-blue-500 to-purple-500 text-white p-6 rounded-xl shadow-2xl">
+                        <h3 class="text-xl font-bold mb-4">🥉 フィンテック + 中華圏言語</h3>
+                        <p class="mb-4">台北・香港で急成長セクター</p>
+                        <div class="bg-white bg-opacity-20 rounded p-3">
+                            <p class="text-sm">デジタル人民元関連需要</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 次のアクション -->
+            <div class="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-2xl p-8 shadow-xl mb-12">
+                <h2 class="text-3xl font-bold text-center mb-6">🚀 今すぐ始められること</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">📅 今週から:</h3>
+                        <ul class="space-y-2">
+                            <li>✓ GitHubでフィンテックプロジェクト開始</li>
+                            <li>✓ Coursera/edXでAI・データサイエンス受講</li>
+                            <li>✓ LinkedInでアジア金融業界ネットワーキング</li>
+                            <li>✓ ESG関連ニュースを毎日チェック</li>
+                            <li>✓ 多言語学習継続（認知最適化活用）</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">🎯 2025年末目標:</h3>
+                        <ul class="space-y-2">
+                            <li>✓ Python基礎習得</li>
+                            <li>✓ SQL実務レベル到達</li>
+                            <li>✓ ブロックチェーン基礎理解</li>
+                            <li>✓ 1つ目の多言語プロジェクト完成</li>
+                            <li>✓ 暗号通貨投資経験蓄積</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-8">
+                    <h3 class="text-2xl font-bold mb-4">🌟 あなたの可能性は無限大です！</h3>
+                    <p class="text-lg opacity-90">
+                        2025年から2052年まで、27年間のハードワーク期間で
+                        <br />
+                        アジア金融テック・暗号通貨分野のリーダーへ
+                    </p>
+                    <div class="flex justify-center space-x-2 mt-4">
+                        <i data-lucide="star" class="w-8 h-8 text-yellow-300 pulse"></i>
+                        <i data-lucide="star" class="w-8 h-8 text-yellow-300 pulse" style="animation-delay: 200ms;"></i>
+                        <i data-lucide="star" class="w-8 h-8 text-yellow-300 pulse" style="animation-delay: 400ms;"></i>
+                        <i data-lucide="star" class="w-8 h-8 text-yellow-300 pulse" style="animation-delay: 600ms;"></i>
+                        <i data-lucide="star" class="w-8 h-8 text-yellow-300 pulse" style="animation-delay: 800ms;"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 差別化ポイント -->
+            <div class="bg-white rounded-2xl p-8 shadow-xl mb-12">
+                <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">💡 あなたの差別化ポイント</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center p-6 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl">
+                        <i data-lucide="code" class="w-12 h-12 mx-auto mb-4 text-blue-600"></i>
+                        <h3 class="text-xl font-bold text-blue-700 mb-2">技術 × 文化理解 × 語学</h3>
+                        <p class="text-gray-700">三位一体の希少なスキルセット</p>
+                    </div>
+                    
+                    <div class="text-center p-6 bg-gradient-to-br from-green-100 to-green-200 rounded-xl">
+                        <i data-lucide="globe" class="w-12 h-12 mx-auto mb-4 text-green-600"></i>
+                        <h3 class="text-xl font-bold text-green-700 mb-2">アジア各国の橋渡し役</h3>
+                        <p class="text-gray-700">独自のポジショニングで競合なし</p>
+                    </div>
+                    
+                    <div class="text-center p-6 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl">
+                        <i data-lucide="zap" class="w-12 h-12 mx-auto mb-4 text-purple-600"></i>
+                        <h3 class="text-xl font-bold text-purple-700 mb-2">次世代テクノロジー</h3>
+                        <p class="text-gray-700">地域展開の専門家として確立</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 暗号通貨市場データ -->
+            <div class="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-8 shadow-xl mb-12">
+                <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">💰 2025年暗号通貨市場の現状</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white rounded-xl p-6 shadow-lg text-center">
+                        <div class="text-3xl font-bold text-orange-600 mb-2">$120,000</div>
+                        <div class="text-gray-700">ビットコイン現在価格</div>
+                        <div class="text-sm text-green-600 mt-1">年内$130,000目標</div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-lg text-center">
+                        <div class="text-3xl font-bold text-blue-600 mb-2">$3.85T</div>
+                        <div class="text-gray-700">暗号通貨総時価総額</div>
+                        <div class="text-sm text-green-600 mt-1">史上最高水準</div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-lg text-center">
+                        <div class="text-3xl font-bold text-purple-600 mb-2">+85.6%</div>
+                        <div class="text-gray-700">香港年成長率</div>
+                        <div class="text-sm text-blue-600 mt-1">東アジア最大</div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-lg text-center">
+                        <div class="text-3xl font-bold text-green-600 mb-2">30-40%</div>
+                        <div class="text-gray-700">ベトナム採用率予測</div>
+                        <div class="text-sm text-orange-600 mt-1">2025年</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 個人投資戦略 -->
+            <div class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl p-8 shadow-xl">
+                <h2 class="text-3xl font-bold text-center mb-8">📈 個人投資からの戦略的スタート</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">💡 なぜ個人投資が最適な入り口？</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-2">
+                                <span class="text-yellow-300">✓</span>
+                                <span>実際のお金を動かして技術を学習</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <span class="text-yellow-300">✓</span>
+                                <span>アジア小売投資家の優位性活用</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <span class="text-yellow-300">✓</span>
+                                <span>理論と実践の完璧な結合</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <span class="text-yellow-300">✓</span>
+                                <span>業界参入時の圧倒的アドバンテージ</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">🎯 推奨投資配分</h3>
+                        <div class="space-y-4">
+                            <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-semibold">ビットコイン (BTC)</span>
+                                    <span class="text-yellow-300">40%</span>
+                                </div>
+                                <p class="text-sm opacity-80">デジタルゴールド・価値保存</p>
+                            </div>
+                            
+                            <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-semibold">イーサリアム (ETH)</span>
+                                    <span class="text-yellow-300">30%</span>
+                                </div>
+                                <p class="text-sm opacity-80">スマートコントラクト基盤</p>
+                            </div>
+                            
+                            <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-semibold">アジア特化通貨</span>
+                                    <span class="text-yellow-300">30%</span>
+                                </div>
+                                <p class="text-sm opacity-80">地域戦略・送金・DeFi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center bg-white bg-opacity-10 rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-4">🔥 最強の進化パス</h3>
+                    <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6">
+                        <div class="bg-white bg-opacity-20 rounded-lg p-3 text-center">
+                            <div class="font-semibold">個人投資家開始</div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-6 h-6 text-yellow-300"></i>
+                        <div class="bg-white bg-opacity-20 rounded-lg p-3 text-center">
+                            <div class="font-semibold">技術理解深化</div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-6 h-6 text-yellow-300"></i>
+                        <div class="bg-white bg-opacity-20 rounded-lg p-3 text-center">
+                            <div class="font-semibold">専門性構築</div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-6 h-6 text-yellow-300"></i>
+                        <div class="bg-white bg-opacity-20 rounded-lg p-3 text-center">
+                            <div class="font-semidold">業界参入</div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-6 h-6 text-yellow-300"></i>
+                        <div class="bg-white bg-opacity-20 rounded-lg p-3 text-center">
+                            <div class="font-semibold">地域専門家</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // データ定義
+        const timelineData = [
+            { year: 2025, title: '基盤構築開始', description: 'フィンテック・データサイエンス・ESG', status: 'active' },
+            { year: 2027, title: '実践プロジェクト', description: '暗号通貨ウォレット・AI分析ツール', status: 'active' },
+            { year: 2030, title: '専門化完了', description: 'AI・クロスカルチャー・デジタルマーケティング', status: 'future' },
+            { year: 2035, title: '地域専門家', description: 'アジア金融ハブでの中級ポジション', status: 'future' },
+            { year: 2040, title: 'リーダーシップ', description: '地域統合プロジェクトリード', status: 'future' },
+            { year: 2052, title: '戦略ポジション', description: 'C-suite・次世代育成', status: 'future' }
+        ];
+
+        const skillCategories = [
+            {
+                name: 'フィンテック技術',
+                icon: 'coins',
+                color: 'from-yellow-500 to-orange-500',
+                period: '1-2年（基盤構築）',
+                status: 'active',
+                skills: [
+                    { name: 'ブロックチェーン', focus: '暗号通貨・スマートコントラクト', difficulty: '★★★☆☆' },
+                    { name: '決済システム', focus: 'PayPal・Stripe・アリペイ系', difficulty: '★★☆☆☆' },
+                    { name: 'ロボアドバイザー', focus: 'AI投資アドバイス', difficulty: '★★★★☆' },
+                    { name: 'RegTech', focus: '規制遵守自動化', difficulty: '★★★☆☆' },
+                    { name: 'InsurTech', focus: '保険デジタル化', difficulty: '★★☆☆☆' }
+                ],
+                projects: ['暗号通貨ウォレット開発', 'アジア間送金システム', 'KYC自動化ツール']
+            },
+            {
+                name: 'データサイエンス',
+                icon: 'bar-chart-3',
+                color: 'from-blue-500 to-purple-500',
+                period: '1-2年（基盤構築）',
+                status: 'active',
+                skills: [
+                    { name: 'Python', focus: 'pandas・NumPy・matplotlib', difficulty: '★★★☆☆' },
+                    { name: 'SQL', focus: 'データ抽出・分析', difficulty: '★★☆☆☆' },
+                    { name: '統計学', focus: '記述統計・回帰分析', difficulty: '★★★☆☆' },
+                    { name: 'クラウド', focus: 'AWS・Azure・GCP', difficulty: '★★★★☆' }
+                ],
+                projects: ['Kaggleコンペ参加', '言語学習データ分析', 'アジア経済指標ダッシュボード']
+            },
+            {
+                name: 'ESG・サステナビリティ',
+                icon: 'globe',
+                color: 'from-green-500 to-emerald-500',
+                period: '1-2年（基盤構築）',
+                status: 'active',
+                skills: [
+                    { name: 'ESG評価', focus: '環境・社会・ガバナンス', difficulty: '★★☆☆☆' },
+                    { name: 'カーボン測定', focus: 'フットプリント分析', difficulty: '★★★☆☆' },
+                    { name: 'サステナビリティ報告', focus: 'GRI・SASB基準', difficulty: '★★★☆☆' },
+                    { name: 'ESG投資', focus: '投資戦略立案', difficulty: '★★★★☆' }
+                ],
+                projects: ['ESG評価システム', 'カーボン追跡アプリ', 'サステナビリティレポート自動化']
+            },
+            {
+                name: 'AI・機械学習',
+                icon: 'brain',
+                color: 'from-purple-500 to-pink-500',
+                period: '3-5年（専門化）',
+                status: 'future',
+                salaryPremium: '15-20%プレミアム',
+                skills: [
+                    { name: '機械学習', focus: 'TensorFlow・PyTorch', difficulty: '★★★★☆' },
+                    { name: 'データ処理', focus: 'Apache Spark・Hadoop', difficulty: '★★★★☆' },
+                    { name: 'AI応用', focus: 'ビジネス課題解決', difficulty: '★★★★★' },
+                    { name: 'MLOps', focus: '本番環境運用', difficulty: '★★★★☆' }
+                ],
+                projects: ['多言語チャットボット', 'アジア市場予測AI', '投資最適化システム']
+            },
+            {
+                name: 'クロスカルチャー・ビジネス',
+                icon: 'globe',
+                color: 'from-indigo-500 to-blue-500',
+                period: '3-5年（専門化）',
+                status: 'future',
+                skills: [
+                    { name: '文化理解', focus: 'ハイ/ローコンテクスト', difficulty: '★★★☆☆' },
+                    { name: '国際契約法', focus: '多国間契約', difficulty: '★★★★☆' },
+                    { name: '為替リスク管理', focus: 'ヘッジ戦略', difficulty: '★★★★☆' },
+                    { name: '交渉スキル', focus: '文化適応型', difficulty: '★★★★☆' }
+                ],
+                projects: ['ASEAN市場参入戦略', '多国間M&A仲介', '地政学リスク分析']
+            },
+            {
+                name: 'デジタルマーケティング',
+                icon: 'trending-up',
+                color: 'from-red-500 to-orange-500',
+                period: '3-5年（専門化）',
+                status: 'future',
+                skills: [
+                    { name: 'ローカライゼーション', focus: '台湾vs大陸差異', difficulty: '★★★☆☆' },
+                    { name: '文化的適応', focus: '色彩心理学', difficulty: '★★☆☆☆' },
+                    { name: 'SEO多言語', focus: 'Google/Baidu/Naver', difficulty: '★★★☆☆' },
+                    { name: 'SNS戦略', focus: 'WeChat/LINE/Instagram', difficulty: '★★★☆☆' }
+                ],
+                projects: ['多言語キャンペーン', '文化差考慮コンテンツ', 'アジア向けインフルエンサー戦略']
+            }
+        ];
+
+        const careerLevels = [
+            {
+                level: '入口レベル',
+                salary: '500-800万円',
+                period: '2025-2030',
+                positions: ['投資銀行アナリスト', 'プライベートエクイティ アソシエイト', 'フィンテック企業 事業開発'],
+                color: 'from-green-400 to-blue-500'
+            },
+            {
+                level: '中級レベル',
+                salary: '1000-2000万円',
+                period: '2030-2040',
+                positions: ['地域統括マネージャー', 'M&Aアドバイザー', 'ヘッジファンド ポートフォリオマネージャー'],
+                color: 'from-blue-500 to-purple-500'
+            },
+            {
+                level: '上級レベル',
+                salary: '3000万円+',
+                period: '2040-2052',
+                positions: ['地域CEO/CTO', 'ファミリーオフィス運営', '政府系ファンドアドバイザー'],
+                color: 'from-purple-500 to-pink-500'
+            }
+        ];
+
+        const targetCities = [
+            {
+                name: '香港',
+                flag: '🇭🇰',
+                focus: ['国際金融ハブ', '中国本土架け橋', '暗号通貨・デジタル人民元'],
+                advantages: ['中国語（繁体字・簡体字）', '国際法・金融規制', '一国二制度理解'],
+                growth: '+85.6% (年成長率)',
+                rank: '世界30位',
+                color: 'from-red-500 to-yellow-500'
+            },
+            {
+                name: 'シンガポール',
+                flag: '🇸🇬',
+                focus: ['ASEAN統合ハブ', 'フィンテック規制サンドボックス', 'サステナブルファイナンス'],
+                advantages: ['東南アジア言語', 'イスラム金融理解', '政府系ファンド知識'],
+                growth: '+200% (成長率)',
+                rank: '暗号通貨保有率世界1位',
+                color: 'from-blue-500 to-green-500'
+            },
+            {
+                name: '台北',
+                flag: '🇹🇼',
+                focus: ['半導体・ハードテック', '中華圏スタートアップ', '日台関係ビジネス'],
+                advantages: ['台湾華語', '製造業×テクノロジー', '日本企業連携'],
+                growth: 'TOCFL認定システム',
+                rank: '半導体世界シェア63%',
+                color: 'from-green-500 to-blue-500'
+            },
+            {
+                name: 'クアラルンプール',
+                flag: '🇲🇾',
+                focus: ['マレーシア・デジタル経済', 'イスラム金融', '東南アジアゲートウェイ'],
+                advantages: ['マレー語・英語', '多文化理解', 'イスラム金融知識'],
+                growth: 'QS Future Skills 世界33位',
+                rank: 'アジア7位',
+                color: 'from-yellow-500 to-red-500'
+            }
+        ];
+
+        // 状態管理
+        let currentPhase = 0;
+        let isPlaying = false;
+        let animationSpeed = 2500;
+        let animationInterval = null;
+        let selectedSkill = null;
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTimeline();
+            renderSkillCategories();
+            renderCareerLevels();
+            renderTargetCities();
+            setupEventListeners();
+            
+            // Lucide iconsを初期化
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 100);
+        });
+
+        function setupEventListeners() {
+            const playButton = document.getElementById('playButton');
+            const resetButton = document.getElementById('resetButton');
+            const speedSlider = document.getElementById('speedSlider');
+            const speedLabel = document.getElementById('speedLabel');
+
+            playButton.addEventListener('click', togglePlay);
+            resetButton.addEventListener('click', reset);
+            speedSlider.addEventListener('input', function(e) {
+                animationSpeed = parseInt(e.target.value);
+                speedLabel.textContent = (animationSpeed / 1000).toFixed(1) + '秒';
+                if (isPlaying) {
+                    clearInterval(animationInterval);
+                    startAnimation();
+                }
+            });
+        }
+
+        function togglePlay() {
+            const playButton = document.getElementById('playButton');
+            const icon = playButton.querySelector('i');
+            const text = playButton.querySelector('span');
+
+            if (isPlaying) {
+                clearInterval(animationInterval);
+                isPlaying = false;
+                icon.setAttribute('data-lucide', 'play');
+                text.textContent = 'アニメーション開始';
+            } else {
+                startAnimation();
+                isPlaying = true;
+                icon.setAttribute('data-lucide', 'pause');
+                text.textContent = 'ポーズ';
+            }
+            
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 50);
+        }
+
+        function startAnimation() {
+            animationInterval = setInterval(() => {
+                currentPhase = (currentPhase + 1) % timelineData.length;
+                updateTimeline();
+                updateSkillCategories();
+                updateCareerLevels();
+                updateTargetCities();
+            }, animationSpeed);
+        }
+
+        function reset() {
+            clearInterval(animationInterval);
+            isPlaying = false;
+            currentPhase = 0;
+            const playButton = document.getElementById('playButton');
+            const icon = playButton.querySelector('i');
+            const text = playButton.querySelector('span');
+            icon.setAttribute('data-lucide', 'play');
+            text.textContent = 'アニメーション開始';
+            
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 50);
+            
+            updateTimeline();
+            updateSkillCategories();
+            updateCareerLevels();
+            updateTargetCities();
+        }
+
+        function renderTimeline() {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
+
+            timelineData.forEach((milestone, index) => {
+                const milestoneElement = document.createElement('div');
+                milestoneElement.className = `timeline-milestone relative flex items-center justify-center transition-all duration-1000 ${
+                    index <= currentPhase ? 'opacity-100 scale-100' : 'opacity-50 scale-90'
+                }`;
+
+                const isLeft = index % 2 === 0;
+
+                milestoneElement.innerHTML = `
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full border-4 border-white shadow-lg transition-all duration-500 ${
+                        index <= currentPhase ? 'bg-gradient-to-r from-blue-500 to-purple-500 pulse' : 'bg-gray-300'
+                    }"></div>
+                    
+                    <div class="${isLeft ? 'mr-auto pr-8' : 'ml-auto pl-8'} w-5/12">
+                        <div class="p-6 rounded-lg shadow-lg transition-all duration-500 ${
+                            index <= currentPhase ? 'bg-white border-2 border-blue-200' : 'bg-gray-100'
+                        }">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <i data-lucide="calendar" class="w-6 h-6 text-blue-500"></i>
+                                <span class="font-bold text-2xl text-blue-600">${milestone.year}</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">${milestone.title}</h3>
+                            <p class="text-gray-600">${milestone.description}</p>
+                        </div>
+                    </div>
+                `;
+
+                timeline.appendChild(milestoneElement);
+            });
+
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 50);
+        }
+
+        function updateTimeline() {
+            const milestones = document.querySelectorAll('.timeline-milestone');
+            milestones.forEach((milestone, index) => {
+                const isActive = index <= currentPhase;
+                const circle = milestone.querySelector('.w-8.h-8');
+                const content = milestone.querySelector('.p-6');
+                
+                if (isActive) {
+                    milestone.classList.remove('opacity-50', 'scale-90');
+                    milestone.classList.add('opacity-100', 'scale-100');
+                    circle.className = 'absolute left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full border-4 border-white shadow-lg transition-all duration-500 bg-gradient-to-r from-blue-500 to-purple-500 pulse';
+                    content.className = 'p-6 rounded-lg shadow-lg transition-all duration-500 bg-white border-2 border-blue-200';
+                } else {
+                    milestone.classList.remove('opacity-100', 'scale-100');
+                    milestone.classList.add('opacity-50', 'scale-90');
+                    circle.className = 'absolute left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full border-4 border-white shadow-lg transition-all duration-500 bg-gray-300';
+                    content.className = 'p-6 rounded-lg shadow-lg transition-all duration-500 bg-gray-100';
+                }
+            });
+        }
+
+        function renderSkillCategories() {
+            const container = document.getElementById('skillCategories');
+            container.innerHTML = '';
+
+            skillCategories.forEach((skill, index) => {
+                const card = document.createElement('div');
+                const isActive = currentPhase >= Math.floor(index / 2) || skill.status === 'active';
+                
+                card.className = `skill-card relative p-6 rounded-xl transition-all duration-1000 cursor-pointer transform hover:scale-105 ${
+                    isActive 
+                        ? `bg-gradient-to-r ${skill.color} text-white shadow-2xl` 
+                        : 'bg-gray-100 text-gray-500 shadow-md'
+                } ${selectedSkill === index ? 'ring-4 ring-blue-400' : ''}`;
+                card.dataset.index = index;
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <i data-lucide="${skill.icon}" class="w-8 h-8"></i>
+                            <div>
+                                <h3 class="font-bold text-lg">${skill.name}</h3>
+                                <p class="text-sm opacity-80">${skill.period}</p>
+                            </div>
+                        </div>
+                        ${skill.salaryPremium ? `
+                            <div class="bg-yellow-400 text-black px-2 py-1 rounded-full text-xs font-bold">
+                                ${skill.salaryPremium}
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="details-content ${selectedSkill === index ? '' : 'hidden'}">
+                        <div class="mt-4 space-y-3 animate-fadeIn">
+                            <div class="space-y-2">
+                                <h4 class="font-semibold">主要スキル:</h4>
+                                ${skill.skills.map(item => `
+                                    <div class="bg-white bg-opacity-20 rounded-lg p-3">
+                                        <div class="flex justify-between items-center">
+                                            <span class="font-semibold">${item.name}</span>
+                                            <span class="text-xs">${item.difficulty}</span>
+                                        </div>
+                                        <p class="text-sm mt-1">${item.focus}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-2">実践プロジェクト:</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    ${skill.projects.map(project => `
+                                        <span class="bg-white bg-opacity-30 px-2 py-1 rounded text-xs">
+                                            ${project}
+                                        </span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                card.addEventListener('click', () => toggleSkillCard(index));
+                container.appendChild(card);
+            });
+
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 50);
+        }
+
+        function updateSkillCategories() {
+            const cards = document.querySelectorAll('.skill-card');
+            cards.forEach((card, index) => {
+                const skill = skillCategories[index];
+                const isActive = currentPhase >= Math.floor(index / 2) || skill.status === 'active';
+                
+                if (isActive) {
+                    card.className = `skill-card relative p-6 rounded-xl transition-all duration-1000 cursor-pointer transform hover:scale-105 bg-gradient-to-r ${skill.color} text-white shadow-2xl ${selectedSkill === index ? 'ring-4 ring-blue-400' : ''}`;
+                } else {
+                    card.className = `skill-card relative p-6 rounded-xl transition-all duration-1000 cursor-pointer transform hover:scale-105 bg-gray-100 text-gray-500 shadow-md ${selectedSkill === index ? 'ring-4 ring-blue-400' : ''}`;
+                }
+            });
+        }
+
+        function toggleSkillCard(index) {
+            if (selectedSkill === index) {
+                selectedSkill = null;
+            } else {
+                selectedSkill = index;
+            }
+            renderSkillCategories();
+        }
+
+        function renderCareerLevels() {
+            const container = document.getElementById('careerLevels');
+            container.innerHTML = '';
+
+            careerLevels.forEach((level, index) => {
+                const isActive = currentPhase >= index * 2;
+                const levelElement = document.createElement('div');
+                levelElement.className = `career-level p-6 rounded-xl transition-all duration-1000 transform ${
+                    isActive 
+                        ? `bg-gradient-to-br ${level.color} text-white shadow-2xl scale-105` 
+                        : 'bg-gray-100 text-gray-500 shadow-md scale-95'
+                }`;
+
+                levelElement.innerHTML = `
+                    <div class="text-center mb-4">
+                        <h3 class="text-2xl font-bold mb-2">${level.level}</h3>
+                        <div class="text-3xl font-bold mb-2">${level.salary}</div>
+                        <div class="text-sm opacity-80">${level.period}</div>
+                    </div>
+                    <div class="space-y-2">
+                        ${level.positions.map(position => `
+                            <div class="bg-white bg-opacity-20 rounded-lg p-2 text-sm text-center">
+                                ${position}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                container.appendChild(levelElement);
+            });
+        }
+
+        function updateCareerLevels() {
+            const levels = document.querySelectorAll('.career-level');
+            levels.forEach((level, index) => {
+                const isActive = currentPhase >= index * 2;
+                const levelData = careerLevels[index];
+                
+                if (isActive) {
+                    level.className = `career-level p-6 rounded-xl transition-all duration-1000 transform bg-gradient-to-br ${levelData.color} text-white shadow-2xl scale-105`;
+                } else {
+                    level.className = 'career-level p-6 rounded-xl transition-all duration-1000 transform bg-gray-100 text-gray-500 shadow-md scale-95';
+                }
+            });
+        }
+
+        function renderTargetCities() {
+            const container = document.getElementById('targetCities');
+            container.innerHTML = '';
+
+            targetCities.forEach((city, index) => {
+                const isActive = currentPhase >= index;
+                const cityElement = document.createElement('div');
+                cityElement.className = `target-city p-6 rounded-xl transition-all duration-1000 transform ${
+                    isActive 
+                        ? `bg-gradient-to-br ${city.color} text-white shadow-2xl scale-105` 
+                        : 'bg-gray-100 text-gray-500 shadow-md scale-95'
+                }`;
+
+                cityElement.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <span class="text-4xl mr-3">${city.flag}</span>
+                        <div>
+                            <h3 class="text-2xl font-bold">${city.name}</h3>
+                            <div class="text-sm opacity-80">${city.growth}</div>
+                            <div class="text-xs opacity-70">${city.rank}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-semibold mb-2">フォーカス分野:</h4>
+                        <div class="space-y-1">
+                            ${city.focus.map(focus => `
+                                <div class="bg-white bg-opacity-20 rounded px-2 py-1 text-sm">
+                                    ${focus}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold mb-2">優位性:</h4>
+                        <div class="space-y-1">
+                            ${city.advantages.map(advantage => `
+                                <div class="bg-white bg-opacity-20 rounded px-2 py-1 text-sm">
+                                    ✓ ${advantage}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(cityElement);
+            });
+        }
+
+        function updateTargetCities() {
+            const cities = document.querySelectorAll('.target-city');
+            cities.forEach((cityElement, index) => {
+                const isActive = currentPhase >= index;
+                const city = targetCities[index];
+                
+                if (isActive) {
+                    cityElement.className = `target-city p-6 rounded-xl transition-all duration-1000 transform bg-gradient-to-br ${city.color} text-white shadow-2xl scale-105`;
+                } else {
+                    cityElement.className = 'target-city p-6 rounded-xl transition-all duration-1000 transform bg-gray-100 text-gray-500 shadow-md scale-95';
+                }
+            });
+        }
+
+        // 初期レンダリング
+        window.addEventListener('load', function() {
+            updateTimeline();
+            updateSkillCategories();
+            updateCareerLevels();
+            updateTargetCities();
+        });
+    </script>
+</body>
+</html>
+            
