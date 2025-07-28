@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude×3D インタラクティブルーム設計</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .main-container {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            height: 100vh;
+        }
+        
+        .control-panel {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            overflow-y: auto;
+            backdrop-filter: blur(20px);
+            border-right: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .panel-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .input-group {
+            margin-bottom: 12px;
+        }
+        
+        .input-label {
+            display: block;
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+        
+        .input-field:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        
+        .button:hover {
+            transform: scale(1.02);
+        }
+        
+        .button.secondary {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        }
+        
+        .button.danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        }
+        
+        .viewer-container {
+            position: relative;
+            background: #1a1a1a;
+            overflow: hidden;
+        }
+        
+        #roomViewer {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        .viewer-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .control-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 2px;
+            font-size: 0.8em;
+        }
+        
+        .control-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .furniture-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .furniture-item {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85em;
+        }
+        
+        .furniture-item:hover {
+            border-color: #667eea;
+            background: #e7f1ff;
+        }
+        
+        .furniture-item.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        
+        .claude-chat {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+        
+        .chat-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9em;
+            margin-top: 8px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .stat-item {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 0.8em;
+            color: #666;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1.2em;
+            text-align: center;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .layout-preset {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 8px;
+            margin: 5px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85em;
+        }
+        
+        .layout-preset:hover {
+            border-color: #667eea;
+            background: #f0f8ff;
+        }
+        
+        .notification {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div class="main-container">
+        <div class="control-panel">
+            <h2 class="panel-title">🏠 ルーム設計システム</h2>
+            
+            <!-- 部屋設定 -->
+            <div class="section">
+                <div class="section-title">📐 部屋の基本設定</div>
+                <div class="input-group">
+                    <label class="input-label">幅 (m)</label>
+                    <input type="number" class="input-field" id="roomWidth" value="4" min="2" max="10" step="0.1">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">奥行き (m)</label>
+                    <input type="number" class="input-field" id="roomDepth" value="3" min="2" max="10" step="0.1">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">高さ (m)</label>
+                    <input type="number" class="input-field" id="roomHeight" value="2.4" min="2" max="4" step="0.1">
+                </div>
+                <button class="button" onclick="updateRoom()">🏗️ 部屋を更新</button>
+            </div>
+            
+            <!-- 家具追加 -->
+            <div class="section">
+                <div class="section-title">🪑 家具の追加</div>
+                <div class="furniture-grid">
+                    <div class="furniture-item" onclick="addFurniture('bed')">
+                        🛏️<br>ベッド
+                    </div>
+                    <div class="furniture-item" onclick="addFurniture('desk')">
+                        🗄️<br>デスク
+                    </div>
+                    <div class="furniture-item" onclick="addFurniture('chair')">
+                        🪑<br>椅子
+                    </div>
+                    <div class="furniture-item" onclick="addFurniture('bookshelf')">
+                        📚<br>本棚
+                    </div>
+                    <div class="furniture-item" onclick="addFurniture('wardrobe')">
+                        👔<br>クローゼット
+                    </div>
+                    <div class="furniture-item" onclick="addFurniture('sofa')">
+                        🛋️<br>ソファ
+                    </div>
+                </div>
+                <button class="button danger" onclick="clearFurniture()">🗑️ 全て削除</button>
+            </div>
+            
+            <!-- レイアウトプリセット -->
+            <div class="section">
+                <div class="section-title">✨ レイアウトプリセット</div>
+                <div class="layout-preset" onclick="applyLayout('study')">
+                    📖 勉強部屋レイアウト
+                </div>
+                <div class="layout-preset" onclick="applyLayout('bedroom')">
+                    🛏️ 寝室レイアウト
+                </div>
+                <div class="layout-preset" onclick="applyLayout('workspace')">
+                    💻 ワークスペース
+                </div>
+                <div class="layout-preset" onclick="applyLayout('minimal')">
+                    🌿 ミニマルスタイル
+                </div>
+            </div>
+            
+            <!-- Claude AI相談 -->
+            <div class="section">
+                <div class="section-title">🤖 Claude AI 相談</div>
+                <div class="claude-chat" id="claudeChat">
+                    <div style="color: #667eea; font-weight: bold;">Claude:</div>
+                    <div>こんにちは！部屋のレイアウトについて何でもご相談ください。「もっと広く見せたい」「収納を増やしたい」など、お気軽にどうぞ。</div>
+                </div>
+                <input type="text" class="chat-input" id="claudeInput" placeholder="例：もっと開放感のある配置にしたい..." onkeypress="handleChatEnter(event)">
+                <button class="button secondary" onclick="sendToClaude()">💬 相談する</button>
+            </div>
+            
+            <!-- 空間分析 -->
+            <div class="section">
+                <div class="section-title">📊 空間分析</div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="utilizationRate">75%</div>
+                        <div class="stat-label">利用率</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="walkingDistance">3.2m</div>
+                        <div class="stat-label">平均動線</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="openSpace">40%</div>
+                        <div class="stat-label">開放感</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="efficiency">B+</div>
+                        <div class="stat-label">効率性</div>
+                    </div>
+                </div>
+                <button class="button secondary" onclick="analyzeSpace()">🔄 再分析</button>
+            </div>
+            
+            <!-- エクスポート -->
+            <div class="section">
+                <div class="section-title">💾 エクスポート</div>
+                <button class="button" onclick="exportToBlender()">📤 Blenderコード生成</button>
+                <button class="button secondary" onclick="saveLayout()">💿 レイアウト保存</button>
+                <button class="button secondary" onclick="takeScreenshot()">📸 スクリーンショット</button>
+            </div>
+        </div>
+        
+        <div class="viewer-container">
+            <canvas id="roomViewer"></canvas>
+            
+            <div class="viewer-controls">
+                <div style="margin-bottom: 10px; font-weight: bold;">🎮 操作</div>
+                <button class="control-button" onclick="resetCamera()">🎯 視点リセット</button>
+                <button class="control-button" onclick="toggleWireframe()">🔲 ワイヤーフレーム</button>
+                <button class="control-button" onclick="toggleGrid()">📐 グリッド</button>
+                <div style="margin-top: 10px; font-size: 0.8em; opacity: 0.8;">
+                    マウス: 回転・移動<br>
+                    ホイール: ズーム<br>
+                    家具: クリックで選択
+                </div>
+            </div>
+            
+            <div class="loading" id="loadingIndicator" style="display: none;">
+                <div class="spinner"></div>
+                <div>3Dシーンを構築中...</div>
+            </div>
+            
+            <div class="notification" id="notification"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Three.js セットアップ
+        let scene, camera, renderer, controls;
+        let room, furniture = [];
+        let selectedObject = null;
+        let roomWidth = 4, roomDepth = 3, roomHeight = 2.4;
+        let showWireframe = false, showGrid = true;
+        
+        // 家具の定義
+        const furnitureDefinitions = {
+            bed: { width: 1.2, depth: 2.0, height: 0.3, color: 0x8B4513, name: 'ベッド' },
+            desk: { width: 1.2, depth: 0.6, height: 0.75, color: 0x654321, name: 'デスク' },
+            chair: { width: 0.5, depth: 0.5, height: 0.9, color: 0x2F4F4F, name: '椅子' },
+            bookshelf: { width: 0.3, depth: 1.8, height: 2.0, color: 0x8B4513, name: '本棚' },
+            wardrobe: { width: 0.6, depth: 1.8, height: 2.0, color: 0x696969, name: 'クローゼット' },
+            sofa: { width: 0.8, depth: 1.8, height: 0.8, color: 0x4682B4, name: 'ソファ' }
+        };
+        
+        init();
+        
+        function init() {
+            showLoading(true);
+            
+            // シーン作成
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf0f0f0);
+            
+            // カメラ作成
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(5, 4, 5);
+            camera.lookAt(0, 0, 0);
+            
+            // レンダラー作成
+            const canvas = document.getElementById('roomViewer');
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            
+            // 照明設定
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 10, 5);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 2048;
+            directionalLight.shadow.mapSize.height = 2048;
+            scene.add(directionalLight);
+            
+            // グリッド
+            const gridHelper = new THREE.GridHelper(10, 10);
+            gridHelper.name = 'grid';
+            scene.add(gridHelper);
+            
+            // 簡易コントロール（マウス操作）
+            setupControls();
+            
+            // 初期部屋作成
+            createRoom();
+            
+            // レンダリングループ
+            animate();
+            
+            showLoading(false);
+            showNotification('3D部屋設計システムが準備完了しました！');
+        }
+        
+        function setupControls() {
+            let isMouseDown = false;
+            let mouseX = 0, mouseY = 0;
+            let targetX = 0, targetY = 0;
+            let distance = 8;
+            
+            const canvas = document.getElementById('roomViewer');
+            
+            canvas.addEventListener('mousedown', (event) => {
+                isMouseDown = true;
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+            });
+            
+            canvas.addEventListener('mousemove', (event) => {
+                if (!isMouseDown) return;
+                
+                const deltaX = event.clientX - mouseX;
+                const deltaY = event.clientY - mouseY;
+                
+                targetX += deltaX * 0.01;
+                targetY += deltaY * 0.01;
+                
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+                
+                updateCameraPosition();
+            });
+            
+            canvas.addEventListener('mouseup', () => {
+                isMouseDown = false;
+            });
+            
+            canvas.addEventListener('wheel', (event) => {
+                distance += event.deltaY * 0.01;
+                distance = Math.max(3, Math.min(15, distance));
+                updateCameraPosition();
+                event.preventDefault();
+            });
+            
+            function updateCameraPosition() {
+                camera.position.x = Math.cos(targetX) * distance;
+                camera.position.z = Math.sin(targetX) * distance;
+                camera.position.y = Math.max(1, distance * Math.sin(targetY * 0.5) + 3);
+                camera.lookAt(0, 0, 0);
+            }
+        }
+        
+        function createRoom() {
+            // 既存の部屋を削除
+            if (room) {
+                scene.remove(room);
+            }
+            
+            // 部屋のグループ作成
+            room = new THREE.Group();
+            
+            // 床
+            const floorGeometry = new THREE.PlaneGeometry(roomWidth, roomDepth);
+            const floorMaterial = new THREE.MeshLambertMaterial({ color: 0xDEB887 });
+            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            floor.receiveShadow = true;
+            room.add(floor);
+            
+            // 壁
+            const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xF5F5DC });
+            
+            // 背面の壁
+            const backWallGeometry = new THREE.PlaneGeometry(roomWidth, roomHeight);
+            const backWall = new THREE.Mesh(backWallGeometry, wallMaterial);
+            backWall.position.set(0, roomHeight/2, -roomDepth/2);
+            room.add(backWall);
+            
+            // 左の壁
+            const leftWallGeometry = new THREE.PlaneGeometry(roomDepth, roomHeight);
+            const leftWall = new THREE.Mesh(leftWallGeometry, wallMaterial);
+            leftWall.position.set(-roomWidth/2, roomHeight/2, 0);
+            leftWall.rotation.y = Math.PI / 2;
+            room.add(leftWall);
+            
+            // 右の壁
+            const rightWall = new THREE.Mesh(leftWallGeometry, wallMaterial);
+            rightWall.position.set(roomWidth/2, roomHeight/2, 0);
+            rightWall.rotation.y = -Math.PI / 2;
+            room.add(rightWall);
+            
+            scene.add(room);
+        }
+        
+        function addFurniture(type) {
+            const def = furnitureDefinitions[type];
+            if (!def) return;
+            
+            const geometry = new THREE.BoxGeometry(def.width, def.height, def.depth);
+            const material = new THREE.MeshLambertMaterial({ color: def.color });
+            const furnitureMesh = new THREE.Mesh(geometry, material);
+            
+            // ランダムな位置に配置（部屋の範囲内）
+            const x = (Math.random() - 0.5) * (roomWidth - def.width);
+            const z = (Math.random() - 0.5) * (roomDepth - def.depth);
+            furnitureMesh.position.set(x, def.height/2, z);
+            
+            furnitureMesh.castShadow = true;
+            furnitureMesh.receiveShadow = true;
+            furnitureMesh.userData = { type: type, name: def.name };
+            
+            scene.add(furnitureMesh);
+            furniture.push(furnitureMesh);
+            
+            showNotification(`${def.name}を追加しました`);
+            updateStats();
+        }
+        
+        function clearFurniture() {
+            furniture.forEach(item => scene.remove(item));
+            furniture = [];
+            selectedObject = null;
+            showNotification('家具をすべて削除しました');
+            updateStats();
+        }
+        
+        function updateRoom() {
+            roomWidth = parseFloat(document.getElementById('roomWidth').value);
+            roomDepth = parseFloat(document.getElementById('roomDepth').value);
+            roomHeight = parseFloat(document.getElementById('roomHeight').value);
+            
+            createRoom();
+            showNotification('部屋のサイズを更新しました');
+            updateStats();
+        }
+        
+        function applyLayout(layoutType) {
+            clearFurniture();
+            
+            const layouts = {
+                study: [
+                    { type: 'desk', x: 1, z: -1 },
+                    { type: 'chair', x: 1, z: -0.3 },
+                    { type: 'bookshelf', x: -1.5, z: -1 },
+                    { type: 'bed', x: -0.5, z: 1 }
+                ],
+                bedroom: [
+                    { type: 'bed', x: 0, z: -0.5 },
+                    { type: 'wardrobe', x: -1.5, z: 1 },
+                    { type: 'desk', x: 1.2, z: 0.8 },
+                    { type: 'chair', x: 1.2, z: 0.3 }
+                ],
+                workspace: [
+                    { type: 'desk', x: 0, z: -1 },
+                    { type: 'chair', x: 0, z: -0.3 },
+                    { type: 'bookshelf', x: -1.5, z: 0 },
+                    { type: 'bookshelf', x: 1.5, z: 0 }
+                ],
+                minimal: [
+                    { type: 'bed', x: -1, z: 0 },
+                    { type: 'desk', x: 1, z: -0.5 },
+                    { type: 'chair', x: 1, z: 0.2 }
+                ]
+            };
+            
+            const layout = layouts[layoutType];
+            if (layout) {
+                layout.forEach(item => {
+                    const def = furnitureDefinitions[item.type];
+                    const geometry = new THREE.BoxGeometry(def.width, def.height, def.depth);
+                    const material = new THREE.MeshLambertMaterial({ color: def.color });
+                    const furnitureMesh = new THREE.Mesh(geometry, material);
+                    
+                    furnitureMesh.position.set(item.x, def.height/2, item.z);
+                    furnitureMesh.castShadow = true;
+                    furnitureMesh.receiveShadow = true;
+                    furnitureMesh.userData = { type: item.type, name: def.name };
+                    
+                    scene.add(furnitureMesh);
+                    furniture.push(furnitureMesh);
+                });
+                
+                showNotification(`${layoutType}レイアウトを適用しました`);
+                updateStats();
+            }
+        }
+        
+        function sendToClaude() {
+            const input = document.getElementById('claudeInput');
+            const chat = document.getElementById('claudeChat');
+            const userMessage = input.value.trim();
+            
+            if (!userMessage) return;
+            
+            // ユーザーメッセージを表示
+            chat.innerHTML += `<div style="margin-top: 10px;"><strong>あなた:</strong> ${userMessage}</div>`;
+            
+            // Claude の応答をシミュレート
+            setTimeout(() => {
+                const responses = [
+                    "そのアイデアは素晴らしいですね！ベッドを窓際に移動すると、自然光を有効活用できます。試してみましょうか？",
+                    "収納を増やすなら、縦型の家具を活用するのがおすすめです。本棚やクローゼットを壁際に配置してみてください。",
+                    "動線を改善するには、よく使う家具の間に十分なスペースを確保することが重要です。現在の配置を分析してみますね。",
+                    "開放感を出すには、部屋の中央に大きな家具を置かないことがポイントです。壁際配置を試してみてください。",
+                    "作業効率を上げるなら、デスクを自然光の入る場所に配置し、必要な物を手の届く範囲に置くのが効果的です。"
+                ];
+                
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                chat.innerHTML += `<div style="margin-top: 10px;"><strong style="color: #667eea;">Claude:</strong> ${randomResponse}</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 1000);
+            
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+        }
+        
+        function handleChatEnter(event) {
+            if (event.key === 'Enter') {
+                sendToClaude();
+            }
+        }
+        
+        function updateStats() {
+            // 簡易的な統計計算
+            const totalArea = roomWidth * roomDepth;
+            const usedArea = furniture.reduce((sum, item) => {
+                const def = furnitureDefinitions[item.userData.type];
+                return sum + (def.width * def.depth);
+            }, 0);
+            
+            const utilizationRate = Math.round((usedArea / totalArea) * 100);
+            const walkingDistance = (furniture.length * 0.5 + 2).toFixed(1);
+            const openSpace = Math.max(0, 100 - utilizationRate);
+            
+            document.getElementById('utilizationRate').textContent = utilizationRate + '%';
+            document.getElementById('walkingDistance').textContent = walkingDistance + 'm';
+            document.getElementById('openSpace').textContent = openSpace + '%';
+            
+            // 効率性評価
+            let efficiency = 'D';
+            if (utilizationRate > 80) efficiency = 'A';
+            else if (utilizationRate > 60) efficiency = 'B';
+            else if (utilizationRate > 40) efficiency = 'C';
+            
+            document.getElementById('efficiency').textContent = efficiency;
+        }
+        
+        function exportToBlender() {
+            let blenderCode = `import bpy
+import bmesh
+
+# 既存オブジェクトを削除
+bpy.ops.object.select_all(action='SELECT')
+bpy.ops.object.delete(use_global=False)
+
+# 部屋の作成
+bpy.ops.mesh.primitive_cube_add(size=2, location=(0, 0, ${roomHeight/2}))
+room = bpy.context.active_object
+room.scale = (${roomWidth/2}, ${roomDepth/2}, ${roomHeight/2})
+room.name = "Room"
+
+# 床マテリアル
+floor_material = bpy.data.materials.new(name="Floor")
+floor_material.use_nodes = True
+floor_material.node_tree.nodes["Principled BSDF"].inputs[0].default_value = (0.87, 0.72, 0.53, 1.0)
+room.data.materials.append(floor_material)
+
+`;
+
+            furniture.forEach((item, index) => {
+                const def = furnitureDefinitions[item.userData.type];
+                const pos = item.position;
+                blenderCode += `
+# ${def.name}
+bpy.ops.mesh.primitive_cube_add(location=(${pos.x.toFixed(2)}, ${pos.z.toFixed(2)}, ${(def.height/2).toFixed(2)}))
+${item.userData.type}_${index} = bpy.context.active_object
+${item.userData.type}_${index}.scale = (${(def.width/2).toFixed(2)}, ${(def.depth/2).toFixed(2)}, ${(def.height/2).toFixed(2)})
+${item.userData.type}_${index}.name = "${def.name}_${index}"
+`;
+            });
+            
+            blenderCode += `
+print("部屋の3Dモデルが作成されました！")
+`;
+            
+            // テキストファイルとしてダウンロード
+            const blob = new Blob([blenderCode], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'room_layout.py';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showNotification('Blenderコードをダウンロードしました！');
+        }
+        
+        function saveLayout() {
+            const layoutData = {
+                room: { width: roomWidth, depth: roomDepth, height: roomHeight },
+                furniture: furniture.map(item => ({
+                    type: item.userData.type,
+                    position: item.position,
+                    name: item.userData.name
+                }))
+            };
+            
+            const blob = new Blob([JSON.stringify(layoutData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'room_layout.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showNotification('レイアウトデータを保存しました！');
+        }
+        
+        function takeScreenshot() {
+            const canvas = document.getElementById('roomViewer');
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'room_screenshot.png';
+                a.click();
+                URL.revokeObjectURL(url);
+                showNotification('スクリーンショットを保存しました！');
+            });
+        }
+        
+        function resetCamera() {
+            camera.position.set(5, 4, 5);
+            camera.lookAt(0, 0, 0);
+            showNotification('カメラ視点をリセットしました');
+        }
+        
+        function toggleWireframe() {
+            showWireframe = !showWireframe;
+            furniture.forEach(item => {
+                item.material.wireframe = showWireframe;
+            });
+            if (room) {
+                room.children.forEach(child => {
+                    if (child.material) child.material.wireframe = showWireframe;
+                });
+            }
+            showNotification(showWireframe ? 'ワイヤーフレーム表示ON' : 'ワイヤーフレーム表示OFF');
+        }
+        
+        function toggleGrid() {
+            showGrid = !showGrid;
+            const grid = scene.getObjectByName('grid');
+            if (grid) grid.visible = showGrid;
+            showNotification(showGrid ? 'グリッド表示ON' : 'グリッド表示OFF');
+        }
+        
+        function analyzeSpace() {
+            showLoading(true);
+            setTimeout(() => {
+                updateStats();
+                showLoading(false);
+                showNotification('空間分析が完了しました');
+            }, 1500);
+        }
+        
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        function showLoading(show) {
+            document.getElementById('loadingIndicator').style.display = show ? 'block' : 'none';
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+        
+        // ウィンドウリサイズ対応
+        window.addEventListener('resize', () => {
+            const canvas = document.getElementById('roomViewer');
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        });
+        
+        // 初期統計更新
+        updateStats();
+    </script>
+</body>
+</html>
