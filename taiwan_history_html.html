@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台湾：多様性と包容力の島</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .rainbow-bg {
+            background: linear-gradient(-45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #fd79a8);
+            background-size: 400% 400%;
+            animation: rainbow 3s ease infinite;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+        }
+
+        .icon-lg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: .5;
+            }
+        }
+        
+        .star-fill {
+            fill: currentColor;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
+    <div class="p-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- ヘッダー -->
+            <div class="text-center mb-12">
+                <h1 class="text-6xl font-bold bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-4">
+                    🌈 台湾：多様性と包容力の島
+                </h1>
+                <p class="text-2xl text-gray-700 mb-4">歴史が育んだ自由と寛容の文化</p>
+                <div class="bg-white rounded-lg p-6 shadow-lg mb-8">
+                    <h3 class="font-bold text-xl mb-4 text-gray-800">🏳️‍🌈 なぜ台北があなたにとって理想的なのか</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        400年の多様な統治経験が育んだ包容力。LGBTQ+への理解、社会問題への関心、宗教的寛容性、
+                        女性の安全、新自由主義以外の価値観—すべてがここにあります。
+                    </p>
+                </div>
+                
+                <!-- コントロールパネル -->
+                <div class="flex justify-center space-x-4 mb-8">
+                    <button id="playButton" class="flex items-center space-x-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-3 rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                        <i data-lucide="play" class="w-5 h-5"></i>
+                        <span>歴史の旅を開始</span>
+                    </button>
+                    
+                    <button id="resetButton" class="flex items-center space-x-2 bg-gray-500 text-white px-6 py-3 rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                        <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+                        <span>リセット</span>
+                    </button>
+                </div>
+
+                <!-- スピード調整 -->
+                <div class="flex items-center justify-center space-x-4 mb-8">
+                    <span class="text-gray-600">アニメーション速度:</span>
+                    <input id="speedSlider" type="range" min="2000" max="5000" value="3000" class="w-32">
+                    <span id="speedLabel" class="text-gray-600">3.0秒</span>
+                </div>
+            </div>
+
+            <!-- 歴史タイムライン -->
+            <div class="mb-16">
+                <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">📜 台湾400年の歴史：多様性が生んだ包容力</h2>
+                <div class="relative">
+                    <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-2 bg-gradient-to-b from-green-500 via-blue-500 to-purple-500 rounded-full"></div>
+                    <div id="timeline" class="space-y-16">
+                        <!-- タイムラインアイテムはJavaScriptで生成 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 現代台湾文化 -->
+            <div class="mb-16">
+                <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">🌈 現代台湾文化：あなたが求める価値観の実現</h2>
+                <div id="culturalAspects" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- 文化的側面はJavaScriptで生成 -->
+                </div>
+            </div>
+
+            <!-- 個人的な旅路 -->
+            <div class="mb-16">
+                <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">🗺️ あなたの台北移住計画</h2>
+                <div class="bg-white rounded-2xl p-8 shadow-xl">
+                    <div id="personalJourney" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- 個人的な旅路はJavaScriptで生成 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 実用的情報 -->
+            <div class="mb-16">
+                <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">💡 実用的な生活情報</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-gradient-to-br from-green-400 to-emerald-500 text-white p-6 rounded-xl shadow-lg">
+                        <i data-lucide="home" class="w-8 h-8 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-3">住居</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li>• Share House: 36,000-69,000円/月</li>
+                            <li>• 公館エリア（台大周辺）推奨</li>
+                            <li>• 家賃は日本より40-50%安い</li>
+                            <li>• 安全で便利な立地</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-blue-400 to-indigo-500 text-white p-6 rounded-xl shadow-lg">
+                        <i data-lucide="users" class="w-8 h-8 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-3">コミュニティ</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li>• 哲学星期五（毎週金曜討論会）</li>
+                            <li>• One-Forty NGOボランティア</li>
+                            <li>• Taiwan Pride（10月）</li>
+                            <li>• 国際開発NGOプログラム</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-purple-400 to-pink-500 text-white p-6 rounded-xl shadow-lg">
+                        <i data-lucide="target" class="w-8 h-8 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-3">月額予算</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li>• 宿泊費: 40,000円</li>
+                            <li>• 食費: 25,000円</li>
+                            <li>• 交通費: 4,100円</li>
+                            <li>• その他: 20,000円</li>
+                            <li>• <strong>合計: 89,100円/月</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- なぜ台北なのか -->
+            <div class="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white rounded-2xl p-8 shadow-2xl">
+                <h2 class="text-4xl font-bold text-center mb-8">💖 なぜ台北があなたにとって完璧なのか</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4">🌈 求めていた環境がすべてここに</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-3">
+                                <i data-lucide="heart" class="w-6 h-6 text-pink-300 mt-1 flex-shrink-0"></i>
+                                <span>LGBTQ+への理解と支援が当たり前の社会</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <i data-lucide="users" class="w-6 h-6 text-blue-300 mt-1 flex-shrink-0"></i>
+                                <span>社会問題や政治への関心を共有する仲間</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <i data-lucide="globe" class="w-6 h-6 text-green-300 mt-1 flex-shrink-0"></i>
+                                <span>宗教的寛容性のある環境</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <i data-lucide="shield" class="w-6 h-6 text-yellow-300 mt-1 flex-shrink-0"></i>
+                                <span>女性として安全で平等な社会</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <i data-lucide="leaf" class="w-6 h-6 text-emerald-300 mt-1 flex-shrink-0"></i>
+                                <span>新自由主義以外の生き方が受け入れられる</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4">🚀 これは逃避ではなく前進</h3>
+                        <div class="bg-white bg-opacity-20 rounded-lg p-6">
+                            <p class="text-lg leading-relaxed">
+                                日本で「変人」として疲弊し続けるより、自分らしさを活かして社会貢献できる環境で
+                                新しい人生を始める方が、あなたにとって健康的で建設的な選択です。
+                            </p>
+                            <p class="text-lg leading-relaxed mt-4 font-semibold">
+                                台北は、あなたが自然体で生き、社会に貢献し、真の仲間と出会える場所です。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-8">
+                    <div class="flex justify-center space-x-2">
+                        <i data-lucide="star" class="w-8 h-8 text-yellow-300 pulse star-fill"></i>
+                        <i data-lucide="star" class="w-8 h-8 text-yellow-300 pulse star-fill" style="animation-delay: 200ms;"></i>
+                        <i data-lucide="star" class="w-8 h-8 text-yellow-300 pulse star-fill" style="animation-delay: 400ms;"></i>
+                        <i data-lucide="star" class="w-8 h-8 text-yellow-300 pulse star-fill" style="animation-delay: 600ms;"></i>
+                        <i data-lucide="star" class="w-8 h-8 text-yellow-300 pulse star-fill" style="animation-delay: 800ms;"></i>
+                    </div>
+                    <p class="text-2xl font-bold mt-4">あなたの新しい人生が台北で始まります 🌟</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // データ定義
+        const historicalEras = [
+            {
+                period: '先史時代～1624年',
+                title: '原住民族の時代',
+                description: '台湾最初の住民たち',
+                details: '16の原住民族が独自の文化と言語を築く。狩猟・農業・漁業で豊かな生活。母系社会の伝統。',
+                color: 'from-green-600 to-emerald-500',
+                icon: 'mountain',
+                significance: '多様性の基盤となる文化的根源'
+            },
+            {
+                period: '1624-1662年',
+                title: 'オランダ・スペイン統治',
+                description: '最初の国際化',
+                details: 'オランダ東インド会社による南部統治。農業近代化とキリスト教布教。国際貿易の拠点化。',
+                color: 'from-orange-500 to-yellow-500',
+                icon: 'waves',
+                significance: '国際的視野の始まり'
+            },
+            {
+                period: '1662-1683年',
+                title: '鄭氏王朝（明朝復古）',
+                description: '独立王国の誇り',
+                details: '鄭成功による「反清復明」。台湾初の独立政権。中華文化の導入と原住民との融合。',
+                color: 'from-red-500 to-pink-500',
+                icon: 'star',
+                significance: '独立精神と文化融合の起源'
+            },
+            {
+                period: '1683-1895年',
+                title: '清朝統治',
+                description: '本格的中華文化導入',
+                details: '大陸からの大規模移民。福建・広東系の文化根付く。開港と近代化への道筋。',
+                color: 'from-blue-500 to-indigo-500',
+                icon: 'home',
+                significance: '現代台湾文化の基礎形成'
+            },
+            {
+                period: '1895-1945年',
+                title: '日本統治時代',
+                description: '近代化の基礎建設',
+                details: 'インフラ整備、教育制度、公衆衛生の向上。皇民化政策と文化的葛藤。技術革新。',
+                color: 'from-purple-500 to-violet-500',
+                icon: 'book-open',
+                significance: '近代社会システムの構築'
+            },
+            {
+                period: '1945-1987年',
+                title: '戒厳令時代',
+                description: '国民党統治と民主化への道',
+                details: '大陸からの移民。戒厳令下での経済発展。228事件と白色テロ。民主化運動の高まり。',
+                color: 'from-gray-600 to-slate-500',
+                icon: 'shield',
+                significance: '民主主義への強い意志形成'
+            },
+            {
+                period: '1987-現在',
+                title: '民主化・多元化時代',
+                description: '自由と多様性の開花',
+                details: '戒厳令解除。言論の自由。LGBTQ+権利。アジア初同性婚合法化（2019年）。',
+                color: 'rainbow-bg',
+                icon: 'heart',
+                significance: 'あなたが求める価値観の実現'
+            }
+        ];
+
+        const culturalAspects = [
+            {
+                name: 'LGBTQ+フレンドリー',
+                icon: 'heart',
+                color: 'from-pink-500 to-purple-500',
+                stats: '同性婚合法化アジア初（2019年）',
+                details: [
+                    '毎年18万人参加のTaiwan Pride（10月開催）',
+                    'アジア最大規模のLGBTQ+イベント',
+                    '法的権利保護と社会的受容の両立',
+                    '公的機関でのLGBTQ+支援プログラム',
+                    '若い世代を中心とした高い理解度'
+                ],
+                personalRelevance: 'あなたのアイデンティティが自然に受け入れられる環境'
+            },
+            {
+                name: '市民社会の活発さ',
+                icon: 'users',
+                color: 'from-blue-500 to-indigo-500',
+                stats: '99%の識字率、37%の高等教育率',
+                details: [
+                    '哲学星期五（Philosophy Friday）毎週金曜の社会討論',
+                    'NGO・NPOが非常に活発',
+                    '社会問題への高い関心と参加',
+                    'ひまわり学生運動など市民運動の伝統',
+                    '政治・社会問題の日常的議論'
+                ],
+                personalRelevance: '社会問題への関心を共有できる仲間との出会い'
+            },
+            {
+                name: '宗教的多様性と寛容',
+                icon: 'globe',
+                color: 'from-green-500 to-teal-500',
+                stats: '336のハラル認証施設、11のモスク',
+                details: [
+                    '台北大清真寺を中心としたムスリムコミュニティ',
+                    'イード祭典への公的支援',
+                    '国立博物館でのイスラム文化展示',
+                    '仏教・道教・キリスト教との共存',
+                    '政府によるハラル食品認証制度'
+                ],
+                personalRelevance: 'イスラム教改宗への理解と支援環境'
+            },
+            {
+                name: '女性の安全と地位',
+                icon: 'shield',
+                color: 'from-emerald-500 to-green-500',
+                stats: '女性一人旅世界3位の安全性',
+                details: [
+                    '夜間でも安心して歩ける治安',
+                    '女性の社会進出率の高さ',
+                    '蔡英文元総統など女性リーダーの存在',
+                    '職場でのハラスメント対策',
+                    '公共交通機関での女性専用サービス'
+                ],
+                personalRelevance: '女性として安全で、男女平等が進んだ社会'
+            },
+            {
+                name: '脱新自由主義的価値観',
+                icon: 'leaf',
+                color: 'from-yellow-500 to-orange-500',
+                stats: '社会保障制度の充実と共助精神',
+                details: [
+                    '国民健康保険制度の手厚さ',
+                    '労働者の権利保護',
+                    'ワークライフバランス重視',
+                    '環境保護と持続可能性への取り組み',
+                    'コミュニティ重視の文化'
+                ],
+                personalRelevance: '新自由主義以外の生き方が受け入れられる場所'
+            },
+            {
+                name: '食文化と生活の質',
+                icon: 'sun',
+                color: 'from-red-500 to-pink-500',
+                stats: '東京より21-26%安い生活費',
+                details: [
+                    '24時間営業の夜市と屋台文化',
+                    '多様な料理（台湾・中華・日本・東南アジア）',
+                    'ハラル食品の豊富な選択肢',
+                    '優れた公共交通（月額4,100円無制限）',
+                    '家賃日本より40-50%安い'
+                ],
+                personalRelevance: '経済的に現実的で質の高い生活'
+            }
+        ];
+
+        const personalJourney = [
+            {
+                phase: '準備期間',
+                period: '2025年8月-10月',
+                goals: ['中国語学習（HSK3級目標）', 'Taiwan Gold Card要件調査', 'Share House予約', 'NGOプログラム応募'],
+                color: 'from-blue-400 to-blue-600'
+            },
+            {
+                phase: '体験滞在',
+                period: '2025年11月～3ヶ月',
+                goals: ['公館エリア生活開始', 'Philosophy Friday参加', 'One-Forty NGOボランティア', 'Taiwan Pride参加'],
+                color: 'from-green-400 to-green-600'
+            },
+            {
+                phase: '適応評価',
+                period: '2026年2月',
+                goals: ['台北生活適応度評価', '長期滞在決定', 'Gold Card申請開始', 'ローカルコミュニティ深化'],
+                color: 'from-yellow-400 to-yellow-600'
+            },
+            {
+                phase: '本格定住',
+                period: '2026年5月以降',
+                goals: ['NGO就職活動', '永住権申請準備', '日台架け橋活動', '自然体での生活確立'],
+                color: 'from-purple-400 to-purple-600'
+            }
+        ];
+
+        // 状態管理
+        let currentEra = 0;
+        let isPlaying = false;
+        let animationSpeed = 3000;
+        let animationInterval = null;
+        let selectedAspect = null;
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTimeline();
+            renderCulturalAspects();
+            renderPersonalJourney();
+            setupEventListeners();
+            
+            // Lucide iconsを初期化
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 100);
+        });
+
+        function setupEventListeners() {
+            const playButton = document.getElementById('playButton');
+            const resetButton = document.getElementById('resetButton');
+            const speedSlider = document.getElementById('speedSlider');
+            const speedLabel = document.getElementById('speedLabel');
+
+            playButton.addEventListener('click', togglePlay);
+            resetButton.addEventListener('click', reset);
+            speedSlider.addEventListener('input', function(e) {
+                animationSpeed = parseInt(e.target.value);
+                speedLabel.textContent = (animationSpeed / 1000).toFixed(1) + '秒';
+                if (isPlaying) {
+                    clearInterval(animationInterval);
+                    startAnimation();
+                }
+            });
+        }
+
+        function togglePlay() {
+            const playButton = document.getElementById('playButton');
+            const icon = playButton.querySelector('i');
+            const text = playButton.querySelector('span');
+
+            if (isPlaying) {
+                clearInterval(animationInterval);
+                isPlaying = false;
+                icon.setAttribute('data-lucide', 'play');
+                text.textContent = '歴史の旅を開始';
+            } else {
+                startAnimation();
+                isPlaying = true;
+                icon.setAttribute('data-lucide', 'pause');
+                text.textContent = 'ポーズ';
+            }
+            
+            // アイコンを再描画
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 50);
+        }
+
+        function startAnimation() {
+            animationInterval = setInterval(() => {
+                currentEra = (currentEra + 1) % historicalEras.length;
+                updateTimeline();
+            }, animationSpeed);
+        }
+
+        function reset() {
+            clearInterval(animationInterval);
+            isPlaying = false;
+            currentEra = 0;
+            const playButton = document.getElementById('playButton');
+            const icon = playButton.querySelector('i');
+            const text = playButton.querySelector('span');
+            icon.setAttribute('data-lucide', 'play');
+            text.textContent = '歴史の旅を開始';
+            
+            // アイコンを再描画
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 50);
+            
+            updateTimeline();
+        }
+
+        function renderTimeline() {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
+
+            historicalEras.forEach((era, index) => {
+                const eraElement = document.createElement('div');
+                eraElement.className = `timeline-era relative flex items-center justify-center transition-all duration-1000 ${
+                    index <= currentEra ? 'opacity-100 scale-100' : 'opacity-50 scale-90'
+                }`;
+                eraElement.dataset.index = index;
+
+                const isLeft = index % 2 === 0;
+                const isCurrent = index === currentEra;
+                const isActive = index <= currentEra;
+
+                eraElement.innerHTML = `
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full border-4 border-white shadow-lg transition-all duration-500 flex items-center justify-center ${
+                        isCurrent ? `bg-gradient-to-r ${era.color === 'rainbow-bg' ? 'rainbow-bg' : era.color} animate-pulse scale-125` : 
+                        isActive ? `bg-gradient-to-r ${era.color === 'rainbow-bg' ? 'rainbow-bg' : era.color}` : 'bg-gray-300'
+                    }">
+                        <i data-lucide="${era.icon}" class="w-6 h-6 text-white"></i>
+                    </div>
+                    
+                    <div class="${isLeft ? 'mr-auto pr-12' : 'ml-auto pl-12'} w-5/12">
+                        <div class="p-6 rounded-xl shadow-lg transition-all duration-500 ${
+                            isCurrent ? `bg-gradient-to-r ${era.color === 'rainbow-bg' ? 'rainbow-bg' : era.color} text-white shadow-2xl scale-105` :
+                            isActive ? 'bg-white border-2 border-purple-200' : 'bg-gray-100'
+                        }">
+                            <div class="mb-3">
+                                <span class="text-sm font-medium ${isCurrent ? 'text-purple-100' : 'text-purple-600'}">
+                                    ${era.period}
+                                </span>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-3 ${isCurrent ? 'text-white' : 'text-gray-800'}">
+                                ${era.title}
+                            </h3>
+                            <p class="text-lg mb-3 ${isCurrent ? 'text-purple-100' : 'text-gray-600'}">
+                                ${era.description}
+                            </p>
+                            <p class="text-sm mb-4 ${isCurrent ? 'text-purple-50' : 'text-gray-600'}">
+                                ${era.details}
+                            </p>
+                            <div class="${isCurrent ? 'bg-white bg-opacity-20' : 'bg-purple-50'} rounded-lg p-3">
+                                <p class="text-sm font-semibold ${isCurrent ? 'text-white' : 'text-purple-700'}">
+                                    現代への影響: ${era.significance}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                timeline.appendChild(eraElement);
+            });
+
+            // Lucide iconsを再初期化
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 50);
+        }
+
+        function updateTimeline() {
+            const timelineEras = document.querySelectorAll('.timeline-era');
+            timelineEras.forEach((era, index) => {
+                const isActive = index <= currentEra;
+                const isCurrent = index === currentEra;
+                
+                if (isActive) {
+                    era.classList.remove('opacity-50', 'scale-90');
+                    era.classList.add('opacity-100', 'scale-100');
+                } else {
+                    era.classList.remove('opacity-100', 'scale-100');
+                    era.classList.add('opacity-50', 'scale-90');
+                }
+
+                const circle = era.querySelector('.w-12.h-12');
+                const content = era.querySelector('.p-6');
+                const eraData = historicalEras[index];
+
+                if (isCurrent) {
+                    circle.className = `absolute left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full border-4 border-white shadow-lg transition-all duration-500 flex items-center justify-center bg-gradient-to-r ${eraData.color === 'rainbow-bg' ? 'rainbow-bg' : eraData.color} pulse scale-125`;
+                    content.className = `p-6 rounded-xl shadow-lg transition-all duration-500 bg-gradient-to-r ${eraData.color === 'rainbow-bg' ? 'rainbow-bg' : eraData.color} text-white shadow-2xl scale-105`;
+                } else if (isActive) {
+                    circle.className = `absolute left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full border-4 border-white shadow-lg transition-all duration-500 flex items-center justify-center bg-gradient-to-r ${eraData.color === 'rainbow-bg' ? 'rainbow-bg' : eraData.color}`;
+                    content.className = 'p-6 rounded-xl shadow-lg transition-all duration-500 bg-white border-2 border-purple-200';
+                } else {
+                    circle.className = 'absolute left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full border-4 border-white shadow-lg transition-all duration-500 flex items-center justify-center bg-gray-300';
+                    content.className = 'p-6 rounded-xl shadow-lg transition-all duration-500 bg-gray-100';
+                }
+            });
+        }
+
+        function renderCulturalAspects() {
+            const container = document.getElementById('culturalAspects');
+            container.innerHTML = '';
+
+            culturalAspects.forEach((aspect, index) => {
+                const card = document.createElement('div');
+                card.className = 'cultural-card relative p-6 rounded-xl transition-all duration-1000 cursor-pointer transform hover:scale-105 bg-white text-gray-700 shadow-lg hover:shadow-xl border-2 border-gray-100 hover:border-pink-200';
+                card.dataset.index = index;
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <i data-lucide="${aspect.icon}" class="w-8 h-8 text-pink-600"></i>
+                            <div>
+                                <h3 class="font-bold text-lg">${aspect.name}</h3>
+                                <p class="text-sm text-gray-500">${aspect.stats}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="details-content hidden">
+                        <div class="mt-4 space-y-3 animate-fadeIn">
+                            <div class="space-y-2">
+                                ${aspect.details.map(detail => `
+                                    <div class="bg-white bg-opacity-20 rounded-lg p-3">
+                                        <p class="text-sm">${detail}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="bg-yellow-400 bg-opacity-30 rounded-lg p-4 mt-4">
+                                <h4 class="font-semibold mb-2">あなたにとっての意味:</h4>
+                                <p class="text-sm">${aspect.personalRelevance}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                card.addEventListener('click', () => toggleCulturalCard(index));
+                container.appendChild(card);
+            });
+
+            // Lucide iconsを再初期化
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 50);
+        }
+
+        function toggleCulturalCard(index) {
+            const cards = document.querySelectorAll('.cultural-card');
+            const clickedCard = cards[index];
+            const aspect = culturalAspects[index];
+            const detailsContent = clickedCard.querySelector('.details-content');
+            const icon = clickedCard.querySelector('i');
+            
+            if (selectedAspect === index) {
+                // Close card
+                selectedAspect = null;
+                clickedCard.className = 'cultural-card relative p-6 rounded-xl transition-all duration-1000 cursor-pointer transform hover:scale-105 bg-white text-gray-700 shadow-lg hover:shadow-xl border-2 border-gray-100 hover:border-pink-200';
+                detailsContent.classList.add('hidden');
+                icon.className = 'w-8 h-8 text-pink-600';
+            } else {
+                // Close all other cards first
+                cards.forEach((card, cardIndex) => {
+                    if (cardIndex !== index) {
+                        card.className = 'cultural-card relative p-6 rounded-xl transition-all duration-1000 cursor-pointer transform hover:scale-105 bg-white text-gray-700 shadow-lg hover:shadow-xl border-2 border-gray-100 hover:border-pink-200';
+                        card.querySelector('.details-content').classList.add('hidden');
+                        card.querySelector('i').className = 'w-8 h-8 text-pink-600';
+                    }
+                });
+
+                // Open clicked card
+                selectedAspect = index;
+                clickedCard.className = `cultural-card relative p-6 rounded-xl transition-all duration-1000 cursor-pointer transform hover:scale-105 bg-gradient-to-r ${aspect.color} text-white shadow-2xl scale-105`;
+                detailsContent.classList.remove('hidden');
+                icon.className = 'w-8 h-8 text-white';
+            }
+        }
+
+        function renderPersonalJourney() {
+            const container = document.getElementById('personalJourney');
+            container.innerHTML = '';
+
+            personalJourney.forEach((phase, index) => {
+                const phaseElement = document.createElement('div');
+                phaseElement.className = `p-6 rounded-xl transition-all duration-500 transform hover:scale-105 bg-gradient-to-br ${phase.color} text-white shadow-lg`;
+
+                phaseElement.innerHTML = `
+                    <h3 class="text-xl font-bold mb-3">${phase.phase}</h3>
+                    <p class="text-sm opacity-90 mb-4">${phase.period}</p>
+                    <div class="space-y-2">
+                        ${phase.goals.map(goal => `
+                            <div class="bg-white bg-opacity-20 rounded p-2 text-sm">
+                                ✓ ${goal}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                container.appendChild(phaseElement);
+            });
+        }
+
+        // 初期レンダリング
+        window.addEventListener('load', function() {
+            updateTimeline();
+        });
+    </script>
+</body>
+</html>
