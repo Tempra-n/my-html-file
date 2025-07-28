@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗号通貨の歴史 - アニメーション</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 10px rgba(255,255,255,0.1); }
+            to { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.3), 0 0 30px rgba(255,255,255,0.1); }
+        }
+        
+        .timeline {
+            position: relative;
+            margin: 50px 0;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7);
+            transform: translateX(-50%);
+            animation: lineGrow 1s ease-out;
+        }
+        
+        @keyframes lineGrow {
+            from { height: 0; }
+            to { height: 100%; }
+        }
+        
+        .scene {
+            background: rgba(255,255,255,0.15);
+            border-radius: 25px;
+            padding: 40px;
+            margin: 60px 0;
+            position: relative;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+            min-height: 500px;
+            display: none;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .scene.active {
+            display: block;
+            animation: sceneAppear 0.8s ease-out;
+        }
+        
+        @keyframes sceneAppear {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .year-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .character {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 15px;
+            position: relative;
+            animation: characterFloat 4s ease-in-out infinite;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .satoshi {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+        
+        .developer {
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+        }
+        
+        .pizza-guy {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+        }
+        
+        .businessman {
+            background: linear-gradient(45deg, #43e97b, #38f9d7);
+        }
+        
+        @keyframes characterFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(2deg); }
+            50% { transform: translateY(-5px) rotate(0deg); }
+            75% { transform: translateY(-10px) rotate(-2deg); }
+        }
+        
+        .bitcoin-coin {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f7931e, #ffa726);
+            display: inline-block;
+            margin: 10px;
+            position: relative;
+            animation: coinSpin 3s linear infinite;
+            box-shadow: 0 6px 20px rgba(247, 147, 30, 0.4);
+        }
+        
+        .bitcoin-coin::before {
+            content: '₿';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5em;
+            color: white;
+            font-weight: bold;
+        }
+        
+        @keyframes coinSpin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+        
+        .price-chart {
+            width: 400px;
+            height: 250px;
+            margin: 30px auto;
+            position: relative;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .price-line {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: calc(100% - 20px);
+            height: 5px;
+            background: #4CAF50;
+            border-radius: 3px;
+            animation: priceRise 4s ease-in-out infinite;
+        }
+        
+        @keyframes priceRise {
+            0% { 
+                height: 5px; 
+                background: #4CAF50;
+                bottom: 10px;
+            }
+            25% { 
+                height: 50px; 
+                background: #8BC34A;
+                bottom: 10px;
+            }
+            50% { 
+                height: 120px; 
+                background: #FFEB3B;
+                bottom: 10px;
+            }
+            75% { 
+                height: 180px; 
+                background: #FF9800;
+                bottom: 10px;
+            }
+            100% { 
+                height: 220px; 
+                background: #F44336;
+                bottom: 10px;
+            }
+        }
+        
+        .event-timeline {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .timeline-event {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 10px;
+            min-width: 150px;
+            animation: eventPop 0.6s ease-out;
+            animation-fill-mode: both;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .timeline-event:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-event:nth-child(2) { animation-delay: 0.3s; }
+        .timeline-event:nth-child(3) { animation-delay: 0.5s; }
+        .timeline-event:nth-child(4) { animation-delay: 0.7s; }
+        
+        @keyframes eventPop {
+            from {
+                opacity: 0;
+                transform: scale(0.5) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        .pizza-animation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+        }
+        
+        .pizza {
+            font-size: 4em;
+            animation: pizzaBounce 2s ease-in-out infinite;
+        }
+        
+        .exchange-arrow {
+            font-size: 3em;
+            margin: 0 20px;
+            animation: arrowPulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pizzaBounce {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+        
+        @keyframes arrowPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+        
+        .explosion {
+            position: relative;
+            display: inline-block;
+            margin: 20px;
+        }
+        
+        .explosion::before {
+            content: '💥';
+            font-size: 3em;
+            animation: explode 2s ease-in-out infinite;
+        }
+        
+        @keyframes explode {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.3) rotate(10deg); }
+            50% { transform: scale(1.1) rotate(-5deg); }
+            75% { transform: scale(1.2) rotate(5deg); }
+        }
+        
+        .controls {
+            margin: 40px 0;
+            position: sticky;
+            bottom: 20px;
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 0 10px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .scene-title {
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .explanation {
+            font-size: 1.3em;
+            line-height: 1.8;
+            margin: 25px 0;
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 5px;
+            margin: 25px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A, #FFEB3B);
+            border-radius: 5px;
+            transition: width 0.6s ease;
+        }
+        
+        .fun-fact {
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            color: #333;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(255, 154, 158, 0.3);
+        }
+        
+        .mystery-box {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mystery-box::before {
+            content: '❓';
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 2em;
+            opacity: 0.3;
+        }
+        
+        .crash-indicator {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            animation: crashFlash 2s ease-in-out infinite;
+        }
+        
+        @keyframes crashFlash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .boom-effect {
+            background: linear-gradient(45deg, #43e97b, #38f9d7);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            animation: boomGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes boomGlow {
+            0%, 100% { box-shadow: 0 6px 20px rgba(67, 233, 123, 0.3); }
+            50% { box-shadow: 0 6px 40px rgba(67, 233, 123, 0.6); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 暗号通貨の歴史物語 📚</h1>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        
+        <!-- シーン1: はじまり 2008年 -->
+        <div class="scene active" id="scene1">
+            <div class="year-badge">2008年</div>
+            <div class="scene-title">🌟 すべてのはじまり</div>
+            <div class="explanation">
+                むかしむかし、2008年の秋のこと...<br>
+                「サトシ・ナカモト」という謎の人が、世界を変える論文を発表したんだ！
+            </div>
+            <div style="margin: 40px 0;">
+                <div class="character satoshi"></div>
+                <div style="display: inline-block; margin: 0 30px;">
+                    <div style="font-size: 3em; animation: documentFloat 2s ease-in-out infinite;">📄</div>
+                    <div style="font-size: 1.2em;">「ビットコイン論文」</div>
+                </div>
+                <div class="explosion"></div>
+            </div>
+            <div class="mystery-box">
+                <strong>🕵️ ミステリー！</strong><br>
+                サトシ・ナカモトって誰なのか、今でも分からないんだよ！<br>
+                日本人？アメリカ人？それとも複数の人？謎のままなんだ...
+            </div>
+            <div class="fun-fact">
+                💡 豆知識：この論文はたった9ページの短いものだったよ！
+            </div>
+        </div>
+        
+        <!-- シーン2: ビットコイン誕生 2009年 -->
+        <div class="scene" id="scene2">
+            <div class="year-badge">2009年</div>
+            <div class="scene-title">🎂 ビットコインの誕生日</div>
+            <div class="explanation">
+                2009年1月3日、ついにビットコインが生まれたよ！<br>
+                世界初の暗号通貨の誕生の瞬間だった ✨
+            </div>
+            <div style="margin: 40px 0;">
+                <div class="bitcoin-coin"></div>
+                <div class="bitcoin-coin" style="animation-delay: 0.5s;"></div>
+                <div class="bitcoin-coin" style="animation-delay: 1s;"></div>
+            </div>
+            <div class="event-timeline">
+                <div class="timeline-event">
+                    <div style="font-size: 2em;">🎯</div>
+                    <div>最初のブロック生成</div>
+                </div>
+                <div class="timeline-event">
+                    <div style="font-size: 2em;">📰</div>
+                    <div>新聞の見出しを記録</div>
+                </div>
+                <div class="timeline-event">
+                    <div style="font-size: 2em;">💻</div>
+                    <div>ソフトウェア公開</div>
+                </div>
+                <div class="timeline-event">
+                    <div style="font-size: 2em;">🔄</div>
+                    <div>最初の送金成功</div>
+                </div>
+            </div>
+            <div class="fun-fact">
+                💡 豆知識：最初のブロックには「銀行への2度目の救済措置」という新聞記事が記録されているよ！
+            </div>
+        </div>
+        
+        <!-- シーン3: ピザの日 2010年 -->
+        <div class="scene" id="scene3">
+            <div class="year-badge">2010年</div>
+            <div class="scene-title">🍕 伝説のピザデー</div>
+            <div class="explanation">
+                5月22日、歴史に残る取引が行われたよ！<br>
+                プログラマーがピザ2枚を1万ビットコインで買ったんだ 😱
+            </div>
+            <div class="pizza-animation">
+                <div style="text-align: center;">
+                    <div style="font-size: 2em;">10,000 BTC</div>
+                    <div style="font-size: 1em; margin-top: 10px;">（約0.2円の価値）</div>
+                </div>
+                <div class="exchange-arrow">⬌</div>
+                <div class="pizza">🍕🍕</div>
+            </div>
+            <div class="fun-fact">
+                😲 もしあの時のビットコインを今まで持っていたら...<br>
+                なんと数百億円の価値になっていたよ！
+            </div>
+            <div class="explanation">
+                この日は「ビットコインピザデー」として<br>
+                世界中で祝われているよ 🎉
+            </div>
+        </div>
+        
+        <!-- シーン4: 価格上昇期 2011-2013年 -->
+        <div class="scene" id="scene4">
+            <div class="year-badge">2011-2013年</div>
+            <div class="scene-title">📈 大注目の時代</div>
+            <div class="explanation">
+                ビットコインがだんだん有名になってきたよ！<br>
+                雑誌に載ったり、価格がぐんぐん上がったり... 🚀
+            </div>
+            <div class="price-chart">
+                <div class="price-line"></div>
+                <div style="position: absolute; bottom: 10px; left: 20px; font-size: 0.9em;">0.07円</div>
+                <div style="position: absolute; top: 20px; right: 20px; font-size: 0.9em;">12万円!</div>
+            </div>
+            <div class="event-timeline">
+                <div class="timeline-event">
+                    <div style="font-size: 2em;">📰</div>
+                    <div>TIME誌に掲載</div>
+                </div>
+                <div class="timeline-event">
+                    <div style="font-size: 2em;">🏪</div>
+                    <div>最初の取引所</div>
+                </div>
+                <div class="timeline-event">
+                    <div style="font-size: 2em;">📈</div>
+                    <div>価格急上昇</div>
+                </div>
+                <div class="timeline-event">
+                    <div style="font-size: 2em;">🌍</div>
+                    <div>世界に拡散</div>
+                </div>
+            </div>
+            <div class="boom-effect">
+                ✨ わずか4年で価格が100万倍以上に！ ✨
+            </div>
+        </div>
+        
+        <!-- シーン5: マウントゴックス事件 2014年 -->
+        <div class="scene" id="scene5">
+            <div class="year-badge">2014年</div>
+            <div class="scene-title">💥 大きな事件発生</div>
+            <div class="explanation">
+                大変な事件が起きたよ！<br>
+                世界最大の取引所「マウントゴックス」がハッキングされちゃった 😰
+            </div>
+            <div style="margin: 40px 0;">
+                <div class="character businessman" style="animation: shake 0.5s ease-in-out infinite;"></div>
+                <div class="explosion"></div>
+                <div style="font-size: 4em; animation: crashSpin 2s linear infinite;">🏪</div>
+            </div>
+            <div class="crash-indicator">
+                💰 470億円分のビットコインが失われた！
+            </div>
+            <div class="explanation">
+                この事件で多くの人がビットコインを不安に思うようになったよ...<br>
+                価格も大きく下がっちゃった 📉
+            </div>
+            <div class="fun-fact">
+                💡 でも、これは取引所の問題で、ビットコイン自体には問題なかったんだ！
+            </div>
+        </div>
+        
+        <!-- シーン6: 復活と法整備 2017年 -->
+        <div class="scene" id="scene6">
+            <div class="year-badge">2017年</div>
+            <div class="scene-title">🌈 華麗なる復活</div>
+            <div class="explanation">
+                日本で法律が整備されて、ビットコインが正式に認められたよ！<br>
+                そして価格も過去最高の200万円を突破！ 🎊
+            </div>
+            <div style="margin: 40px 0;">
+                <div style="font-size: 3em; animation: celebration 2s ease-in-out infinite;">🎉</div>
+                <div class="bitcoin-coin"></div>
+                <div style="font-size: 3em; animation: celebration 2s ease-in-out infinite reverse;">🎊</div>
+            </div>
+            <div class="boom-effect">
+                📜 日本で「改正資金決済法」が成立！<br>
+                🏪 仮想通貨交換業が正式にスタート！
+            </div>
+            <div class="explanation">
+                この年は「仮想通貨元年」と呼ばれて、<br>
+                世界中で大ブームになったんだ！ 🌍
+            </div>
+        </div>
+        
+        <!-- シーン7: 現在と未来 2021-2025年 -->
+        <div class="scene" id="scene7">
+            <div class="year-badge">2021-2025年</div>
+            <div class="scene-title">🚀 新しい時代へ</div>
+            <div class="explanation">
+                大手企業や国が仮想通貨を採用し始めたよ！<br>
+                「暗号資産」という正式名称も決まって、もう立派な金融資産だね ✨
+            </div>
+            <div class="event-timeline">
+                <div class="timeline-event">
+                    <div style="font-size: 2em;">🏢</div>
+                    <div>企業の採用</div>
+                </div>
+                <div class="timeline-event">
+                    <div style="font-size: 2em;">🇸🇻</div>
+                    <div>法定通貨化</div>
+                </div>
+                <div class="timeline-event">
+                    <div style="font-size: 2em;">📊</div>
+                    <div>ETF承認</div>
+                </div>
+                <div class="timeline-event">
+                    <div style="font-size: 2em;">🌟</div>
+                    <div>史上最高値更新</div>
+                </div>
+            </div>
+            <div class="boom-effect">
+                🎯 2025年現在：1BTC = 約1,700万円！<br>
+                （2009年の価格から約2,400万倍！）
+            </div>
+            <div class="explanation">
+                今では世界中で8億人以上が使っていて、<br>
+                未来の「新しいお金」として期待されているよ！ 🌈
+            </div>
+        </div>
+        
+        <!-- コントロール -->
+        <div class="controls">
+            <button onclick="previousScene()" id="prevBtn" disabled>⬅️ 前の話</button>
+            <button onclick="nextScene()" id="nextBtn">次の話 ➡️</button>
+            <button onclick="restartAnimation()" style="margin-left: 20px;">🔄 最初から</button>
+            <button onclick="toggleAutoPlay()" id="autoBtn" style="margin-left: 10px;">▶️ 自動再生</button>
+        </div>
+        
+        <div style="margin-top: 40px; font-size: 1.2em; background: rgba(255,255,255,0.1); padding: 25px; border-radius: 20px; border: 2px solid rgba(255,255,255,0.2);">
+            <div style="font-size: 2em; margin-bottom: 15px;">🎓</div>
+            <strong>まとめ：暗号通貨の歴史は冒険物語！</strong><br><br>
+            謎の人物サトシ・ナカモトから始まって、ピザの取引、大事件、法整備、そして未来へ...<br>
+            まるで映画みたいな16年間の物語だったね！ 📽️✨
+        </div>
+    </div>
+
+    <script>
+        let currentScene = 1;
+        const totalScenes = 7;
+        let autoPlayInterval = null;
+        let isAutoPlaying = false;
+
+        // CSS追加アニメーション
+        const additionalStyles = document.createElement('style');
+        additionalStyles.textContent = `
+            @keyframes documentFloat {
+                0%, 100% { transform: translateY(0px) rotate(0deg); }
+                50% { transform: translateY(-15px) rotate(5deg); }
+            }
+            
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+            
+            @keyframes crashSpin {
+                0% { transform: rotate(0deg) scale(1); }
+                25% { transform: rotate(90deg) scale(0.8); }
+                50% { transform: rotate(180deg) scale(0.6); }
+                75% { transform: rotate(270deg) scale(0.8); }
+                100% { transform: rotate(360deg) scale(1); }
+            }
+            
+            @keyframes celebration {
+                0%, 100% { transform: scale(1) rotate(0deg); }
+                25% { transform: scale(1.2) rotate(10deg); }
+                50% { transform: scale(1.1) rotate(-5deg); }
+                75% { transform: scale(1.3) rotate(15deg); }
+            }
+        `;
+        document.head.appendChild(additionalStyles);
+
+        function showScene(sceneNumber) {
+            // すべてのシーンを隠す
+            for (let i = 1; i <= totalScenes; i++) {
+                document.getElementById(`scene${i}`).classList.remove('active');
+            }
+            
+            // 指定されたシーンを表示
+            document.getElementById(`scene${sceneNumber}`).classList.add('active');
+            
+            // プログレスバーを更新
+            const progress = (sceneNumber / totalScenes) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+            
+            // ボタンの状態を更新
+            document.getElementById('prevBtn').disabled = sceneNumber === 1;
+            document.getElementById('nextBtn').disabled = sceneNumber === totalScenes;
+            
+            if (sceneNumber === totalScenes) {
+                document.getElementById('nextBtn').textContent = '完了! 🎉';
+            } else {
+                document.getElementById('nextBtn').textContent = '次の話 ➡️';
+            }
+        }
+
+        function nextScene() {
+            if (currentScene < totalScenes) {
+                currentScene++;
+                showScene(currentScene);
+            } else {
+                // 最後のシーンで自動再生を停止
+                if (isAutoPlaying) {
+                    toggleAutoPlay();
+                }
+            }
+        }
+
+        function previousScene() {
+            if (currentScene > 1) {
+                currentScene--;
+                showScene(currentScene);
+            }
+        }
+
+        function restartAnimation() {
+            if (isAutoPlaying) {
+                toggleAutoPlay();
+            }
+            currentScene = 1;
+            showScene(currentScene);
+        }
+
+        function toggleAutoPlay() {
+            isAutoPlaying = !isAutoPlaying;
+            const autoBtn = document.getElementById('autoBtn');
+            
+            if (isAutoPlaying) {
+                autoBtn.textContent = '⏸️ 停止';
+                autoBtn.style.background = 'linear-gradient(45deg, #ff6b6b, #ee5a52)';
+                
+                autoPlayInterval = setInterval(() => {
+                    if (currentScene < totalScenes) {
+                        nextScene();
+                    } else {
+                        toggleAutoPlay(); // 最後まで行ったら停止
+                    }
+                }, 8000); // 8秒間隔
+                
+            } else {
+                autoBtn.textContent = '▶️ 自動再生';
+                autoBtn.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+                
+                if (autoPlayInterval) {
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = null;
+                }
+            }
+        }
+
+        // キーボード操作
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextScene();
+            }
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousScene();
+            }
+            if (e.key === 'Home') {
+                e.preventDefault();
+                restartAnimation();
+            }
+            if (e.key === 'p' || e.key === 'P') {
+                e.preventDefault();
+                toggleAutoPlay();
+            }
+        });
+
+        // 初期化
+        showScene(1);
+
+        // タッチ操作対応（スマートフォン用）
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diffX = touchStartX - touchEndX;
+            
+            if (Math.abs(diffX) > swipeThreshold) {
+                if (diffX > 0) {
+                    // 左にスワイプ（次へ）
+                    nextScene();
+                } else {
+                    // 右にスワイプ（前へ）
+                    previousScene();
+                }
+            }
+        }
+
+        // ページを離れる時に自動再生を停止
+        window.addEventListener('beforeunload', () => {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+            }
+        });
+
+        // 効果音とバイブレーション（対応デバイスのみ）
+        function playClickEffect() {
+            // バイブレーション（モバイルデバイス）
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        // ボタンクリック時の効果音
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', playClickEffect);
+        });
+
+        // ランダムな背景色変更（オプション）
+        function changeBackgroundColor() {
+            const colors = [
+                'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+                'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)'
+            ];
+            
+            document.body.style.background = colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // シーン変更時に背景色を変更
+        const originalShowScene = showScene;
+        showScene = function(sceneNumber) {
+            originalShowScene(sceneNumber);
+            changeBackgroundColor();
+        };
+
+        console.log('🚀 暗号通貨歴史アニメーション loaded! 🎉');
+        console.log('キーボードショートカット:');
+        console.log('→ or Space: 次のシーン');
+        console.log('←: 前のシーン');
+        console.log('Home: 最初から');
+        console.log('P: 自動再生ON/OFF');
+    </script>
+</body>
+</html>
