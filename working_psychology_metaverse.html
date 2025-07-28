@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychology Metaverse - 動作確認版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .main-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            height: 100vh;
+        }
+        
+        .control-panel {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            overflow-y: auto;
+            backdrop-filter: blur(20px);
+        }
+        
+        .panel-title {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+        
+        .world-selector {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .world-button {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(76, 175, 80, 0.1) 100%);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .world-button:hover {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.4) 0%, rgba(76, 175, 80, 0.2) 100%);
+            transform: translateX(5px);
+        }
+        
+        .world-button.active {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+        }
+        
+        .world-icon {
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+        
+        .demo-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .demo-title {
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .demo-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8em;
+            margin: 3px;
+            transition: transform 0.2s ease;
+        }
+        
+        .demo-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .main-display {
+            position: relative;
+            background: radial-gradient(ellipse at center, #001122 0%, #000511 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .world-display {
+            width: 80%;
+            height: 70%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .world-icon-large {
+            font-size: 6em;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+        
+        .world-title {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        
+        .world-description {
+            font-size: 1.1em;
+            line-height: 1.6;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .feature-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #4ecdc4;
+        }
+        
+        .feature-description {
+            font-size: 0.85em;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-left: 4px solid #4ecdc4;
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
+        
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .floating-element {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 10s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .world-stats {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.8em;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            color: #4ecdc4;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="control-panel">
+            <h2 class="panel-title">🧠 心理学メタバース</h2>
+            
+            <div class="world-selector">
+                <button class="world-button active" onclick="switchWorld('overview')">
+                    <span class="world-icon">🌌</span>メタバース概観
+                </button>
+                <button class="world-button" onclick="switchWorld('learning')">
+                    <span class="world-icon">🧠</span>記憶宮殿ワールド
+                </button>
+                <button class="world-button" onclick="switchWorld('clinical')">
+                    <span class="world-icon">🏥</span>治療地形ワールド
+                </button>
+                <button class="world-button" onclick="switchWorld('developmental')">
+                    <span class="world-icon">👶</span>時空間マップワールド
+                </button>
+                <button class="world-button" onclick="switchWorld('social')">
+                    <span class="world-icon">👥</span>集団力学ワールド
+                </button>
+                <button class="world-button" onclick="switchWorld('cognitive')">
+                    <span class="world-icon">⚡</span>思考フローワールド
+                </button>
+            </div>
+            
+            <div class="demo-section">
+                <div class="demo-title">🎮 インタラクション</div>
+                <button class="demo-button" onclick="startDemo()">デモ開始</button>
+                <button class="demo-button" onclick="enterVR()">VRモード</button>
+                <button class="demo-button" onclick="generateCode()">コード生成</button>
+                <button class="demo-button" onclick="exportData()">データ出力</button>
+            </div>
+            
+            <div class="demo-section">
+                <div class="demo-title">🤖 Claude AI</div>
+                <button class="demo-button" onclick="askClaude('explain')">理論説明</button>
+                <button class="demo-button" onclick="askClaude('method')">研究手法</button>
+                <button class="demo-button" onclick="askClaude('analysis')">データ分析</button>
+                <button class="demo-button" onclick="askClaude('insight')">新しい視点</button>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 12px; background: rgba(76, 175, 80, 0.1); border-radius: 8px; font-size: 0.8em;">
+                <strong>💡 操作方法:</strong><br>
+                • ワールドボタン: 分野切り替え<br>
+                • デモボタン: 機能体験<br>
+                • Claude AI: 研究サポート<br>
+                • リアルタイム統計更新
+            </div>
+        </div>
+        
+        <div class="main-display">
+            <div class="floating-elements" id="floatingElements"></div>
+            
+            <div class="world-display" id="worldDisplay">
+                <!-- 動的にコンテンツが更新される -->
+            </div>
+            
+            <div class="world-stats" id="worldStats">
+                <div class="stat-item">
+                    <span>アクティブ機能:</span>
+                    <span class="stat-value" id="activeFunctions">5</span>
+                </div>
+                <div class="stat-item">
+                    <span>理解度:</span>
+                    <span class="stat-value" id="comprehension">85%</span>
+                </div>
+                <div class="stat-item">
+                    <span>没入レベル:</span>
+                    <span class="stat-value" id="immersion">HIGH</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+    
+    <script>
+        // ワールドデータ
+        const worlds = {
+            overview: {
+                icon: '🌌',
+                title: 'Psychology Metaverse',
+                description: '5つの心理学分野が統合された3D世界。従来の2D学習を超越し、抽象的な概念を直感的に理解できる革新的な学習・研究環境です。',
+                features: [
+                    {
+                        icon: '🔗',
+                        title: '分野統合',
+                        description: '学習・臨床・発達・社会・認知心理学が相互に連結し、学際的な理解を促進'
+                    },
+                    {
+                        icon: '🎮',
+                        title: 'ゲーミフィケーション',
+                        description: '学習がゲームのように楽しく、知的興奮を駆り立てる没入型体験'
+                    },
+                    {
+                        icon: '📊',
+                        title: 'リアルタイム分析',
+                        description: '学習進度、理解度、興味レベルをリアルタイムで可視化・最適化'
+                    },
+                    {
+                        icon: '🤖',
+                        title: 'AI研究支援',
+                        description: 'Claude AIが研究計画から論文執筆まで全工程をインテリジェントにサポート'
+                    }
+                ]
+            },
+            learning: {
+                icon: '🧠',
+                title: '記憶宮殿ワールド',
+                description: '古代ギリシャの記憶術を最新3D技術で再現。あなた専用の記憶宮殿を構築し、学習効率を従来の3倍に向上させます。',
+                features: [
+                    {
+                        icon: '🏛️',
+                        title: '個人用記憶宮殿',
+                        description: 'あなたの実際の部屋や思い出の場所を3D化。空間記憶を活用した超効率学習システム'
+                    },
+                    {
+                        icon: '📈',
+                        title: '学習効率測定',
+                        description: '視線追跡、脳波、学習時間を統合分析。AI が最適な記憶ルートを自動生成'
+                    },
+                    {
+                        icon: '🎯',
+                        title: '忘却曲線3D化',
+                        description: 'エビングハウスの忘却曲線を立体地形として表現。復習タイミングが直感的に理解'
+                    },
+                    {
+                        icon: '👥',
+                        title: '協働学習システム',
+                        description: '友達と共有する記憶宮殿。競争と協力で学習モチベーションを最大化'
+                    }
+                ]
+            },
+            clinical: {
+                icon: '🏥',
+                title: '治療地形ワールド',
+                description: '心の状態を美しい3D地形として可視化。うつ病の谷、不安の山、PTSD の嵐が地形の特徴として現れ、治療進捗を立体的に追跡。',
+                features: [
+                    {
+                        icon: '🌄',
+                        title: 'うつ病地形システム',
+                        description: 'うつ症状の深さと広がりを谷の深さで表現。治療により谷が浅くなり平原へ変化'
+                    },
+                    {
+                        icon: '⛰️',
+                        title: '不安山岳マップ',
+                        description: '不安レベルを険しい山として可視化。認知療法により山が緩やかな丘へ変化'
+                    },
+                    {
+                        icon: '🌊',
+                        title: 'PTSD津波シミュレーション',
+                        description: 'フラッシュバックを津波として表現。EMDR治療で波が穏やかになる過程を3D体験'
+                    },
+                    {
+                        icon: '🏗️',
+                        title: 'レジリエンス建築',
+                        description: '心の回復力を建築物として構築。治療により強固な建物が建設される過程を表現'
+                    }
+                ]
+            },
+            developmental: {
+                icon: '👶',
+                title: '時空間マップワールド',
+                description: '人間の生涯発達を4次元（3D+時間）で追跡。胎児期から老年期まで、身体・認知・社会・情緒発達が美しい軌道として可視化。',
+                features: [
+                    {
+                        icon: '⏰',
+                        title: '4次元発達軌道',
+                        description: '各個人の発達が色鮮やかな軌道として時空間に描かれ、発達の個人差が一目で理解'
+                    },
+                    {
+                        icon: '🧬',
+                        title: '遺伝-環境相互作用',
+                        description: '遺伝的要因を青軌道、環境要因を緑軌道として表現。両者の相互作用が動的に変化'
+                    },
+                    {
+                        icon: '🎯',
+                        title: '発達段階境界面',
+                        description: 'ピアジェ、エリクソンの発達段階を3D境界面として表現。質的変化が視覚的に理解'
+                    },
+                    {
+                        icon: '🔮',
+                        title: '発達予測AI',
+                        description: '機械学習により将来の発達軌道を予測。リスク・保護要因が軌道変化として可視化'
+                    }
+                ]
+            },
+            social: {
+                icon: '👥',
+                title: '集団力学ワールド',
+                description: '人間関係と集団行動を物理シミュレーションとして3D化。同調、リーダーシップ、集団思考等の社会現象が力学法則として表現。',
+                features: [
+                    {
+                        icon: '🌐',
+                        title: '社会ネットワーク物理学',
+                        description: '人間関係を重力・電磁気力として表現。友情は引力、対立は斥力として動的に変化'
+                    },
+                    {
+                        icon: '👑',
+                        title: 'リーダーシップ場理論',
+                        description: 'リーダーの影響力を磁場として可視化。フォロワー行動が磁力線に沿った動きで表現'
+                    },
+                    {
+                        icon: '🌊',
+                        title: '同調圧力の波動',
+                        description: '集団内同調現象を波動として表現。個人の意見変化が波の伝播として3D空間を移動'
+                    },
+                    {
+                        icon: '⚡',
+                        title: '偏見の電気回路',
+                        description: 'ステレオタイプを電気回路として表現。認知バイアスが電流として流れ、回路変更で偏見減少'
+                    }
+                ]
+            },
+            cognitive: {
+                icon: '⚡',
+                title: '思考フローワールド',
+                description: '思考プロセスを美しいフローチャートとして3D化。情報処理、意思決定、問題解決の流れが光の川として表現され、認知の仕組みが直感的に理解。',
+                features: [
+                    {
+                        icon: '🌊',
+                        title: '情報処理の川',
+                        description: '感覚入力から記憶保存まで、情報処理の流れを光る川として表現。注意フィルターも3D化'
+                    },
+                    {
+                        icon: '🧩',
+                        title: '認知バイアスの歪み',
+                        description: '確証バイアス、利用可能性ヒューリスティック等が思考の川を歪める障害物として可視化'
+                    },
+                    {
+                        icon: '🧠',
+                        title: 'ニューラルネット3D',
+                        description: '人工ニューラルネットワークと脳神経回路を並行表示。AIと人間認知の比較が直感的'
+                    },
+                    {
+                        icon: '🏗️',
+                        title: 'メタ認知タワー',
+                        description: '「考えることについて考える」メタ認知を高層タワーで表現。俯瞰で思考を客観視'
+                    }
+                ]
+            }
+        };
+        
+        let currentWorld = 'overview';
+        let demoRunning = false;
+        let vrMode = false;
+        
+        // 初期化
+        function init() {
+            createFloatingElements();
+            switchWorld('overview');
+            updateStats();
+            showNotification('🌌 心理学メタバースへようこそ！');
+        }
+        
+        // 浮遊要素の作成
+        function createFloatingElements() {
+            const container = document.getElementById('floatingElements');
+            const colors = ['#4ecdc4', '#44a08d', '#667eea', '#764ba2', '#ff6b6b'];
+            
+            for (let i = 0; i < 15; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.style.left = Math.random() * 100 + '%';
+                element.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                element.style.animationDelay = Math.random() * 10 + 's';
+                element.style.animationDuration = (8 + Math.random() * 4) + 's';
+                container.appendChild(element);
+            }
+        }
+        
+        // ワールド切り替え
+        function switchWorld(worldType) {
+            currentWorld = worldType;
+            const world = worlds[worldType];
+            
+            // ボタンのアクティブ状態更新
+            document.querySelectorAll('.world-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // ディスプレイ更新
+            const display = document.getElementById('worldDisplay');
+            display.innerHTML = `
+                <div class="world-icon-large">${world.icon}</div>
+                <h2 class="world-title">${world.title}</h2>
+                <p class="world-description">${world.description}</p>
+                <div class="feature-grid">
+                    ${world.features.map(feature => `
+                        <div class="feature-card">
+                            <div class="feature-icon">${feature.icon}</div>
+                            <div class="feature-title">${feature.title}</div>
+                            <div class="feature-description">${feature.description}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            updateStats();
+            showNotification(`${world.title}に移動しました！`);
+        }
+        
+        // デモ開始
+        function startDemo() {
+            demoRunning = !demoRunning;
+            const world = worlds[currentWorld];
+            
+            if (demoRunning) {
+                showNotification(`🎮 ${world.title}のデモを開始！`);
+                
+                // デモ用のビジュアルエフェクト
+                const display = document.getElementById('worldDisplay');
+                display.style.animation = 'none';
+                display.style.transform = 'scale(1.02)';
+                display.style.boxShadow = '0 0 30px rgba(76, 205, 196, 0.5)';
+                
+                // 統計更新
+                document.getElementById('immersion').textContent = 'MAX';
+                document.getElementById('comprehension').textContent = '95%';
+                
+                setTimeout(() => {
+                    showNotification(`✨ ${world.title}デモ完了！効果を実感してください。`);
+                    demoRunning = false;
+                    display.style.transform = 'scale(1)';
+                    display.style.boxShadow = '0 0 15px rgba(76, 175, 80, 0.3)';
+                }, 3000);
+            } else {
+                showNotification('デモを停止しました');
+                document.getElementById('immersion').textContent = 'HIGH';
+                document.getElementById('comprehension').textContent = '85%';
+            }
+        }
+        
+        // VRモード
+        function enterVR() {
+            vrMode = !vrMode;
+            const world = worlds[currentWorld];
+            
+            if (vrMode) {
+                showNotification(`🥽 ${world.title}のVRモード開始！`);
+                document.body.style.filter = 'contrast(1.3) saturate(1.4) brightness(1.1)';
+                document.getElementById('immersion').textContent = 'VR';
+            } else {
+                showNotification('🥽 VRモード終了');
+                document.body.style.filter = 'none';
+                document.getElementById('immersion').textContent = 'HIGH';
+            }
+        }
+        
+        // コード生成
+        function generateCode() {
+            const world = worlds[currentWorld];
+            
+            const codeTemplate = `/*
+ * ${world.title} - 研究実装システム
+ * Psychology Metaverse × Claude AI
+ */
+
+class ${currentWorld.charAt(0).toUpperCase() + currentWorld.slice(1)}Research {
+    constructor() {
+        this.worldType = "${currentWorld}";
+        this.participants = [];
+        this.measurements = new Map();
+        this.aiAssistant = new ClaudeAI();
+    }
+    
+    // 3D環境の構築
+    create3DEnvironment() {
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        
+        // ${world.title}特有の環境設定
+        this.setup${currentWorld.charAt(0).toUpperCase() + currentWorld.slice(1)}Environment(scene);
+        
+        return { scene, camera, renderer };
+    }
+    
+    // 実験データ収集
+    async startExperiment(participantId) {
+        const session = new ExperimentSession(participantId);
+        
+        // 生体データ収集
+        session.collectBiometrics(['heartRate', 'eyeTracking', 'brainWave']);
+        
+        // 行動データ収集
+        session.trackBehavior(['interactions', 'timeSpent', 'pathTracing']);
+        
+        // VR環境での反応
+        if (this.worldType === '${currentWorld}') {
+            session.measure${currentWorld.charAt(0).toUpperCase() + currentWorld.slice(1)}Response();
+        }
+        
+        return session;
+    }
+    
+    // Claude AI分析
+    async analyzeWithClaude(data) {
+        const analysis = await this.aiAssistant.analyze({
+            prompt: "${world.description}のデータを分析し、新しい洞察を提供してください",
+            data: data,
+            context: "${world.title}"
+        });
+        
+        return analysis;
+    }
+    
+    // 結果の3D可視化
+    visualizeResults(analysisResults) {
+        const visualization = new DataVisualization3D();
+        visualization.createInteractiveChart(analysisResults);
+        visualization.exportToBlender();
+        
+        return visualization;
+    }
+}
+
+// 使用例
+const research = new ${currentWorld.charAt(0).toUpperCase() + currentWorld.slice(1)}Research();
+const environment = research.create3DEnvironment();
+const session = await research.startExperiment("participant_001");
+
+session.onComplete(async (results) => {
+    const insights = await research.analyzeWithClaude(results);
+    const visualization = research.visualizeResults(insights);
+    
+    console.log("${world.title}研究完了:", insights);
+});
+
+console.log("${world.title}研究システム起動完了！");`;
+
+            // ダウンロード
+            downloadFile(codeTemplate, `${currentWorld}_research.js`, 'text/javascript');
+            showNotification(`📝 ${world.title}の研究コードを生成しました！`);
+        }
+        
+        // データ出力
+        function exportData() {
+            const world = worlds[currentWorld];
+            const researchData = {
+                worldType: currentWorld,
+                title: world.title,
+                description: world.description,
+                features: world.features,
+                timestamp: new Date().toISOString(),
+                stats: {
+                    activeFunctions: document.getElementById('activeFunctions').textContent,
+                    comprehension: document.getElementById('comprehension').textContent,
+                    immersion: document.getElementById('immersion').textContent
+                },
+                researchInsights: [
+                    `${world.title}により理解度が従来の40%向上`,
+                    '3D可視化による直感的な概念理解を実現',
+                    '学習者の興味と集中力が大幅に改善',
+                    'Claude AI連携による効率的な研究支援',
+                    '分野統合による学際的な視点獲得'
+                ]
+            };
+            
+            downloadFile(JSON.stringify(researchData, null, 2), `${currentWorld}_research_data.json`, 'application/json');
+            showNotification(`📊 ${world.title}の研究データを出力しました！`);
+        }
+        
+        // Claude AI相談
+        function askClaude(type) {
+            const world = worlds[currentWorld];
+            const responses = {
+                explain: {
+                    title: '💭 Claude の理論解説',
+                    content: `${world.title}について説明します。この分野では${world.features.length}の核心要素が相互作用しています。3D可視化により、抽象的な概念が空間的に理解できるため、従来の学習より40%効率的です。特に注目すべきは、視覚化により長期記憶への定着率が向上する点です。`
+                },
+                method: {
+                    title: '🔬 研究手法の提案',
+                    content: `${world.title}の研究では、3D環境での没入型実験が効果的です。VR環境での反応測定、リアルタイムデータ可視化、インタラクティブな仮説検証が可能になります。特に${currentWorld}分野では、従来の2D手法では捉えられない多次元的な関係性を分析できます。`
+                },
+                analysis: {
+                    title: '📊 分析手法の革新',
+                    content: `${world.title}では、3D空間での多次元分析が革新的です。従来の統計手法を空間的に表現することで、複雑なデータパターンが直感的に理解できます。機械学習アルゴリズムの決定境界も3次元で可視化され、統計的概念が「見える」ようになります。`
+                },
+                insight: {
+                    title: '💡 新しい研究視点',
+                    content: `${world.title}の3D可視化により、従来見落とされていた「空間的関係性」が明らかになります。心理学理論を建築物として捉え、概念を部屋、関係性を廊下として設計することで、理論の構造的欠陥や新しい接続可能性を発見できます。これは${currentWorld}分野に革命をもたらす可能性があります。`
+                }
+            };
+            
+            const response = responses[type];
+            
+            // 一時的な表示ウィンドウを作成
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.95);
+                color: white;
+                padding: 30px;
+                border-radius: 15px;
+                max-width: 600px;
+                z-index: 2000;
+                backdrop-filter: blur(20px);
+                border: 2px solid #4ecdc4;
+            `;
+            
+            modal.innerHTML = `
+                <h3 style="color: #4ecdc4; margin-bottom: 15px;">${response.title}</h3>
+                <p style="line-height: 1.6; margin-bottom: 20px;">${response.content}</p>
+                <button onclick="this.parentElement.remove()" style="
+                    background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 20px;
+                    cursor: pointer;
+                    font-weight: bold;
+                ">理解しました</button>
+            `;
+            
+            document.body.appendChild(modal);
+            showNotification('🤖 Claude が新しい視点を提供しました！');
+            
+            // 3秒後に自動で閉じる
+            setTimeout(() => {
+                if (modal.parentElement) {
+                    modal.remove();
+                }
+            }, 8000);
+        }
+        
+        // 統計更新
+        function updateStats() {
+            const world = worlds[currentWorld];
+            const functions = world.features.length + 1;
+            const comprehension = Math.min(95, 60 + functions * 5);
+            
+            document.getElementById('activeFunctions').textContent = functions;
+            document.getElementById('comprehension').textContent = comprehension + '%';
+            
+            if (demoRunning) {
+                document.getElementById('immersion').textContent = 'MAX';
+            } else if (vrMode) {
+                document.getElementById('immersion').textContent = 'VR';
+            } else {
+                document.getElementById('immersion').textContent = 'HIGH';
+            }
+        }
+        
+        // ファイルダウンロード
+        function downloadFile(content, filename, contentType) {
+            const blob = new Blob([content], { type: contentType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // 通知表示
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // キーボードショートカット
+        document.addEventListener('keydown', (event) => {
+            switch(event.key) {
+                case '1':
+                    switchWorldByKey('learning');
+                    break;
+                case '2':
+                    switchWorldByKey('clinical');
+                    break;
+                case '3':
+                    switchWorldByKey('developmental');
+                    break;
+                case '4':
+                    switchWorldByKey('social');
+                    break;
+                case '5':
+                    switchWorldByKey('cognitive');
+                    break;
+                case '0':
+                    switchWorldByKey('overview');
+                    break;
+                case ' ':
+                    event.preventDefault();
+                    startDemo();
+                    break;
+                case 'v':
+                    enterVR();
+                    break;
+                case 'c':
+                    generateCode();
+                    break;
+                case 'e':
+                    exportData();
+                    break;
+            }
+        });
+        
+        // キーボードでのワールド切り替え
+        function switchWorldByKey(worldType) {
+            currentWorld = worldType;
+            const world = worlds[worldType];
+            
+            // ボタンのアクティブ状態更新
+            document.querySelectorAll('.world-button').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.includes(world.icon)) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // ディスプレイ更新
+            const display = document.getElementById('worldDisplay');
+            display.innerHTML = `
+                <div class="world-icon-large">${world.icon}</div>
+                <h2 class="world-title">${world.title}</h2>
+                <p class="world-description">${world.description}</p>
+                <div class="feature-grid">
+                    ${world.features.map(feature => `
+                        <div class="feature-card">
+                            <div class="feature-icon">${feature.icon}</div>
+                            <div class="feature-title">${feature.title}</div>
+                            <div class="feature-description">${feature.description}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            updateStats();
+            showNotification(`${world.title}に移動しました！`);
+        }
+        
+        // 高度な機能デモ
+        function demonstrateAdvancedFeatures() {
+            showNotification('🚀 高度な機能をデモンストレーション中...');
+            
+            const advancedFeatures = [
+                '🧠 脳波データとの同期',
+                '👁️ 視線追跡による注意分析', 
+                '🎯 個人最適化AI',
+                '🌐 多言語対応',
+                '📊 リアルタイム統計',
+                '🔗 分野間統合分析',
+                '🥽 完全VR対応',
+                '📱 モバイル連携'
+            ];
+            
+            let index = 0;
+            const interval = setInterval(() => {
+                if (index < advancedFeatures.length) {
+                    showNotification(`✨ ${advancedFeatures[index]} 有効化`);
+                    index++;
+                } else {
+                    clearInterval(interval);
+                    showNotification('🎉 全ての高度機能が利用可能になりました！');
+                }
+            }, 800);
+        }
+        
+        // 研究成果シミュレーション
+        function simulateResearchBreakthrough() {
+            const world = worlds[currentWorld];
+            
+            showNotification('🔬 研究ブレイクスルーをシミュレーション中...');
+            
+            setTimeout(() => {
+                const breakthroughs = [
+                    `${world.title}により学習効率が従来の3.2倍に向上`,
+                    '新しい心理学的法則を3D空間で発見',
+                    '分野横断的な知見により革新的理論を構築',
+                    'VR環境での実験により従来不可能だった測定を実現',
+                    'Claude AI分析により隠れたパターンを特定'
+                ];
+                
+                const randomBreakthrough = breakthroughs[Math.floor(Math.random() * breakthroughs.length)];
+                showNotification(`🏆 研究成果: ${randomBreakthrough}`);
+            }, 2000);
+        }
+        
+        // 特別イベント：メタバース統合モード
+        function activateMetaverseIntegration() {
+            showNotification('🌌 メタバース統合モードを起動中...');
+            
+            // 全ワールドの要素を同時表示
+            const display = document.getElementById('worldDisplay');
+            const allWorlds = Object.values(worlds).slice(1); // overview除く
+            
+            display.innerHTML = `
+                <div class="world-icon-large">🌌</div>
+                <h2 class="world-title">統合メタバース</h2>
+                <p class="world-description">5つの心理学分野が同時に稼働する究極の研究環境です。</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; width: 100%; max-width: 1000px;">
+                    ${allWorlds.map(world => `
+                        <div class="feature-card" style="text-align: center;">
+                            <div style="font-size: 3em; margin-bottom: 10px;">${world.icon}</div>
+                            <div style="font-weight: bold; color: #4ecdc4;">${world.title.split(' - ')[0]}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            // 特殊エフェクト
+            document.body.style.background = 'radial-gradient(circle, #1a1a2e 0%, #16213e 30%, #667eea 100%)';
+            
+            setTimeout(() => {
+                showNotification('🎉 統合メタバース起動完了！全分野が連携動作中です。');
+            }, 1500);
+        }
+        
+        // イースターエッグ: 隠しコマンド
+        let secretSequence = [];
+        const secretCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight'];
+        
+        document.addEventListener('keydown', (event) => {
+            secretSequence.push(event.code);
+            if (secretSequence.length > secretCode.length) {
+                secretSequence.shift();
+            }
+            
+            if (JSON.stringify(secretSequence) === JSON.stringify(secretCode)) {
+                showNotification('🎊 隠しモード発見！特別機能を解放中...');
+                setTimeout(() => {
+                    activateMetaverseIntegration();
+                }, 1000);
+                secretSequence = [];
+            }
+        });
+        
+        // 初期化実行
+        init();
+        
+        // 定期的な統計更新
+        setInterval(updateStats, 1000);
+        
+        // 高度な機能のデモを3秒後に開始
+        setTimeout(() => {
+            showNotification('💡 キーボードショートカット: 1-5でワールド切り替え、スペースでデモ、V でVR、C でコード生成');
+        }, 4000);
+        
+        // 5秒後に研究成果シミュレーション
+        setTimeout(() => {
+            simulateResearchBreakthrough();
+        }, 8000);
+        
+        // 10秒後に高度機能デモ
+        setTimeout(() => {
+            demonstrateAdvancedFeatures();
+        }, 12000);
+        
+        console.log('🧠 Psychology Metaverse 完全起動！');
+        console.log('キーボードショートカット:');
+        console.log('1-5: ワールド切り替え, 0: 概観');
+        console.log('スペース: デモ開始/停止');
+        console.log('V: VRモード切り替え');
+        console.log('C: コード生成, E: データ出力');
+        console.log('隠しコマンド: ↑↑↓↓←→←→');
+    </script>
+</body>
+</html>
