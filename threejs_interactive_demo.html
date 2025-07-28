@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js 体験デモ - B&B Italiaソファとウォンカーワイの香港</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow: hidden;
+        }
+        
+        .main-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            height: 100vh;
+        }
+        
+        .control-panel {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            overflow-y: auto;
+            backdrop-filter: blur(20px);
+        }
+        
+        .panel-title {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .section-title {
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        
+        .button:hover {
+            transform: scale(1.02);
+        }
+        
+        .button.active {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+        }
+        
+        .scene-container {
+            position: relative;
+            background: #000;
+        }
+        
+        #threeCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        .overlay-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            max-width: 300px;
+        }
+        
+        .overlay-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 8px;
+        }
+        
+        .overlay-description {
+            font-size: 0.9em;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+        
+        .controls-info {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            backdrop-filter: blur(10px);
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1000;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #4ecdc4;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .vr-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            position: absolute;
+            bottom: 80px;
+            right: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: transform 0.3s ease;
+        }
+        
+        .vr-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .scene-description {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+        
+        .feature-highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 0.85em;
+            text-align: center;
+        }
+        
+        .slider-container {
+            margin: 8px 0;
+        }
+        
+        .slider-label {
+            font-size: 0.8em;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 5px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #4ecdc4;
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div class="main-container">
+        <div class="control-panel">
+            <h2 class="panel-title">🎮 Three.js 体験</h2>
+            
+            <div class="section">
+                <div class="section-title">🏠 シーンセレクション</div>
+                <button class="button active" onclick="loadScene('luxury-room')" id="btn-luxury">🛋️ B&B Italia ソファルーム</button>
+                <button class="button" onclick="loadScene('hongkong-city')" id="btn-hongkong">🏙️ ウォンカーワイ香港</button>
+                <button class="button" onclick="loadScene('interactive-room')" id="btn-interactive">🎯 インタラクティブルーム</button>
+                <button class="button" onclick="loadScene('futuristic')" id="btn-futuristic">🚀 未来都市</button>
+                
+                <div class="scene-description" id="sceneDescription">
+                    B&B Italiaの高級ソファに実際に座っているような体験ができます。VRモードでは本当にソファに座っている感覚を味わえます！
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🎨 環境設定</div>
+                <div class="slider-container">
+                    <label class="slider-label">🌅 時間帯</label>
+                    <input type="range" class="slider" min="0" max="24" value="14" id="timeSlider" onchange="updateTimeOfDay(this.value)">
+                </div>
+                <div class="slider-container">
+                    <label class="slider-label">🌧️ 天候</label>
+                    <input type="range" class="slider" min="0" max="100" value="20" id="weatherSlider" onchange="updateWeather(this.value)">
+                </div>
+                <div class="slider-container">
+                    <label class="slider-label">🌫️ 霧の濃さ</label>
+                    <input type="range" class="slider" min="0" max="100" value="30" id="fogSlider" onchange="updateFog(this.value)">
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🎬 カメラモード</div>
+                <button class="button" onclick="setCameraMode('orbit')">🌀 軌道カメラ</button>
+                <button class="button" onclick="setCameraMode('first-person')">👁️ 一人称視点</button>
+                <button class="button" onclick="setCameraMode('cinematic')">🎥 シネマティック</button>
+                <button class="button" onclick="setCameraMode('bird-eye')">🦅 俯瞰視点</button>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">✨ エフェクト</div>
+                <button class="button" onclick="toggleEffect('rain')">🌧️ 雨エフェクト</button>
+                <button class="button" onclick="toggleEffect('particles')">✨ パーティクル</button>
+                <button class="button" onclick="toggleEffect('bloom')">🌟 ブルーム</button>
+                <button class="button" onclick="toggleEffect('neon')">💫 ネオンライト</button>
+            </div>
+            
+            <div class="feature-highlight">
+                🎯 <strong>インタラクション可能！</strong><br>
+                オブジェクトをクリックして座ったり、触ったり、移動したりできます
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🚀 Claude連携機能</div>
+                <button class="button" onclick="generateBlenderCode()">📤 Blenderコード生成</button>
+                <button class="button" onclick="optimizeScene()">⚡ シーン最適化</button>
+                <button class="button" onclick="addCustomObject()">➕ カスタムオブジェクト</button>
+            </div>
+        </div>
+        
+        <div class="scene-container">
+            <canvas id="threeCanvas"></canvas>
+            
+            <div class="loading" id="loadingIndicator">
+                <div class="spinner"></div>
+                <div>3Dシーンを構築中...</div>
+            </div>
+            
+            <div class="overlay-info" id="sceneInfo">
+                <div class="overlay-title">🛋️ B&B Italia ラウンジ</div>
+                <div class="overlay-description">
+                    高級イタリア家具ブランドB&B Italiaのソファに実際に座っているような体験。
+                    マウスで視点を変更し、ソファをクリックして座ってみてください！
+                </div>
+            </div>
+            
+            <div class="controls-info">
+                🖱️ マウス: 回転・移動<br>
+                🖲️ ホイール: ズーム<br>
+                👆 クリック: インタラクション<br>
+                📱 VRモード対応
+            </div>
+            
+            <button class="vr-button" onclick="enterVR()">🥽 VRモード</button>
+        </div>
+    </div>
+    
+    <script>
+        let scene, camera, renderer, controls;
+        let currentScene = 'luxury-room';
+        let objects = [];
+        let effectsEnabled = {
+            rain: false,
+            particles: false,
+            bloom: false,
+            neon: false
+        };
+        let timeOfDay = 14;
+        let isVRMode = false;
+        
+        init();
+        
+        function init() {
+            showLoading(true);
+            
+            // シーン作成
+            scene = new THREE.Scene();
+            
+            // カメラ作成
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(5, 2, 5);
+            
+            // レンダラー作成
+            const canvas = document.getElementById('threeCanvas');
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.setClearColor(0x87CEEB);
+            
+            // 基本照明
+            setupLighting();
+            
+            // マウスコントロール
+            setupControls();
+            
+            // 初期シーン読み込み
+            loadScene('luxury-room');
+            
+            // アニメーションループ
+            animate();
+            
+            showLoading(false);
+        }
+        
+        function setupLighting() {
+            // 環境光
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+            scene.add(ambientLight);
+            
+            // 太陽光（時間によって変化）
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 10, 5);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 2048;
+            directionalLight.shadow.mapSize.height = 2048;
+            scene.add(directionalLight);
+            
+            // 点光源（ネオンライト用）
+            const pointLight = new THREE.PointLight(0xff00ff, 0.5, 10);
+            pointLight.position.set(0, 3, 0);
+            scene.add(pointLight);
+        }
+        
+        function setupControls() {
+            let isMouseDown = false;
+            let mouseX = 0, mouseY = 0;
+            let targetX = 0, targetY = 0;
+            let distance = 8;
+            let cameraMode = 'orbit';
+            
+            const canvas = document.getElementById('threeCanvas');
+            
+            canvas.addEventListener('mousedown', (event) => {
+                isMouseDown = true;
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+            });
+            
+            canvas.addEventListener('mousemove', (event) => {
+                if (!isMouseDown) return;
+                
+                const deltaX = event.clientX - mouseX;
+                const deltaY = event.clientY - mouseY;
+                
+                if (cameraMode === 'orbit') {
+                    targetX += deltaX * 0.01;
+                    targetY += deltaY * 0.01;
+                    updateCameraPosition();
+                }
+                
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+            });
+            
+            canvas.addEventListener('mouseup', () => {
+                isMouseDown = false;
+            });
+            
+            canvas.addEventListener('wheel', (event) => {
+                distance += event.deltaY * 0.01;
+                distance = Math.max(2, Math.min(20, distance));
+                updateCameraPosition();
+                event.preventDefault();
+            });
+            
+            canvas.addEventListener('click', (event) => {
+                // レイキャスティングでオブジェクトとの相互作用
+                const raycaster = new THREE.Raycaster();
+                const mouse = new THREE.Vector2();
+                
+                mouse.x = (event.clientX / canvas.clientWidth) * 2 - 1;
+                mouse.y = -(event.clientY / canvas.clientHeight) * 2 + 1;
+                
+                raycaster.setFromCamera(mouse, camera);
+                const intersects = raycaster.intersectObjects(objects);
+                
+                if (intersects.length > 0) {
+                    handleObjectInteraction(intersects[0].object);
+                }
+            });
+            
+            function updateCameraPosition() {
+                if (cameraMode === 'orbit') {
+                    camera.position.x = Math.cos(targetX) * distance;
+                    camera.position.z = Math.sin(targetX) * distance;
+                    camera.position.y = Math.max(1, distance * Math.sin(targetY * 0.5) + 3);
+                    camera.lookAt(0, 0, 0);
+                }
+            }
+        }
+        
+        function loadScene(sceneType) {
+            showLoading(true);
+            
+            // 既存オブジェクトをクリア
+            objects.forEach(obj => scene.remove(obj));
+            objects = [];
+            
+            // ボタンのアクティブ状態更新
+            document.querySelectorAll('.button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${sceneType.replace('-', '')}`).classList.add('active');
+            
+            currentScene = sceneType;
+            
+            setTimeout(() => {
+                switch(sceneType) {
+                    case 'luxury-room':
+                        createLuxuryRoom();
+                        updateSceneInfo('🛋️ B&B Italia ラウンジ', 'B&B Italiaの高級ソファ「Camaleonda」をモチーフにした空間。ソファをクリックして座ってみてください！');
+                        updateSceneDescription('B&B Italiaの高級ソファに実際に座っているような体験ができます。VRモードでは本当にソファに座っている感覚を味わえます！');
+                        break;
+                    case 'hongkong-city':
+                        createHongKongCity();
+                        updateSceneInfo('🏙️ ウォンカーワイの香港', '映画「恋する惑星」「花様年華」の世界観を再現。ネオンサインと雨の中の情緒ある香港の街並み。');
+                        updateSceneDescription('ウォン・カーワイ監督の映画に出てくるような、ネオンが輝く雨の香港。建物をクリックして中に入ることができます！');
+                        break;
+                    case 'interactive-room':
+                        createInteractiveRoom();
+                        updateSceneInfo('🎯 インタラクティブルーム', 'すべてのオブジェクトが相互作用可能。家具を動かしたり、照明を変更したり、自由に空間をカスタマイズ。');
+                        updateSceneDescription('完全にインタラクティブな空間。家具をドラッグして移動させたり、照明の色を変えたり、自由に空間を編集できます！');
+                        break;
+                    case 'futuristic':
+                        createFuturisticCity();
+                        updateSceneInfo('🚀 未来都市', '2080年の東京をイメージした未来都市。空飛ぶ車、ホログラム広告、サイバーパンクな世界観。');
+                        updateSceneDescription('SF映画のような未来都市。空飛ぶ車に乗ったり、ホログラム広告と相互作用したりできます！');
+                        break;
+                }
+                showLoading(false);
+            }, 1000);
+        }
+        
+        function createLuxuryRoom() {
+            // 床
+            const floorGeometry = new THREE.PlaneGeometry(15, 15);
+            const floorMaterial = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
+            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            floor.receiveShadow = true;
+            scene.add(floor);
+            objects.push(floor);
+            
+            // B&B Italia風ソファ (Camaleonda風)
+            const sofaGroup = new THREE.Group();
+            
+            // ソファのベース
+            const sofaGeometry = new THREE.BoxGeometry(3, 0.8, 1.5);
+            const sofaMaterial = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
+            const sofaBase = new THREE.Mesh(sofaGeometry, sofaMaterial);
+            sofaBase.position.set(0, 0.4, 0);
+            sofaBase.castShadow = true;
+            sofaBase.userData = { type: 'sofa', interactive: true };
+            sofaGroup.add(sofaBase);
+            
+            // ソファの背もたれ
+            const backrestGeometry = new THREE.BoxGeometry(3, 1.2, 0.3);
+            const backrest = new THREE.Mesh(backrestGeometry, sofaMaterial);
+            backrest.position.set(0, 1.2, -0.6);
+            backrest.castShadow = true;
+            sofaGroup.add(backrest);
+            
+            // クッション
+            for (let i = 0; i < 3; i++) {
+                const cushionGeometry = new THREE.BoxGeometry(0.8, 0.3, 0.8);
+                const cushionMaterial = new THREE.MeshLambertMaterial({ color: 0xDEB887 });
+                const cushion = new THREE.Mesh(cushionGeometry, cushionMaterial);
+                cushion.position.set(-1 + i * 1, 0.95, -0.2);
+                cushion.castShadow = true;
+                sofaGroup.add(cushion);
+            }
+            
+            scene.add(sofaGroup);
+            objects.push(sofaBase);
+            
+            // コーヒーテーブル
+            const tableGeometry = new THREE.BoxGeometry(2, 0.1, 1);
+            const tableMaterial = new THREE.MeshLambertMaterial({ color: 0x2F4F4F });
+            const table = new THREE.Mesh(tableGeometry, tableMaterial);
+            table.position.set(0, 0.5, 2);
+            table.castShadow = true;
+            scene.add(table);
+            objects.push(table);
+            
+            // アートワーク
+            const artGeometry = new THREE.PlaneGeometry(2, 1.5);
+            const artMaterial = new THREE.MeshLambertMaterial({ color: 0xFF6347 });
+            const art = new THREE.Mesh(artGeometry, artMaterial);
+            art.position.set(0, 2, -3);
+            scene.add(art);
+            
+            // 照明設備
+            const lampGeometry = new THREE.CylinderGeometry(0.1, 0.1, 2);
+            const lampMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
+            const lamp = new THREE.Mesh(lampGeometry, lampMaterial);
+            lamp.position.set(3, 1, 3);
+            scene.add(lamp);
+            
+            camera.position.set(6, 3, 6);
+            camera.lookAt(0, 1, 0);
+        }
+        
+        function createHongKongCity() {
+            // 霧の効果
+            scene.fog = new THREE.Fog(0x222222, 10, 50);
+            
+            // 建物群
+            for (let i = 0; i < 20; i++) {
+                const height = Math.random() * 15 + 5;
+                const buildingGeometry = new THREE.BoxGeometry(
+                    Math.random() * 3 + 1,
+                    height,
+                    Math.random() * 3 + 1
+                );
+                
+                const buildingMaterial = new THREE.MeshLambertMaterial({ 
+                    color: new THREE.Color().setHSL(0.6, 0.3, 0.1 + Math.random() * 0.3)
+                });
+                
+                const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
+                building.position.set(
+                    (Math.random() - 0.5) * 50,
+                    height / 2,
+                    (Math.random() - 0.5) * 50
+                );
+                building.castShadow = true;
+                building.userData = { type: 'futuristic-building', interactive: true };
+                scene.add(building);
+                objects.push(building);
+                
+                // ホログラム広告
+                if (Math.random() > 0.6) {
+                    const holoGeometry = new THREE.PlaneGeometry(2, 1);
+                    const holoMaterial = new THREE.MeshBasicMaterial({ 
+                        color: new THREE.Color().setHSL(Math.random(), 1, 0.7),
+                        transparent: true,
+                        opacity: 0.6
+                    });
+                    const holo = new THREE.Mesh(holoGeometry, holoMaterial);
+                    holo.position.set(
+                        building.position.x,
+                        building.position.y + height * 0.4,
+                        building.position.z + 2
+                    );
+                    scene.add(holo);
+                }
+            }
+            
+            // 空飛ぶ車
+            for (let i = 0; i < 5; i++) {
+                const carGeometry = new THREE.BoxGeometry(1, 0.3, 2);
+                const carMaterial = new THREE.MeshLambertMaterial({ 
+                    color: new THREE.Color().setHSL(Math.random(), 0.8, 0.6),
+                    emissive: new THREE.Color().setHSL(Math.random(), 0.5, 0.2)
+                });
+                const car = new THREE.Mesh(carGeometry, carMaterial);
+                car.position.set(
+                    (Math.random() - 0.5) * 40,
+                    Math.random() * 15 + 5,
+                    (Math.random() - 0.5) * 40
+                );
+                car.userData = { type: 'flying-car', interactive: true, animated: true };
+                scene.add(car);
+                objects.push(car);
+            }
+            
+            camera.position.set(15, 10, 15);
+            camera.lookAt(0, 5, 0);
+        }
+        
+        function handleObjectInteraction(object) {
+            const userData = object.userData;
+            
+            switch(userData.type) {
+                case 'sofa':
+                    // ソファに座るアニメーション
+                    animateCameraToPosition(object.position.x, object.position.y + 1, object.position.z + 1.5);
+                    showNotification('🛋️ B&B Italiaソファに座りました！最高の座り心地です。');
+                    break;
+                    
+                case 'building':
+                    // 建物の中に入る
+                    animateCameraToPosition(object.position.x, object.position.y * 0.7, object.position.z);
+                    showNotification('🏠 建物に入りました。ウォン・カーワイ映画の世界です。');
+                    break;
+                    
+                case 'furniture':
+                    if (userData.movable) {
+                        // 家具を持ち上げる効果
+                        object.position.y += 0.5;
+                        setTimeout(() => { object.position.y -= 0.5; }, 1000);
+                        showNotification(`📦 ${userData.name}を動かしました！`);
+                    }
+                    break;
+                    
+                case 'flying-car':
+                    // 空飛ぶ車に乗る
+                    animateCameraToPosition(object.position.x, object.position.y + 0.5, object.position.z);
+                    showNotification('🚗 空飛ぶ車に乗車！未来都市を駆け巡ります。');
+                    break;
+                    
+                case 'futuristic-building':
+                    // サイバー空間に入る
+                    animateCameraToPosition(object.position.x, object.position.y + 5, object.position.z);
+                    showNotification('🌐 サイバースペースに接続しました。');
+                    break;
+            }
+        }
+        
+        function animateCameraToPosition(x, y, z) {
+            const startPosition = camera.position.clone();
+            const endPosition = new THREE.Vector3(x, y, z);
+            const duration = 2000; // 2秒
+            const startTime = Date.now();
+            
+            function animateCamera() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // イージング関数（スムーズな動き）
+                const eased = 1 - Math.pow(1 - progress, 3);
+                
+                camera.position.lerpVectors(startPosition, endPosition, eased);
+                camera.lookAt(x, y - 1, z);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animateCamera);
+                }
+            }
+            
+            animateCamera();
+        }
+        
+        function setCameraMode(mode) {
+            switch(mode) {
+                case 'first-person':
+                    camera.position.set(0, 1.7, 0);
+                    showNotification('👁️ 一人称視点モード');
+                    break;
+                case 'bird-eye':
+                    camera.position.set(0, 20, 0);
+                    camera.lookAt(0, 0, 0);
+                    showNotification('🦅 俯瞰視点モード');
+                    break;
+                case 'cinematic':
+                    startCinematicMode();
+                    showNotification('🎬 シネマティックモード開始');
+                    break;
+                case 'orbit':
+                    camera.position.set(8, 5, 8);
+                    camera.lookAt(0, 0, 0);
+                    showNotification('🌀 軌道カメラモード');
+                    break;
+            }
+        }
+        
+        function startCinematicMode() {
+            let angle = 0;
+            const radius = 10;
+            const height = 5;
+            
+            function cinematicLoop() {
+                angle += 0.005;
+                camera.position.x = Math.cos(angle) * radius;
+                camera.position.z = Math.sin(angle) * radius;
+                camera.position.y = height + Math.sin(angle * 2) * 2;
+                camera.lookAt(0, 0, 0);
+                
+                if (angle < Math.PI * 2) {
+                    requestAnimationFrame(cinematicLoop);
+                }
+            }
+            
+            cinematicLoop();
+        }
+        
+        function toggleEffect(effectType) {
+            effectsEnabled[effectType] = !effectsEnabled[effectType];
+            
+            switch(effectType) {
+                case 'rain':
+                    if (effectsEnabled.rain) {
+                        createRainEffect();
+                        showNotification('🌧️ 雨エフェクト ON');
+                    } else {
+                        removeRainEffect();
+                        showNotification('🌧️ 雨エフェクト OFF');
+                    }
+                    break;
+                    
+                case 'particles':
+                    if (effectsEnabled.particles) {
+                        createParticleEffect();
+                        showNotification('✨ パーティクル ON');
+                    } else {
+                        removeParticleEffect();
+                        showNotification('✨ パーティクル OFF');
+                    }
+                    break;
+                    
+                case 'bloom':
+                    if (effectsEnabled.bloom) {
+                        enableBloomEffect();
+                        showNotification('🌟 ブルーム ON');
+                    } else {
+                        disableBloomEffect();
+                        showNotification('🌟 ブルーム OFF');
+                    }
+                    break;
+                    
+                case 'neon':
+                    if (effectsEnabled.neon) {
+                        enableNeonEffect();
+                        showNotification('💫 ネオン ON');
+                    } else {
+                        disableNeonEffect();
+                        showNotification('💫 ネオン OFF');
+                    }
+                    break;
+            }
+        }
+        
+        function createRainEffect() {
+            const rainGeometry = new THREE.BufferGeometry();
+            const rainCount = 15000;
+            const rainPositions = new Float32Array(rainCount * 3);
+            
+            for (let i = 0; i < rainCount * 3; i += 3) {
+                rainPositions[i] = (Math.random() - 0.5) * 100;
+                rainPositions[i + 1] = Math.random() * 50;
+                rainPositions[i + 2] = (Math.random() - 0.5) * 100;
+            }
+            
+            rainGeometry.setAttribute('position', new THREE.BufferAttribute(rainPositions, 3));
+            
+            const rainMaterial = new THREE.PointsMaterial({
+                color: 0xaaaaaa,
+                size: 0.1,
+                transparent: true,
+                opacity: 0.6
+            });
+            
+            const rain = new THREE.Points(rainGeometry, rainMaterial);
+            rain.name = 'rain';
+            scene.add(rain);
+            
+            // 雨のアニメーション
+            function animateRain() {
+                if (effectsEnabled.rain) {
+                    const positions = rain.geometry.attributes.position.array;
+                    
+                    for (let i = 1; i < positions.length; i += 3) {
+                        positions[i] -= 0.5;
+                        if (positions[i] < 0) {
+                            positions[i] = 50;
+                        }
+                    }
+                    
+                    rain.geometry.attributes.position.needsUpdate = true;
+                    requestAnimationFrame(animateRain);
+                }
+            }
+            
+            animateRain();
+        }
+        
+        function removeRainEffect() {
+            const rain = scene.getObjectByName('rain');
+            if (rain) scene.remove(rain);
+        }
+        
+        function createParticleEffect() {
+            const particleGeometry = new THREE.BufferGeometry();
+            const particleCount = 5000;
+            const particlePositions = new Float32Array(particleCount * 3);
+            
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                particlePositions[i] = (Math.random() - 0.5) * 50;
+                particlePositions[i + 1] = Math.random() * 20;
+                particlePositions[i + 2] = (Math.random() - 0.5) * 50;
+            }
+            
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+            
+            const particleMaterial = new THREE.PointsMaterial({
+                color: 0xffd700,
+                size: 0.2,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            const particles = new THREE.Points(particleGeometry, particleMaterial);
+            particles.name = 'particles';
+            scene.add(particles);
+            
+            // パーティクルのアニメーション
+            function animateParticles() {
+                if (effectsEnabled.particles) {
+                    particles.rotation.y += 0.01;
+                    requestAnimationFrame(animateParticles);
+                }
+            }
+            
+            animateParticles();
+        }
+        
+        function removeParticleEffect() {
+            const particles = scene.getObjectByName('particles');
+            if (particles) scene.remove(particles);
+        }
+        
+        function enableBloomEffect() {
+            // 簡易ブルーム効果（発光）
+            objects.forEach(obj => {
+                if (obj.material) {
+                    obj.material.emissive = new THREE.Color(0x111111);
+                }
+            });
+        }
+        
+        function disableBloomEffect() {
+            objects.forEach(obj => {
+                if (obj.material) {
+                    obj.material.emissive = new THREE.Color(0x000000);
+                }
+            });
+        }
+        
+        function enableNeonEffect() {
+            // ネオンライト風のエミッシブマテリアル
+            scene.traverse(child => {
+                if (child.isMesh && child.material) {
+                    child.material.emissive = new THREE.Color().setHSL(Math.random(), 1, 0.2);
+                }
+            });
+        }
+        
+        function disableNeonEffect() {
+            scene.traverse(child => {
+                if (child.isMesh && child.material) {
+                    child.material.emissive = new THREE.Color(0x000000);
+                }
+            });
+        }
+        
+        function updateTimeOfDay(hour) {
+            timeOfDay = hour;
+            const normalizedTime = hour / 24;
+            
+            // 空の色を時間に応じて変化
+            let skyColor;
+            if (hour >= 6 && hour <= 18) {
+                // 昼間
+                skyColor = new THREE.Color().setHSL(0.6, 0.7, 0.7 + (Math.sin((hour - 6) / 12 * Math.PI) * 0.3));
+            } else {
+                // 夜間
+                skyColor = new THREE.Color().setHSL(0.7, 0.8, 0.1);
+            }
+            
+            renderer.setClearColor(skyColor);
+            showNotification(`🌅 時刻: ${hour}:00`);
+        }
+        
+        function updateWeather(intensity) {
+            // 天候の影響を霧の濃さで表現
+            if (scene.fog) {
+                scene.fog.density = intensity / 1000;
+            }
+            showNotification(`🌧️ 天候強度: ${intensity}%`);
+        }
+        
+        function updateFog(density) {
+            if (scene.fog) {
+                scene.fog.far = 50 - (density / 100 * 30);
+                scene.fog.near = 10 - (density / 100 * 5);
+            }
+            showNotification(`🌫️ 霧の濃さ: ${density}%`);
+        }
+        
+        function generateBlenderCode() {
+            showNotification('📤 Blenderコードを生成中...');
+            
+            setTimeout(() => {
+                let blenderCode = `import bpy
+import bmesh
+
+# Claude×Three.js から生成されたシーン
+# 現在のシーン: ${currentScene}
+
+# 既存オブジェクトを削除
+bpy.ops.object.select_all(action='SELECT')
+bpy.ops.object.delete(use_global=False)
+
+`;
+
+                objects.forEach((obj, index) => {
+                    if (obj.geometry && obj.position) {
+                        const pos = obj.position;
+                        const scale = obj.scale;
+                        
+                        blenderCode += `
+# オブジェクト ${index + 1}
+bpy.ops.mesh.primitive_cube_add(location=(${pos.x.toFixed(2)}, ${pos.z.toFixed(2)}, ${pos.y.toFixed(2)}))
+obj_${index} = bpy.context.active_object
+obj_${index}.scale = (${scale.x.toFixed(2)}, ${scale.z.toFixed(2)}, ${scale.y.toFixed(2)})
+`;
+                        
+                        if (obj.userData.type) {
+                            blenderCode += `obj_${index}.name = "${obj.userData.type}_${index}"\n`;
+                        }
+                    }
+                });
+                
+                blenderCode += `
+# 照明設定
+bpy.ops.object.light_add(type='SUN', location=(10, 10, 10))
+sun = bpy.context.active_object
+sun.data.energy = 3
+
+# カメラ設定
+bpy.ops.object.camera_add(location=(${camera.position.x.toFixed(2)}, ${camera.position.z.toFixed(2)}, ${camera.position.y.toFixed(2)}))
+camera = bpy.context.active_object
+
+print("Three.jsシーンがBlenderにインポートされました！")
+`;
+                
+                downloadFile(blenderCode, 'threejs_scene.py', 'text/plain');
+                showNotification('📤 Blenderコード生成完了！ダウンロードを開始します。');
+            }, 1500);
+        }
+        
+        function optimizeScene() {
+            showNotification('⚡ シーンを最適化中...');
+            
+            setTimeout(() => {
+                // LOD（Level of Detail）最適化のシミュレーション
+                objects.forEach(obj => {
+                    if (obj.geometry) {
+                        // 遠くのオブジェクトは簡略化
+                        const distance = camera.position.distanceTo(obj.position);
+                        if (distance > 15) {
+                            obj.visible = false;
+                        } else {
+                            obj.visible = true;
+                        }
+                    }
+                });
+                
+                showNotification('⚡ シーン最適化完了！FPSが向上しました。');
+            }, 1000);
+        }
+        
+        function addCustomObject() {
+            const customPrompts = [
+                '巨大なクリスタル',
+                '浮遊する球体',
+                '古代の遺跡',
+                '光る樹木',
+                'ホログラム彫刻'
+            ];
+            
+            const prompt = customPrompts[Math.floor(Math.random() * customPrompts.length)];
+            showNotification(`🎨 "${prompt}"を生成中...`);
+            
+            setTimeout(() => {
+                // カスタムオブジェクトの生成
+                const geometry = new THREE.IcosahedronGeometry(2, 1);
+                const material = new THREE.MeshLambertMaterial({ 
+                    color: new THREE.Color().setHSL(Math.random(), 0.8, 0.6),
+                    transparent: true,
+                    opacity: 0.8
+                });
+                
+                const customObject = new THREE.Mesh(geometry, material);
+                customObject.position.set(
+                    (Math.random() - 0.5) * 10,
+                    Math.random() * 5 + 1,
+                    (Math.random() - 0.5) * 10
+                );
+                customObject.userData = { type: 'custom', name: prompt, interactive: true };
+                
+                scene.add(customObject);
+                objects.push(customObject);
+                
+                showNotification(`✨ "${prompt}"を追加しました！`);
+            }, 2000);
+        }
+        
+        function enterVR() {
+            if (navigator.xr) {
+                showNotification('🥽 VRモードを準備中...');
+                
+                // WebXR VRセッションの開始（デモ版）
+                setTimeout(() => {
+                    isVRMode = !isVRMode;
+                    if (isVRMode) {
+                        // VR風の視点変更
+                        camera.position.set(0, 1.7, 0);
+                        camera.fov = 100;
+                        camera.updateProjectionMatrix();
+                        showNotification('🥽 VRモード開始！頭の動きでカメラが動きます。');
+                    } else {
+                        camera.fov = 75;
+                        camera.updateProjectionMatrix();
+                        showNotification('🥽 VRモード終了');
+                    }
+                }, 1000);
+            } else {
+                showNotification('❌ このブラウザはVRに対応していません');
+            }
+        }
+        
+        function updateSceneInfo(title, description) {
+            document.getElementById('sceneInfo').innerHTML = `
+                <div class="overlay-title">${title}</div>
+                <div class="overlay-description">${description}</div>
+            `;
+        }
+        
+        function updateSceneDescription(text) {
+            document.getElementById('sceneDescription').textContent = text;
+        }
+        
+        function showNotification(message) {
+            // 通知を画面中央に表示
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.9);
+                color: white;
+                padding: 20px 30px;
+                border-radius: 25px;
+                font-size: 1.1em;
+                font-weight: bold;
+                z-index: 10000;
+                backdrop-filter: blur(20px);
+                border: 2px solid #4ecdc4;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        function showLoading(show) {
+            document.getElementById('loadingIndicator').style.display = show ? 'block' : 'none';
+        }
+        
+        function downloadFile(content, filename, contentType) {
+            const blob = new Blob([content], { type: contentType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // アニメーション付きオブジェクトの処理
+            objects.forEach(obj => {
+                if (obj.userData.animated) {
+                    obj.rotation.y += 0.01;
+                    obj.position.y += Math.sin(Date.now() * 0.001) * 0.01;
+                }
+            });
+            
+            renderer.render(scene, camera);
+        }
+        
+        // ウィンドウリサイズ対応
+        window.addEventListener('resize', () => {
+            const canvas = document.getElementById('threeCanvas');
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        });
+    </script>
+</body>
+</html>
+                building.position.set(
+                    (Math.random() - 0.5) * 30,
+                    height / 2,
+                    (Math.random() - 0.5) * 30
+                );
+                building.castShadow = true;
+                building.userData = { type: 'building', interactive: true };
+                scene.add(building);
+                objects.push(building);
+                
+                // ネオンサイン
+                if (Math.random() > 0.7) {
+                    const neonGeometry = new THREE.PlaneGeometry(1, 0.5);
+                    const neonMaterial = new THREE.MeshBasicMaterial({ 
+                        color: new THREE.Color().setHSL(Math.random(), 1, 0.5),
+                        transparent: true,
+                        opacity: 0.8
+                    });
+                    const neon = new THREE.Mesh(neonGeometry, neonMaterial);
+                    neon.position.set(
+                        building.position.x,
+                        building.position.y + height * 0.3,
+                        building.position.z + 1
+                    );
+                    scene.add(neon);
+                }
+            }
+            
+            // 道路
+            const roadGeometry = new THREE.PlaneGeometry(50, 50);
+            const roadMaterial = new THREE.MeshLambertMaterial({ color: 0x222222 });
+            const road = new THREE.Mesh(roadGeometry, roadMaterial);
+            road.rotation.x = -Math.PI / 2;
+            road.receiveShadow = true;
+            scene.add(road);
+            
+            // 雨のエフェクト（パーティクル）
+            if (effectsEnabled.rain) {
+                createRainEffect();
+            }
+            
+            camera.position.set(10, 8, 10);
+            camera.lookAt(0, 0, 0);
+        }
+        
+        function createInteractiveRoom() {
+            // フリーフォームな空間
+            const floorGeometry = new THREE.PlaneGeometry(20, 20);
+            const floorMaterial = new THREE.MeshLambertMaterial({ color: 0xCCCCCC });
+            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            floor.receiveShadow = true;
+            scene.add(floor);
+            
+            // 動かせる家具群
+            const furnitureTypes = [
+                { geometry: new THREE.BoxGeometry(2, 0.8, 1), color: 0x8B4513, name: 'ソファ' },
+                { geometry: new THREE.BoxGeometry(1.5, 0.8, 0.8), color: 0x654321, name: 'テーブル' },
+                { geometry: new THREE.BoxGeometry(0.5, 1.8, 0.3), color: 0x8B4513, name: '本棚' },
+                { geometry: new THREE.CylinderGeometry(0.3, 0.3, 1.5), color: 0x000000, name: 'ランプ' }
+            ];
+            
+            furnitureTypes.forEach((type, index) => {
+                const mesh = new THREE.Mesh(type.geometry, new THREE.MeshLambertMaterial({ color: type.color }));
+                mesh.position.set(
+                    (Math.random() - 0.5) * 15,
+                    type.geometry.parameters.height ? type.geometry.parameters.height / 2 : 0.5,
+                    (Math.random() - 0.5) * 15
+                );
+                mesh.castShadow = true;
+                mesh.userData = { type: 'furniture', name: type.name, movable: true };
+                scene.add(mesh);
+                objects.push(mesh);
+            });
+            
+            camera.position.set(12, 6, 12);
+            camera.lookAt(0, 0, 0);
+        }
+        
+        function createFuturisticCity() {
+            // サイバーパンク風の色調
+            scene.fog = new THREE.Fog(0x0a0a0a, 20, 100);
+            renderer.setClearColor(0x0a0a0a);
+            
+            // 未来都市の建物
+            for (let i = 0; i < 30; i++) {
+                const height = Math.random() * 25 + 10;
+                const buildingGeometry = new THREE.BoxGeometry(
+                    Math.random() * 4 + 2,
+                    height,
+                    Math.random() * 4 + 2
+                );
+                
+                const buildingMaterial = new THREE.MeshLambertMaterial({ 
+                    color: new THREE.Color().setHSL(0.7, 0.8, 0.2 + Math.random() * 0.3),
+                    transparent: true,
+                    opacity: 0.8
+                });
+                
+                const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
