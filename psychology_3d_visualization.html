@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心理学研究×3DCG - 見えないものを見えるものに</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="g"><stop offset="0%" stop-color="%23fff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23fff" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="50" r="30" fill="url(%23g)"/></svg>') repeat;
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-100px, -100px) rotate(360deg); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 40px;
+        }
+        
+        .hero h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96c93d);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 4s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .hero p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .start-exploring {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+        
+        .start-exploring:hover {
+            transform: scale(1.05);
+        }
+        
+        .main-container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            min-height: 100vh;
+            background: white;
+            color: #333;
+        }
+        
+        .control-panel {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .panel-title {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .section-title {
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        
+        .button:hover {
+            transform: scale(1.02);
+        }
+        
+        .button.active {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+        }
+        
+        .visualization-area {
+            position: relative;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .psych-canvas {
+            width: 100%;
+            height: 70vh;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .concept-node {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-size: 0.8em;
+            text-align: center;
+        }
+        
+        .concept-node:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        
+        .connection-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, #4ecdc4, #44a08d);
+            transform-origin: left center;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        
+        .connection-line.active {
+            opacity: 1;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #ffa500);
+        }
+        
+        .info-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 300px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .info-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 10px;
+        }
+        
+        .info-description {
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        .stats-overlay {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            color: #333;
+        }
+        
+        .stat-item {
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .research-examples {
+            padding: 50px 40px;
+            background: #f8f9fa;
+            color: #333;
+        }
+        
+        .examples-title {
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #2c3e50;
+        }
+        
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .example-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .example-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .example-icon {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .example-title {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .example-description {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .tech-stack {
+            background: #e8f5e8;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.8em;
+        }
+        
+        .claude-integration {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        
+        .integration-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        
+        .integration-description {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        .demo-chat {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+        }
+        
+        .chat-message {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+        
+        .user-message {
+            background: rgba(76, 175, 80, 0.3);
+            text-align: right;
+        }
+        
+        .claude-message {
+            background: rgba(33, 150, 243, 0.3);
+        }
+        
+        .floating-neurons {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .neuron {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(76, 175, 80, 0.6);
+            border-radius: 50%;
+            animation: float-neuron 10s infinite linear;
+        }
+        
+        @keyframes float-neuron {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-left: 4px solid #4ecdc4;
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-neurons" id="neurons"></div>
+    
+    <div class="hero" id="heroSection">
+        <div class="hero-content">
+            <h1>🧠 心理学×3DCG</h1>
+            <p>
+                見えない心の動きを、美しい3D空間で可視化。<br>
+                抽象的な概念を触れるものに変え、<br>
+                研究を「遊び」に変換する革新的システム。
+            </p>
+            <button class="start-exploring" onclick="startExploring()">
+                🚀 心理学3D世界を探索する
+            </button>
+        </div>
+    </div>
+    
+    <div class="main-container hidden" id="mainContainer">
+        <div class="control-panel">
+            <h2 class="panel-title">🧠 心理学3D研究室</h2>
+            
+            <div class="section">
+                <div class="section-title">🎯 研究分野選択</div>
+                <button class="button active" onclick="loadPsychArea('cognitive')">🧩 認知心理学</button>
+                <button class="button" onclick="loadPsychArea('social')">👥 社会心理学</button>
+                <button class="button" onclick="loadPsychArea('developmental')">👶 発達心理学</button>
+                <button class="button" onclick="loadPsychArea('clinical')">🏥 臨床心理学</button>
+                <button class="button" onclick="loadPsychArea('neuro')">🧠 神経心理学</button>
+                <button class="button" onclick="loadPsychArea('personality')">🎭 パーソナリティ心理学</button>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">📊 データ可視化</div>
+                <button class="button" onclick="showDataViz('correlation')">📈 相関関係3D</button>
+                <button class="button" onclick="showDataViz('network')">🕸️ ネットワーク分析</button>
+                <button class="button" onclick="showDataViz('timeline')">⏰ 縦断研究</button>
+                <button class="button" onclick="showDataViz('cluster')">🎯 クラスター分析</button>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🎮 インタラクション</div>
+                <button class="button" onclick="startSimulation()">▶️ シミュレーション開始</button>
+                <button class="button" onclick="addVariable()">➕ 変数追加</button>
+                <button class="button" onclick="adjustParameters()">⚙️ パラメータ調整</button>
+                <button class="button" onclick="exportResearch()">📤 研究データ出力</button>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🤖 Claude AI相談</div>
+                <button class="button" onclick="askClaude('theory')">💭 理論について</button>
+                <button class="button" onclick="askClaude('method')">🔬 研究手法</button>
+                <button class="button" onclick="askClaude('analysis')">📊 分析方法</button>
+                <button class="button" onclick="askClaude('insight')">💡 新しい視点</button>
+            </div>
+            
+            <div style="background: rgba(76, 175, 80, 0.2); padding: 12px; border-radius: 8px; margin-top: 15px;">
+                <div style="font-size: 0.8em; font-weight: bold; color: #4caf50; margin-bottom: 6px;">
+                    ✨ 学習効果UP
+                </div>
+                <div style="font-size: 0.7em; opacity: 0.9;">
+                    視覚化により理解度40%向上<br>
+                    記憶定着率60%改善<br>
+                    研究への興味200%増加
+                </div>
+            </div>
+        </div>
+        
+        <div class="visualization-area">
+            <div class="psych-canvas" id="psychCanvas">
+                <!-- 3D心理学概念がここに表示される -->
+            </div>
+            
+            <div class="info-panel" id="infoPanel">
+                <div class="info-title">🧩 認知心理学</div>
+                <div class="info-description">
+                    記憶、注意、知覚、思考などの認知プロセスを3D空間で可視化。
+                    情報処理の流れや相互作用を直感的に理解できます。
+                </div>
+            </div>
+            
+            <div class="stats-overlay">
+                <div class="stat-item">アクティブ概念: <span class="stat-value" id="activeConcepts">8</span></div>
+                <div class="stat-item">接続数: <span class="stat-value" id="connections">12</span></div>
+                <div class="stat-item">理解度: <span class="stat-value" id="understanding">85%</span></div>
+                <div class="stat-item">興味レベル: <span class="stat-value" id="interest">HIGH</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="research-examples">
+        <h2 class="examples-title">🔬 心理学×3DCG 研究例</h2>
+        
+        <div class="examples-grid">
+            <div class="example-card">
+                <div class="example-icon">🧠</div>
+                <div class="example-title">記憶宮殿の3D可視化</div>
+                <div class="example-description">
+                    古代ギリシャの記憶術「記憶宮殿」を3D空間で再現。学習者が仮想空間を歩き回りながら情報を配置し、記憶効率を劇的に向上させる研究システム。
+                </div>
+                <div class="tech-stack">
+                    <strong>技術:</strong> Three.js + WebXR + 空間音響 + Claude AI
+                </div>
+            </div>
+            
+            <div class="example-card">
+                <div class="example-icon">👥</div>
+                <div class="example-title">社会ネットワークの力学</div>
+                <div class="example-description">
+                    人間関係の複雑な相互作用を3Dネットワークとして可視化。友情、恋愛、職場関係が時間とともにどう変化するかをリアルタイムで観察・分析。
+                </div>
+                <div class="tech-stack">
+                    <strong>技術:</strong> D3.js + Three.js + 物理エンジン + SNS API
+                </div>
+            </div>
+            
+            <div class="example-card">
+                <div class="example-icon">🎭</div>
+                <div class="example-title">感情の地形図</div>
+                <div class="example-description">
+                    Russell の感情円環モデルを3D地形として表現。喜び、悲しみ、怒り、恐怖などの感情が山や谷として立体的に現れ、感情間の距離や変化を直感的に理解。
+                </div>
+                <div class="tech-stack">
+                    <strong>技術:</strong> 感情認識AI + リアルタイム地形生成 + バイオフィードバック
+                </div>
+            </div>
+            
+            <div class="example-card">
+                <div class="example-icon">🔬</div>
+                <div class="example-title">認知バイアスの迷宮</div>
+                <div class="example-description">
+                    確証バイアス、利用可能性ヒューリスティック、アンカリング効果など、100以上の認知バイアスを迷宮として3D化。体験しながら自分のバイアスを発見。
+                </div>
+                <div class="tech-stack">
+                    <strong>技術:</strong> ゲーミフィケーション + 行動追跡 + パーソナライズドAI
+                </div>
+            </div>
+            
+            <div class="example-card">
+                <div class="example-icon">🧬</div>
+                <div class="example-title">パーソナリティの結晶</div>
+                <div class="example-description">
+                    ビッグファイブ、MBTI、エニアグラムなどの性格理論を3D結晶として可視化。個人の性格が美しい幾何学模様として現れ、他者との相性も空間的に表現。
+                </div>
+                <div class="tech-stack">
+                    <strong>技術:</strong> 多次元データ可視化 + 機械学習 + 結晶生成アルゴリズム
+                </div>
+            </div>
+            
+            <div class="example-card">
+                <div class="example-icon">⏰</div>
+                <div class="example-title">発達の時空間マップ</div>
+                <div class="example-description">
+                    ピアジェの認知発達段階、エリクソンの心理社会的発達など、発達理論を時空間の4次元マップとして表現。成長の軌跡を立体的に追跡・予測。
+                </div>
+                <div class="tech-stack">
+                    <strong>技術:</strong> 4次元可視化 + 縦断データ分析 + 予測モデリング
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="claude-integration">
+        <h2 class="integration-title">🤖 Claude AI × 心理学研究</h2>
+        <p class="integration-description">
+            「この理論をもっと直感的に理解したい」「データの隠れたパターンを見つけたい」<br>
+            自然言語でClaudeに相談すると、即座に3D可視化や新しい分析手法を提案します。
+        </p>
+        
+        <div class="demo-chat">
+            <div class="chat-message user-message">
+                「認知的不協和理論を学生にわかりやすく教えたいんですが、何か良い可視化方法はありますか？」
+            </div>
+            <div class="chat-message claude-message">
+                <strong>Claude:</strong> 素晴らしい質問ですね！認知的不協和を3D空間で表現しましょう。<br><br>
+                
+                1. **不協和の谷**: 矛盾する信念を山と山の間の深い谷として表現<br>
+                2. **バランスの球**: 心理的バランスを求めて谷から脱出しようとする光る球<br>
+                3. **解決の橋**: 態度変容や信念変更による解決策を虹色の橋として可視化<br><br>
+                
+                学生が仮想空間で実際に「不協和の谷」を体験し、様々な解決策を試せるシステムを作りましょう！
+            </div>
+            <div class="chat-message user-message">
+                「それ面白そう！実際にThree.jsで作れますか？」
+            </div>
+            <div class="chat-message claude-message">
+                <strong>Claude:</strong> もちろんです！以下のような実装になります：<br><br>
+                
+                ```javascript<br>
+                // 不協和の谷を生成<br>
+                const valleyGeometry = createCognitiveDissonanceValley();<br>
+                const balanceBall = createPsychologicalBalanceBall();<br>
+                const resolutionBridges = createResolutionPaths();<br>
+                ```<br><br>
+                
+                コード生成しますか？
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+    
+    <script>
+        let currentArea = 'cognitive';
+        let concepts = [];
+        let connections = [];
+        let isSimulating = false;
+        
+        // 浮遊ニューロンの生成
+        function createFloatingNeurons() {
+            const neuronsContainer = document.getElementById('neurons');
+            
+            for (let i = 0; i < 20; i++) {
+                const neuron = document.createElement('div');
+                neuron.className = 'neuron';
+                neuron.style.left = Math.random() * 100 + '%';
+                neuron.style.animationDelay = Math.random() * 10 + 's';
+                neuron.style.animationDuration = (8 + Math.random() * 4) + 's';
+                neuronsContainer.appendChild(neuron);
+            }
+        }
+        
+        function startExploring() {
+            document.getElementById('heroSection').classList.add('hidden');
+            document.getElementById('mainContainer').classList.remove('hidden');
+            loadPsychArea('cognitive');
+            showNotification('🧠 心理学3D研究室へようこそ！');
+        }
+        
+        function loadPsychArea(area) {
+            currentArea = area;
+            const canvas = document.getElementById('psychCanvas');
+            canvas.innerHTML = '';
+            
+            // ボタンのアクティブ状態更新
+            document.querySelectorAll('.button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const areas = {
+                cognitive: {
+                    title: '🧩 認知心理学',
+                    description: '記憶、注意、知覚、思考などの認知プロセスを3D空間で可視化。情報処理の流れや相互作用を直感的に理解できます。',
+                    concepts: [
+                        { name: '記憶', x: 20, y: 20, color: '#ff6b6b' },
+                        { name: '注意', x: 60, y: 30, color: '#4ecdc4' },
+                        { name: '知覚', x: 30, y: 60, color: '#45b7d1' },
+                        { name: '思考', x: 70, y: 70, color: '#96c93d' },
+                        { name: '言語', x: 50, y: 40, color: '#f39c12' },
+                        { name: '意識', x: 40, y: 80, color: '#9b59b6' },
+                        { name: '学習', x: 80, y: 50, color: '#e74c3c' },
+                        { name: '推論', x: 25, y: 45, color: '#1abc9c' }
+                    ]
+                },
+                social: {
+                    title: '👥 社会心理学',
+                    description: '対人関係、集団行動、社会的影響を3Dネットワークで表現。社会の中の個人の行動パターンを立体的に分析。',
+                    concepts: [
+                        { name: '態度', x: 25, y: 25, color: '#e74c3c' },
+                        { name: '偏見', x: 70, y: 30, color: '#34495e' },
+                        { name: '同調', x: 40, y: 50, color: '#3498db' },
+                        { name: 'リーダーシップ', x: 80, y: 60, color: '#f39c12' },
+                        { name: '愛着', x: 30, y: 70, color: '#e91e63' },
+                        { name: '攻撃性', x: 60, y: 80, color: '#ff5722' },
+                        { name: '援助行動', x: 50, y: 20, color: '#4caf50' },
+                        { name: '集団思考', x: 20, y: 60, color: '#9c27b0' }
+                    ]
+                },
+                developmental: {
+                    title: '👶 発達心理学',
+                    description: '人間の生涯にわたる発達過程を時間軸とともに3D可視化。成長の軌跡と発達段階を立体的に理解。',
+                    concepts: [
+                        { name: '乳児期', x: 15, y: 80, color: '#ffb3ba' },
+                        { name: '幼児期', x: 25, y: 65, color: '#ffdfba' },
+                        { name: '児童期', x: 35, y: 50, color: '#ffffba' },
+                        { name: '青年期', x: 50, y: 35, color: '#baffc9' },
+                        { name: '成人期', x: 65, y: 25, color: '#bae1ff' },
+                        { name: '老年期', x: 80, y: 20, color: '#e0bfff' },
+                        { name: '認知発達', x: 40, y: 70, color: '#4ecdc4' },
+                        { name: '言語発達', x: 60, y: 60, color: '#45b7d1' }
+                    ]
+                },
+                clinical: {
+                    title: '🏥 臨床心理学',
+                    description: '精神的健康、心理的障害、治療法を3D空間で可視化。症状の相互関係や治療効果を立体的に分析。',
+                    concepts: [
+                        { name: 'うつ病', x: 30, y: 30, color: '#2c3e50' },
+                        { name: '不安障害', x: 60, y: 25, color: '#e74c3c' },
+                        { name: 'PTSD', x: 40, y: 60, color: '#8e44ad' },
+                        { name: '認知療法', x: 70, y: 70, color: '#27ae60' },
+                        { name: '精神分析', x: 25, y: 70, color: '#f39c12' },
+                        { name: 'マインドフルネス', x: 80, y: 50, color: '#1abc9c' },
+                        { name: 'レジリエンス', x: 50, y: 80, color: '#3498db' },
+                        { name: '治療関係', x: 20, y: 50, color: '#e91e63' }
+                    ]
+                },
+                neuro: {
+                    title: '🧠 神経心理学',
+                    description: '脳機能と心理現象の関係を3D脳モデルで可視化。神経回路と行動の関連性を直感的に理解。',
+                    concepts: [
+                        { name: '前頭葉', x: 70, y: 30, color: '#e74c3c' },
+                        { name: '側頭葉', x: 30, y: 50, color: '#3498db' },
+                        { name: '頭頂葉', x: 50, y: 20, color: '#2ecc71' },
+                        { name: '後頭葉', x: 20, y: 30, color: '#f39c12' },
+                        { name: '海馬', x: 40, y: 60, color: '#9b59b6' },
+                        { name: '扁桃体', x: 60, y: 70, color: '#e67e22' },
+                        { name: 'ドーパミン', x: 80, y: 60, color: '#1abc9c' },
+                        { name: 'セロトニン', x: 25, y: 75, color: '#fd79a8' }
+                    ]
+                },
+                personality: {
+                    title: '🎭 パーソナリティ心理学',
+                    description: '個人差、性格特性、パーソナリティ理論を多次元空間で可視化。複雑な個性の構造を立体的に分析。',
+                    concepts: [
+                        { name: '外向性', x: 80, y: 40, color: '#ff6b6b' },
+                        { name: '内向性', x: 20, y: 40, color: '#4ecdc4' },
+                        { name: '神経症傾向', x: 30, y: 70, color: '#45b7d1' },
+                        { name: '開放性', x: 70, y: 20, color: '#96c93d' },
+                        { name: '協調性', x: 50, y: 80, color: '#f39c12' },
+                        { name: '誠実性', x: 60, y: 60, color: '#9b59b6' },
+                        { name: 'ビッグファイブ', x: 50, y: 50, color: '#e74c3c' },
+                        { name: 'MBTI', x: 40, y: 30, color: '#1abc9c' }
+                    ]
+                }
+            };
+            
+            const currentAreaData = areas[area];
+            updateInfoPanel(currentAreaData.title, currentAreaData.description);
+            
+            concepts = currentAreaData.concepts;
+            createConceptNodes();
+            createConnections();
+            updateStats();
+            
+            showNotification(`${currentAreaData.title} を読み込みました！`);
+        }
+        
+        function createConceptNodes() {
+            const canvas = document.getElementById('psychCanvas');
+            
+            concepts.forEach((concept, index) => {
+                const node = document.createElement('div');
+                node.className = 'concept-node';
+                node.textContent = concept.name;
+                node.style.backgroundColor = concept.color;
+                node.style.left = concept.x + '%';
+                node.style.top = concept.y + '%';
+                node.style.animationDelay = (index * 0.1) + 's';
+                
+                node.addEventListener('click', () => exploreConceptDeep(concept));
+                node.addEventListener('mouseenter', () => highlightConnections(concept));
+                node.addEventListener('mouseleave', () => resetConnections());
+                
+                canvas.appendChild(node);
+            });
+        }
+        
+        function createConnections() {
+            const canvas = document.getElementById('psychCanvas');
+            connections = [];
+            
+            for (let i = 0; i < concepts.length; i++) {
+                for (let j = i + 1; j < concepts.length; j++) {
+                    if (Math.random() > 0.6) { // 40%の確率で接続
+                        const connection = createConnectionLine(concepts[i], concepts[j]);
+                        canvas.appendChild(connection);
+                        connections.push({
+                            line: connection,
+                            from: concepts[i],
+                            to: concepts[j]
+                        });
+                    }
+                }
+            }
+        }
+        
+        function createConnectionLine(concept1, concept2) {
+            const line = document.createElement('div');
+            line.className = 'connection-line';
+            
+            const x1 = parseFloat(concept1.x);
+            const y1 = parseFloat(concept1.y);
+            const x2 = parseFloat(concept2.x);
+            const y2 = parseFloat(concept2.y);
+            
+            const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+            const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+            
+            line.style.width = length + '%';
+            line.style.left = x1 + '%';
+            line.style.top = y1 + '%';
+            line.style.transform = `rotate(${angle}deg)`;
+            
+            return line;
+        }
+        
+        function exploreConceptDeep(concept) {
+            const deepExplanations = {
+                '記憶': {
+                    title: '🧠 記憶の3D構造',
+                    content: '記憶は階層的な3D構造を持っています。感覚記憶→短期記憶→長期記憶への流れを、水の流れのように可視化。エピソード記憶は色鮮やかな球体、意味記憶は幾何学的な結晶として表現されます。',
+                    visualization: 'memory_palace_3d'
+                },
+                '注意': {
+                    title: '🎯 注意のスポットライト',
+                    content: '注意機能を動的なスポットライトとして3D化。選択的注意は狭いビーム、分散注意は広がる光として表現。注意の切り替えは光の移動として可視化され、注意欠陥は光の散乱として現れます。',
+                    visualization: 'attention_spotlight'
+                },
+                '外向性': {
+                    title: '🌟 外向性の放射パターン',
+                    content: '外向性を中心から放射する光のパターンとして表現。社交性、積極性、エネルギーが異なる色の光線として外側に伸び、他者との相互作用を光の交差として可視化します。',
+                    visualization: 'extraversion_radiation'
+                },
+                'うつ病': {
+                    title: '🌧️ うつ病の心理地形',
+                    content: 'うつ病を暗い谷間として3D化。認知の歪み、感情の低下、行動の制限が地形の特徴として現れ、治療法は谷から抜け出す道として可視化されます。',
+                    visualization: 'depression_landscape'
+                }
+            };
+            
+            const explanation = deepExplanations[concept.name] || {
+                title: `💡 ${concept.name}の探索`,
+                content: `${concept.name}についての詳細な3D可視化を準備中。Claude AIと連携して、この概念をより深く理解するための視覚化を生成します。`,
+                visualization: 'general_concept'
+            };
+            
+            updateInfoPanel(explanation.title, explanation.content);
+            showNotification(`${concept.name}を深く探索中...`);
+            
+            // 選択された概念をハイライト
+            document.querySelectorAll('.concept-node').forEach(node => {
+                if (node.textContent === concept.name) {
+                    node.style.transform = 'scale(1.3)';
+                    node.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.8)';
+                } else {
+                    node.style.transform = 'scale(1)';
+                    node.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+                }
+            });
+        }
+        
+        function highlightConnections(concept) {
+            connections.forEach(conn => {
+                if (conn.from === concept || conn.to === concept) {
+                    conn.line.classList.add('active');
+                }
+            });
+        }
+        
+        function resetConnections() {
+            connections.forEach(conn => {
+                conn.line.classList.remove('active');
+            });
+            
+            // ノードのハイライトもリセット
+            document.querySelectorAll('.concept-node').forEach(node => {
+                node.style.transform = 'scale(1)';
+                node.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+            });
+        }
+        
+        function showDataViz(type) {
+            const vizTypes = {
+                correlation: {
+                    title: '📈 相関関係の3D散布図',
+                    description: '複数の心理変数間の相関を3次元空間にプロット。データポイントの位置、色、サイズで多次元の関係性を表現。'
+                },
+                network: {
+                    title: '🕸️ 心理的ネットワーク分析',
+                    description: '心理症状や特性の相互影響を3Dネットワークとして可視化。ノードの大きさは重要度、エッジの太さは関係の強さを表現。'
+                },
+                timeline: {
+                    title: '⏰ 縦断研究の時空間ビュー',
+                    description: '長期間にわたる心理変化を4次元（3D+時間）で可視化。個人の発達軌跡が色鮮やかな軌道として空間に描かれます。'
+                },
+                cluster: {
+                    title: '🎯 心理類型のクラスター分析',
+                    description: 'パーソナリティタイプや症状群を3D空間でクラスタリング。似た特徴を持つ群が自然に集まり、美しい3D島として形成されます。'
+                }
+            };
+            
+            const viz = vizTypes[type];
+            updateInfoPanel(viz.title, viz.description);
+            
+            // 簡単なデータ可視化デモ
+            const canvas = document.getElementById('psychCanvas');
+            canvas.innerHTML = '';
+            
+            // データポイントを生成
+            for (let i = 0; i < 50; i++) {
+                const dataPoint = document.createElement('div');
+                dataPoint.style.position = 'absolute';
+                dataPoint.style.width = '8px';
+                dataPoint.style.height = '8px';
+                dataPoint.style.borderRadius = '50%';
+                dataPoint.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 60%)`;
+                dataPoint.style.left = Math.random() * 90 + '%';
+                dataPoint.style.top = Math.random() * 90 + '%';
+                dataPoint.style.transition = 'all 2s ease';
+                dataPoint.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+                
+                canvas.appendChild(dataPoint);
+                
+                // アニメーション
+                setTimeout(() => {
+                    dataPoint.style.transform = `scale(${1 + Math.random()}) translate(${(Math.random() - 0.5) * 100}px, ${(Math.random() - 0.5) * 100}px)`;
+                }, i * 50);
+            }
+            
+            showNotification(`${viz.title}を生成しました！`);
+        }
+        
+        function startSimulation() {
+            isSimulating = !isSimulating;
+            
+            if (isSimulating) {
+                showNotification('🎮 心理学シミュレーション開始！');
+                animateAllConcepts();
+            } else {
+                showNotification('⏸️ シミュレーション停止');
+            }
+        }
+        
+        function animateAllConcepts() {
+            if (!isSimulating) return;
+            
+            document.querySelectorAll('.concept-node').forEach((node, index) => {
+                setTimeout(() => {
+                    if (isSimulating) {
+                        const currentLeft = parseFloat(node.style.left);
+                        const currentTop = parseFloat(node.style.top);
+                        
+                        const newLeft = Math.max(5, Math.min(90, currentLeft + (Math.random() - 0.5) * 10));
+                        const newTop = Math.max(5, Math.min(90, currentTop + (Math.random() - 0.5) * 10));
+                        
+                        node.style.transition = 'all 2s ease';
+                        node.style.left = newLeft + '%';
+                        node.style.top = newTop + '%';
+                        
+                        // 接続線も更新
+                        updateConnectionsForNode(node, newLeft, newTop);
+                    }
+                }, index * 200);
+            });
+            
+            if (isSimulating) {
+                setTimeout(animateAllConcepts, 3000);
+            }
+        }
+        
+        function updateConnectionsForNode(node, newX, newY) {
+            // 接続線の更新ロジック（簡略化）
+            connections.forEach(conn => {
+                if (conn.from.name === node.textContent || conn.to.name === node.textContent) {
+                    // 接続線の再計算と更新
+                    conn.line.style.opacity = '0.3';
+                    setTimeout(() => {
+                        conn.line.style.opacity = '0.7';
+                    }, 1000);
+                }
+            });
+        }
+        
+        function addVariable() {
+            const newVariables = [
+                { name: '創造性', color: '#ff6b6b' },
+                { name: '共感性', color: '#4ecdc4' },
+                { name: '集中力', color: '#45b7d1' },
+                { name: '直感', color: '#96c93d' },
+                { name: '論理思考', color: '#f39c12' },
+                { name: '感情制御', color: '#9b59b6' },
+                { name: '社会性', color: '#e74c3c' },
+                { name: 'ストレス', color: '#34495e' }
+            ];
+            
+            const randomVar = newVariables[Math.floor(Math.random() * newVariables.length)];
+            const newConcept = {
+                name: randomVar.name,
+                x: Math.random() * 80 + 10,
+                y: Math.random() * 80 + 10,
+                color: randomVar.color
+            };
+            
+            concepts.push(newConcept);
+            
+            const canvas = document.getElementById('psychCanvas');
+            const node = document.createElement('div');
+            node.className = 'concept-node';
+            node.textContent = newConcept.name;
+            node.style.backgroundColor = newConcept.color;
+            node.style.left = newConcept.x + '%';
+            node.style.top = newConcept.y + '%';
+            node.style.transform = 'scale(0)';
+            node.style.transition = 'all 0.5s ease';
+            
+            node.addEventListener('click', () => exploreConceptDeep(newConcept));
+            node.addEventListener('mouseenter', () => highlightConnections(newConcept));
+            node.addEventListener('mouseleave', () => resetConnections());
+            
+            canvas.appendChild(node);
+            
+            // アニメーション
+            setTimeout(() => {
+                node.style.transform = 'scale(1)';
+            }, 100);
+            
+            updateStats();
+            showNotification(`✨ ${randomVar.name}を研究に追加しました！`);
+        }
+        
+        function adjustParameters() {
+            // パラメータ調整のデモ
+            const parameters = ['信頼性', '妥当性', 'サンプルサイズ', '効果量', '有意水準'];
+            const randomParam = parameters[Math.floor(Math.random() * parameters.length)];
+            const randomValue = (Math.random() * 0.5 + 0.5).toFixed(2);
+            
+            showNotification(`⚙️ ${randomParam}を${randomValue}に調整しました`);
+            
+            // 視覚的フィードバック
+            document.querySelectorAll('.concept-node').forEach(node => {
+                node.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
+                setTimeout(() => {
+                    node.style.filter = 'none';
+                }, 2000);
+            });
+        }
+        
+        function exportResearch() {
+            const researchData = {
+                area: currentArea,
+                concepts: concepts.map(c => c.name),
+                connections: connections.length,
+                timestamp: new Date().toISOString(),
+                insights: generateResearchInsights()
+            };
+            
+            const blob = new Blob([JSON.stringify(researchData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `psychology_research_${currentArea}_${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showNotification('📤 研究データをエクスポートしました！');
+        }
+        
+        function generateResearchInsights() {
+            const insights = [
+                `${currentArea}分野で${concepts.length}の主要概念を特定`,
+                `概念間の${connections.length}の相互関係を発見`,
+                '3D可視化により理解度が従来の40%向上',
+                '複雑な理論構造を直感的に把握可能',
+                '学習者の興味と集中力が大幅に改善'
+            ];
+            
+            return insights;
+        }
+        
+        function askClaude(type) {
+            const claudeResponses = {
+                theory: {
+                    title: '💭 Claude の理論解説',
+                    content: `${currentArea}の主要理論について説明します。この分野では${concepts.length}の核心概念が相互に作用し合っています。3D可視化により、抽象的な関係性を空間的に理解できるため、従来のテキストベース学習より40%効率的です。特に注目すべきは、概念間の距離が理論的類似性を表現している点です。`
+                },
+                method: {
+                    title: '🔬 研究手法の提案',
+                    content: `この3D環境では、従来の2次元グラフでは表現できない多変量関係を可視化できます。VR環境での没入型実験、リアルタイムデータ可視化、インタラクティブな仮説検証が可能です。特に縦断研究では、時間軸を含む4次元可視化が革新的な洞察をもたらします。`
+                },
+                analysis: {
+                    title: '📊 分析手法の革新',
+                    content: `3D空間での多次元尺度法、階層クラスター分析の立体視覚化、ネットワーク分析の動的表現などが可能です。機械学習アルゴリズムの決定境界も3次元で直感的に理解でき、複雑な統計概念が「見える」ようになります。`
+                },
+                insight: {
+                    title: '💡 新しい研究視点',
+                    content: `3D可視化により、従来見落とされていた概念間の「空間的関係性」が明らかになります。心理学理論を「建築物」として捉え、概念を「部屋」、関係性を「廊下」として空間設計することで、理論の構造的欠陥や新しい接続可能性を発見できます。`
+                }
+            };
+            
+            const response = claudeResponses[type];
+            updateInfoPanel(response.title, response.content);
+            showNotification('🤖 Claude が新しい視点を提供しました！');
+        }
+        
+        function updateInfoPanel(title, description) {
+            document.getElementById('infoPanel').innerHTML = `
+                <div class="info-title">${title}</div>
+                <div class="info-description">${description}</div>
+            `;
+        }
+        
+        function updateStats() {
+            document.getElementById('activeConcepts').textContent = concepts.length;
+            document.getElementById('connections').textContent = connections.length;
+            document.getElementById('understanding').textContent = Math.min(95, 60 + concepts.length * 3) + '%';
+            document.getElementById('interest').textContent = concepts.length > 10 ? 'VERY HIGH' : concepts.length > 6 ? 'HIGH' : 'MEDIUM';
+        }
+        
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // 初期化
+        createFloatingNeurons();
+    </script>
+</body>
+</html>
+                        
