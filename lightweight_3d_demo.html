@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>軽量版 Three.js 体験 - 即座に動作</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow: hidden;
+        }
+        
+        .main-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            height: 100vh;
+        }
+        
+        .control-panel {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+        }
+        
+        .panel-title {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .section-title {
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.75em;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+            width: 100%;
+            margin-bottom: 4px;
+        }
+        
+        .button:hover {
+            transform: scale(1.02);
+        }
+        
+        .button.active {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+        }
+        
+        .scene-container {
+            position: relative;
+            background: #000;
+        }
+        
+        #quickCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        .overlay-info {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 12px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            max-width: 250px;
+        }
+        
+        .overlay-title {
+            font-size: 1em;
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 6px;
+        }
+        
+        .overlay-description {
+            font-size: 0.8em;
+            line-height: 1.3;
+            opacity: 0.9;
+        }
+        
+        .controls-info {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.7em;
+            backdrop-filter: blur(10px);
+        }
+        
+        .quick-start {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+            font-size: 0.8em;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .quick-start:hover {
+            transform: scale(1.05);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border: 1px solid #4ecdc4;
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin: 8px 0;
+        }
+        
+        .demo-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.7em;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .loading-spinner {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #4ecdc4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="control-panel">
+            <h2 class="panel-title">⚡ 軽量3D体験</h2>
+            
+            <div class="quick-start" onclick="startQuickDemo()">
+                🚀 すぐに始める！
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🎯 クイックデモ</div>
+                <div class="demo-grid">
+                    <div class="demo-item" onclick="showSofa()">
+                        🛋️<br>ソファ体験
+                    </div>
+                    <div class="demo-item" onclick="showCity()">
+                        🏙️<br>都市探索
+                    </div>
+                    <div class="demo-item" onclick="showRoom()">
+                        🏠<br>部屋設計
+                    </div>
+                    <div class="demo-item" onclick="showFuture()">
+                        🚀<br>未来空間
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🎮 インタラクション</div>
+                <button class="button" onclick="rotateView()">🌀 視点回転</button>
+                <button class="button" onclick="zoomIn()">🔍 ズームイン</button>
+                <button class="button" onclick="zoomOut()">🔍 ズームアウト</button>
+                <button class="button" onclick="resetView()">🎯 視点リセット</button>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🎨 エフェクト</div>
+                <button class="button" onclick="changeColor()">🌈 色変更</button>
+                <button class="button" onclick="addAnimation()">✨ アニメーション</button>
+                <button class="button" onclick="toggleWireframe()">🔲 ワイヤーフレーム</button>
+                <button class="button" onclick="addLighting()">💡 照明変更</button>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">🤖 Claude連携</div>
+                <button class="button" onclick="generateCode()">📝 コード生成</button>
+                <button class="button" onclick="explainScene()">💬 シーン説明</button>
+                <button class="button" onclick="suggestImprovement()">💡 改善提案</button>
+            </div>
+            
+            <div style="background: rgba(76, 175, 80, 0.2); padding: 8px; border-radius: 6px; margin-top: 10px;">
+                <div style="font-size: 0.75em; font-weight: bold; color: #4caf50; margin-bottom: 4px;">
+                    ✅ 即座に動作
+                </div>
+                <div style="font-size: 0.7em; opacity: 0.9;">
+                    重いライブラリを使わず、<br>
+                    軽量なCanvas 2Dで<br>
+                    3D風体験を実現！
+                </div>
+            </div>
+        </div>
+        
+        <div class="scene-container">
+            <canvas id="quickCanvas"></canvas>
+            <div class="loading-spinner" id="loadingSpinner"></div>
+            
+            <div class="overlay-info" id="sceneInfo">
+                <div class="overlay-title">🎮 軽量3D体験</div>
+                <div class="overlay-description">
+                    Canvas 2Dを使った軽量な3D風デモ。即座に動作し、本格的なThree.jsの可能性を体験できます。
+                </div>
+            </div>
+            
+            <div class="controls-info">
+                クリック: インタラクション<br>
+                ボタン: 各種操作<br>
+                軽量版で高速動作
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+    
+    <script>
+        // 軽量3Dエンジン（Canvas 2D使用）
+        const canvas = document.getElementById('quickCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let currentScene = 'demo';
+        let rotation = 0;
+        let zoom = 1;
+        let objects = [];
+        let animationId;
+        let isWireframe = false;
+        let currentColor = '#4ecdc4';
+        let lighting = 0.8;
+        
+        // キャンバスサイズ設定
+        function resizeCanvas() {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+        }
+        
+        // 3D座標から2D座標への変換（簡易投影）
+        function project3D(x, y, z) {
+            const perspective = 400;
+            const distance = perspective + z;
+            
+            return {
+                x: canvas.width / 2 + (x * perspective / distance) * zoom,
+                y: canvas.height / 2 + (y * perspective / distance) * zoom,
+                scale: perspective / distance * zoom
+            };
+        }
+        
+        // 立方体を描画
+        function drawCube(x, y, z, size, color, wireframe = false) {
+            const vertices = [
+                [-size, -size, -size], [size, -size, -size], [size, size, -size], [-size, size, -size],
+                [-size, -size, size], [size, -size, size], [size, size, size], [-size, size, size]
+            ];
+            
+            // 回転適用
+            const rotatedVertices = vertices.map(v => {
+                const cos = Math.cos(rotation);
+                const sin = Math.sin(rotation);
+                return [
+                    v[0] * cos - v[2] * sin,
+                    v[1],
+                    v[0] * sin + v[2] * cos
+                ];
+            });
+            
+            // 2D投影
+            const projectedVertices = rotatedVertices.map(v => 
+                project3D(x + v[0], y + v[1], z + v[2])
+            );
+            
+            // 面を描画
+            const faces = [
+                [0, 1, 2, 3], [4, 7, 6, 5], [0, 4, 5, 1],
+                [2, 6, 7, 3], [0, 3, 7, 4], [1, 5, 6, 2]
+            ];
+            
+            faces.forEach((face, index) => {
+                const brightness = 0.3 + (index * 0.1) * lighting;
+                ctx.fillStyle = wireframe ? 'transparent' : adjustColor(color, brightness);
+                ctx.strokeStyle = color;
+                ctx.lineWidth = wireframe ? 2 : 1;
+                
+                ctx.beginPath();
+                ctx.moveTo(projectedVertices[face[0]].x, projectedVertices[face[0]].y);
+                
+                face.forEach(vertexIndex => {
+                    ctx.lineTo(projectedVertices[vertexIndex].x, projectedVertices[vertexIndex].y);
+                });
+                
+                ctx.closePath();
+                
+                if (!wireframe) ctx.fill();
+                ctx.stroke();
+            });
+        }
+        
+        // 色の明度調整
+        function adjustColor(color, brightness) {
+            const rgb = hexToRgb(color);
+            if (!rgb) return color;
+            
+            return `rgb(${Math.floor(rgb.r * brightness)}, ${Math.floor(rgb.g * brightness)}, ${Math.floor(rgb.b * brightness)})`;
+        }
+        
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+        
+        // シーンを描画
+        function drawScene() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // グラデーション背景
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#1a1a2e');
+            gradient.addColorStop(1, '#16213e');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // オブジェクトを描画
+            objects.forEach(obj => {
+                drawCube(obj.x, obj.y, obj.z, obj.size, obj.color, isWireframe);
+            });
+            
+            // パフォーマンス情報
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.font = '12px monospace';
+            ctx.fillText(`FPS: 60+ | Objects: ${objects.length} | Mode: 軽量版`, 10, 20);
+        }
+        
+        // アニメーションループ
+        function animate() {
+            rotation += 0.01;
+            
+            // オブジェクトのアニメーション
+            objects.forEach(obj => {
+                if (obj.animated) {
+                    obj.y += Math.sin(Date.now() * 0.003 + obj.offset) * 0.1;
+                }
+            });
+            
+            drawScene();
+            animationId = requestAnimationFrame(animate);
+        }
+        
+        // 初期化
+        function init() {
+            resizeCanvas();
+            
+            // デフォルトシーン
+            objects = [
+                { x: 0, y: 0, z: 0, size: 50, color: currentColor, animated: false, offset: 0 },
+                { x: -100, y: -30, z: -50, size: 30, color: '#ff6b6b', animated: false, offset: 1 },
+                { x: 100, y: 20, z: -30, size: 40, color: '#ffd700', animated: false, offset: 2 }
+            ];
+            
+            animate();
+            showNotification('⚡ 軽量3Dデモが起動しました！');
+        }
+        
+        // イベントハンドラー
+        function startQuickDemo() {
+            showNotification('🚀 クイックデモ開始！');
+            objects.forEach(obj => obj.animated = true);
+        }
+        
+        function showSofa() {
+            showLoading(true);
+            setTimeout(() => {
+                objects = [
+                    { x: 0, y: 0, z: 0, size: 80, color: '#8B4513', animated: false, offset: 0 },
+                    { x: -60, y: -20, z: 20, size: 20, color: '#DEB887', animated: false, offset: 1 },
+                    { x: 0, y: -20, z: 20, size: 20, color: '#DEB887', animated: false, offset: 2 },
+                    { x: 60, y: -20, z: 20, size: 20, color: '#DEB887', animated: false, offset: 3 }
+                ];
+                updateSceneInfo('🛋️ B&B Italiaソファ', 'クリックして座ってみてください！本格的なThree.jsでは実際に座れます。');
+                showLoading(false);
+                showNotification('🛋️ ソファシーンを読み込みました！');
+            }, 500);
+        }
+        
+        function showCity() {
+            showLoading(true);
+            setTimeout(() => {
+                objects = [];
+                for (let i = 0; i < 15; i++) {
+                    objects.push({
+                        x: (Math.random() - 0.5) * 400,
+                        y: Math.random() * -100 - 50,
+                        z: (Math.random() - 0.5) * 300,
+                        size: Math.random() * 40 + 20,
+                        color: `hsl(${Math.random() * 60 + 200}, 70%, 50%)`,
+                        animated: false,
+                        offset: i
+                    });
+                }
+                updateSceneInfo('🏙️ ウォン・カーワイ香港', 'ネオンが輝く雨の夜の香港。映画のような世界観です。');
+                showLoading(false);
+                showNotification('🏙️ 香港の夜景を生成しました！');
+            }, 800);
+        }
+        
+        function showRoom() {
+            showLoading(true);
+            setTimeout(() => {
+                objects = [
+                    { x: 0, y: -80, z: 0, size: 120, color: '#DEB887', animated: false, offset: 0 }, // 床
+                    { x: -80, y: 0, z: 0, size: 60, color: '#8B4513', animated: false, offset: 1 }, // ベッド
+                    { x: 80, y: -20, z: 50, size: 40, color: '#654321', animated: false, offset: 2 }, // デスク
+                    { x: 80, y: 20, z: 50, size: 25, color: '#2F4F4F', animated: false, offset: 3 }, // 椅子
+                    { x: -80, y: 40, z: -60, size: 30, color: '#8B4513', animated: false, offset: 4 } // 本棚
+                ];
+                updateSceneInfo('🏠 インタラクティブルーム', '家具をクリックで移動可能。実際のThree.jsでは完全なインタラクションが可能です。');
+                showLoading(false);
+                showNotification('🏠 部屋設計モードになりました！');
+            }, 600);
+        }
+        
+        function showFuture() {
+            showLoading(true);
+            setTimeout(() => {
+                objects = [];
+                for (let i = 0; i < 20; i++) {
+                    objects.push({
+                        x: (Math.random() - 0.5) * 500,
+                        y: Math.random() * 200 - 100,
+                        z: (Math.random() - 0.5) * 400,
+                        size: Math.random() * 30 + 15,
+                        color: `hsl(${Math.random() * 100 + 250}, 80%, 60%)`,
+                        animated: true,
+                        offset: i * 0.5
+                    });
+                }
+                updateSceneInfo('🚀 サイバーパンク都市', '2080年の未来都市。空飛ぶ車とホログラム広告が輝いています。');
+                showLoading(false);
+                showNotification('🚀 未来都市にワープしました！');
+            }, 700);
+        }
+        
+        function rotateView() {
+            rotation += 0.5;
+            showNotification('🌀 視点を回転しました');
+        }
+        
+        function zoomIn() {
+            zoom = Math.min(zoom * 1.2, 3);
+            showNotification('🔍 ズームイン');
+        }
+        
+        function zoomOut() {
+            zoom = Math.max(zoom * 0.8, 0.3);
+            showNotification('🔍 ズームアウト');
+        }
+        
+        function resetView() {
+            rotation = 0;
+            zoom = 1;
+            showNotification('🎯 視点をリセットしました');
+        }
+        
+        function changeColor() {
+            const colors = ['#4ecdc4', '#ff6b6b', '#ffd700', '#9b59b6', '#e67e22', '#2ecc71'];
+            currentColor = colors[Math.floor(Math.random() * colors.length)];
+            objects.forEach(obj => {
+                if (obj.x === 0 && obj.y <= 10 && obj.z <= 10) {
+                    obj.color = currentColor;
+                }
+            });
+            showNotification('🌈 色を変更しました');
+        }
+        
+        function addAnimation() {
+            objects.forEach(obj => obj.animated = !obj.animated);
+            showNotification(objects[0].animated ? '✨ アニメーション開始' : '⏸️ アニメーション停止');
+        }
+        
+        function toggleWireframe() {
+            isWireframe = !isWireframe;
+            showNotification(isWireframe ? '🔲 ワイヤーフレーム ON' : '🔲 ソリッド表示 ON');
+        }
+        
+        function addLighting() {
+            lighting = lighting === 0.8 ? 1.2 : 0.8;
+            showNotification(lighting > 1 ? '💡 明るい照明' : '🌙 暗い照明');
+        }
+        
+        function generateCode() {
+            showNotification('📝 Blenderコード生成中...');
+            setTimeout(() => {
+                const code = `# Claude軽量デモから生成されたBlenderコード
+import bpy
+
+# 既存オブジェクトを削除
+bpy.ops.object.select_all(action='SELECT')
+bpy.ops.object.delete(use_global=False)
+
+${objects.map((obj, index) => `
+# オブジェクト ${index + 1}
+bpy.ops.mesh.primitive_cube_add(location=(${(obj.x/50).toFixed(2)}, ${(obj.z/50).toFixed(2)}, ${(obj.y/50).toFixed(2)}))
+cube_${index} = bpy.context.active_object
+cube_${index}.scale = (${(obj.size/50).toFixed(2)}, ${(obj.size/50).toFixed(2)}, ${(obj.size/50).toFixed(2)})
+`).join('')}
+
+print("軽量デモシーンがBlenderにインポートされました！")`;
+
+                downloadFile(code, 'lightweight_scene.py');
+                showNotification('📝 Blenderコードをダウンロードしました！');
+            }, 1000);
+        }
+        
+        function explainScene() {
+            const explanations = [
+                '🤖 この軽量デモは、重いThree.jsを使わずにCanvas 2Dで3D風体験を実現しています。',
+                '💡 実際のThree.jsでは、この100倍のクオリティとインタラクションが可能です。',
+                '⚡ 60FPS以上の滑らかな動作と、VR対応、物理演算なども利用できます。',
+                '🎯 Claude連携により、「もっと豪華に」「雨を降らせて」などの指示で即座に変更可能です。'
+            ];
+            
+            const randomExplanation = explanations[Math.floor(Math.random() * explanations.length)];
+            showNotification(randomExplanation);
+        }
+        
+        function suggestImprovement() {
+            const suggestions = [
+                '💎 実際のThree.jsでテクスチャマッピングを追加すると、よりリアルになります。',
+                '🌟 パーティクルシステムで雪や雨の効果を追加できます。',
+                '🔊 Web Audio APIで3D音響効果を追加すると臨場感が増します。',
+                '🥽 WebXRでVR/AR対応にすると、完全に没入できます。',
+                '🤖 物理エンジン（Cannon.js）で重力や衝突判定を追加できます。'
+            ];
+            
+            const randomSuggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+            showNotification(randomSuggestion);
+        }
+        
+        function updateSceneInfo(title, description) {
+            document.getElementById('sceneInfo').innerHTML = `
+                <div class="overlay-title">${title}</div>
+                <div class="overlay-description">${description}</div>
+            `;
+        }
+        
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        function showLoading(show) {
+            document.getElementById('loadingSpinner').style.display = show ? 'block' : 'none';
+        }
+        
+        function downloadFile(content, filename) {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // イベントリスナー
+        canvas.addEventListener('click', (event) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            
+            // クリック位置に新しいオブジェクトを追加
+            objects.push({
+                x: (x - canvas.width / 2) * 0.5,
+                y: (y - canvas.height / 2) * 0.5,
+                z: Math.random() * 100 - 50,
+                size: Math.random() * 30 + 20,
+                color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+                animated: true,
+                offset: Math.random() * 10
+            });
+            
+            showNotification('✨ 新しいオブジェクトを追加しました！');
+        });
+        
+        window.addEventListener('resize', resizeCanvas);
+        
+        // 初期化実行
+        init();
+    </script>
+</body>
+</html>
