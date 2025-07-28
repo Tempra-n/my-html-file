@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>認知最適化アジア言語ロードマップ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: .5;
+            }
+        }
+
+        .bounce {
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(-25%);
+                animation-timing-function: cubic-bezier(0.8,0,1,1);
+            }
+            50% {
+                transform: none;
+                animation-timing-function: cubic-bezier(0,0,0.2,1);
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
+    <div class="p-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- ヘッダー -->
+            <div class="text-center mb-12 animate-fadeIn">
+                <h1 class="text-5xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-4">
+                    🧠 認知最適化アジア言語ロードマップ
+                </h1>
+                <p class="text-xl text-gray-600 mb-4">転移効果を最大化する科学的学習順序</p>
+                <div class="bg-white rounded-lg p-4 mb-8 shadow-lg">
+                    <h3 class="font-bold text-lg mb-2 text-gray-800">🎯 認知科学的アプローチ</h3>
+                    <p class="text-sm text-gray-600">言語系統・類型的距離を考慮し、転移効果を最大化する段階的学習</p>
+                </div>
+                
+                <!-- コントロールパネル -->
+                <div class="flex justify-center space-x-4 mb-8">
+                    <button id="playButton" class="flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white px-6 py-3 rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                        <i data-lucide="play" class="w-5 h-5"></i>
+                        <span>アニメーション開始</span>
+                    </button>
+                    
+                    <button id="resetButton" class="flex items-center space-x-2 bg-gray-500 text-white px-6 py-3 rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                        <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+                        <span>リセット</span>
+                    </button>
+                </div>
+
+                <!-- スピード調整 -->
+                <div class="flex items-center justify-center space-x-4 mb-8">
+                    <span class="text-gray-600">アニメーション速度:</span>
+                    <input id="speedSlider" type="range" min="500" max="3000" value="2000" class="w-32">
+                    <span id="speedLabel" class="text-gray-600">2.0秒</span>
+                </div>
+            </div>
+
+            <!-- 認知発達段階 -->
+            <div class="mb-12">
+                <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">🧠 認知発達段階</h2>
+                <div id="cognitiveStages" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- 認知段階はJavaScriptで生成 -->
+                </div>
+            </div>
+
+            <!-- タイムライン -->
+            <div class="mb-12">
+                <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">📅 最適化学習タイムライン</h2>
+                <div class="relative">
+                    <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-purple-500 to-blue-500 rounded-full"></div>
+                    <div id="timeline" class="space-y-8">
+                        <!-- タイムラインアイテムはJavaScriptで生成 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 言語カード -->
+            <div class="mb-12">
+                <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">🎯 言語別最適化プラン</h2>
+                <div id="languageCards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- 言語カードはJavaScriptで生成 -->
+                </div>
+            </div>
+
+            <!-- 統計ダッシュボード -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 mb-12">
+                <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">📊 認知最適化統計</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="text-center p-4 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl">
+                        <i data-lucide="target" class="w-8 h-8 mx-auto mb-2 text-purple-600"></i>
+                        <div class="text-2xl font-bold text-purple-700">6</div>
+                        <div class="text-sm text-purple-600">対象言語</div>
+                    </div>
+                    <div class="text-center p-4 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl">
+                        <i data-lucide="book-open" class="w-8 h-8 mx-auto mb-2 text-blue-600"></i>
+                        <div class="text-2xl font-bold text-blue-700">47</div>
+                        <div class="text-sm text-blue-600">総学習期間(月)</div>
+                    </div>
+                    <div class="text-center p-4 bg-gradient-to-br from-green-100 to-green-200 rounded-xl">
+                        <i data-lucide="brain" class="w-8 h-8 mx-auto mb-2 text-green-600"></i>
+                        <div class="text-2xl font-bold text-green-700">85%</div>
+                        <div class="text-sm text-green-600">転移効率</div>
+                    </div>
+                    <div class="text-center p-4 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-xl">
+                        <i data-lucide="zap" class="w-8 h-8 mx-auto mb-2 text-yellow-600"></i>
+                        <div class="text-2xl font-bold text-yellow-700">3</div>
+                        <div class="text-sm text-yellow-600">認知発達段階</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 転移効果説明 -->
+            <div class="bg-gradient-to-r from-indigo-100 to-purple-100 rounded-2xl p-8 mb-12">
+                <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">🔄 転移効果の科学的根拠</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-lg p-6 shadow-md">
+                        <h3 class="font-bold text-lg mb-3 text-indigo-700">正の転移最大化</h3>
+                        <ul class="text-sm space-y-2 text-gray-700">
+                            <li>• 中国語→台湾華語: 語彙転移率90%</li>
+                            <li>• 中国語→韓国語: 漢字語転移率70%</li>
+                            <li>• インドネシア語→マレー語: 語彙転移率85%</li>
+                            <li>• 中国語→タイ語: 声調システム転移</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-lg p-6 shadow-md">
+                        <h3 class="font-bold text-lg mb-3 text-purple-700">認知制御強化</h3>
+                        <ul class="text-sm space-y-2 text-gray-700">
+                            <li>• メタ言語意識の段階的発達</li>
+                            <li>• 注意制御機能の全体的向上</li>
+                            <li>• 言語切り替え能力の最適化</li>
+                            <li>• 新言語学習の神経基盤改善</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- モチベーションメッセージ -->
+            <div class="text-center bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-2xl p-8 shadow-xl">
+                <h2 class="text-3xl font-bold mb-4">🧠 科学的根拠に基づいた学習革命！</h2>
+                <p class="text-lg opacity-90 mb-4">
+                    認知科学と言語学の知見を活用し、転移効果を最大化する最適化ロードマップ
+                </p>
+                <div class="flex justify-center space-x-2">
+                    <i data-lucide="star" class="w-6 h-6 text-yellow-300 pulse"></i>
+                    <i data-lucide="star" class="w-6 h-6 text-yellow-300 pulse" style="animation-delay: 200ms;"></i>
+                    <i data-lucide="star" class="w-6 h-6 text-yellow-300 pulse" style="animation-delay: 400ms;"></i>
+                    <i data-lucide="star" class="w-6 h-6 text-yellow-300 pulse" style="animation-delay: 600ms;"></i>
+                    <i data-lucide="star" class="w-6 h-6 text-yellow-300 pulse" style="animation-delay: 800ms;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // データ定義
+        const languages = [
+            {
+                name: '中国語(普通話)',
+                flag: '🇨🇳',
+                level: 'HSK4 → HSK5 → B2',
+                status: 'phase1',
+                color: 'from-red-500 to-yellow-500',
+                duration: '6-8ヶ月',
+                cognitiveAdvantage: '基盤構築・漢字認知',
+                phases: [
+                    { name: 'Phase 1', period: '1-2ヶ月', focus: 'HSK4完成・語彙2500語' },
+                    { name: 'Phase 2', period: '3-5ヶ月', focus: 'HSK5合格・実践会話' },
+                    { name: 'Phase 3', period: '6-8ヶ月', focus: 'B2レベル・メディア理解' }
+                ]
+            },
+            {
+                name: '台湾華語',
+                flag: '🇹🇼',
+                level: 'TOCFL B2目標',
+                status: 'phase2',
+                color: 'from-blue-500 to-green-500',
+                duration: '4-6ヶ月（並行）',
+                cognitiveAdvantage: '繁体字転移・音調適応',
+                phases: [
+                    { name: 'Phase 1', period: '3-4ヶ月', focus: '繁体字転換・台湾音調' },
+                    { name: 'Phase 2', period: '5-6ヶ月', focus: '台湾語彙・文化' },
+                    { name: 'Phase 3', period: '7-8ヶ月', focus: 'TOCFL B2受験' }
+                ]
+            },
+            {
+                name: '韓国語',
+                flag: '🇰🇷',
+                level: 'TOPIK 5級(C1)',
+                status: 'planning',
+                color: 'from-blue-500 to-red-500',
+                duration: '18-22ヶ月',
+                cognitiveAdvantage: '漢字語活用・敬語システム',
+                phases: [
+                    { name: 'Phase 1', period: '9-14ヶ月', focus: 'ハングル・TOPIK2-3級' },
+                    { name: 'Phase 2', period: '15-20ヶ月', focus: 'TOPIK4級・複雑文法' },
+                    { name: 'Phase 3', period: '21-26ヶ月', focus: 'TOPIK5級・高級語彙' },
+                    { name: 'Phase 4', period: '27-30ヶ月', focus: 'C1実践・学術討論' }
+                ]
+            },
+            {
+                name: 'タイ語',
+                flag: '🇹🇭',
+                level: '自己評価B2',
+                status: 'future',
+                color: 'from-purple-500 to-pink-500',
+                duration: '12-15ヶ月',
+                cognitiveAdvantage: '声調転移・分析的構造',
+                phases: [
+                    { name: 'Phase 1', period: '15-18ヶ月', focus: 'タイ文字・基礎文法' },
+                    { name: 'Phase 2', period: '19-22ヶ月', focus: '中級会話・メディア' },
+                    { name: 'Phase 3', period: '23-26ヶ月', focus: 'B2レベル・文化理解' },
+                    { name: 'Phase 4', period: '27-30ヶ月', focus: 'CU-TFL受験準備' }
+                ]
+            },
+            {
+                name: 'インドネシア語',
+                flag: '🇮🇩',
+                level: 'UKBI上級(B2)',
+                status: 'future',
+                color: 'from-red-500 to-orange-500',
+                duration: '10-12ヶ月',
+                cognitiveAdvantage: 'ラテン文字・語根システム',
+                phases: [
+                    { name: 'Phase 1', period: '31-33ヶ月', focus: '基礎・ラテン文字活用' },
+                    { name: 'Phase 2', period: '34-36ヶ月', focus: '語根システム理解' },
+                    { name: 'Phase 3', period: '37-39ヶ月', focus: 'UKBI準備・B2達成' }
+                ]
+            },
+            {
+                name: 'マレー語',
+                flag: '🇲🇾',
+                level: '自己評価B2',
+                status: 'future',
+                color: 'from-blue-500 to-yellow-500',
+                duration: '6-8ヶ月',
+                cognitiveAdvantage: 'インドネシア語転移85%',
+                phases: [
+                    { name: 'Phase 1', period: '40-41ヶ月', focus: 'インドネシア語からの転移' },
+                    { name: 'Phase 2', period: '42-43ヶ月', focus: 'マレーシア特有語彙' },
+                    { name: 'Phase 3', period: '44-47ヶ月', focus: 'B2レベル完成' }
+                ]
+            }
+        ];
+
+        const timeline = [
+            { month: 1, focus: '中国語集中強化(HSK4→5)', active: ['中国語'], strategy: '基盤構築' },
+            { month: 3, focus: '台湾華語並行開始', active: ['中国語', '台湾華語'], strategy: '中華圏統合' },
+            { month: 8, focus: '中華圏基盤完成', active: ['中国語完成', '台湾華語完成'], strategy: '認知基盤確立' },
+            { month: 9, focus: '韓国語開始(長期集中)', active: ['韓国語'], strategy: '漢字語活用' },
+            { month: 15, focus: 'タイ語並行開始', active: ['韓国語', 'タイ語'], strategy: '声調転移' },
+            { month: 30, focus: '韓国語・タイ語完成', active: ['韓国語完成', 'タイ語完成'], strategy: '高次認知確立' },
+            { month: 31, focus: 'オーストロネシア語族攻略', active: ['インドネシア語'], strategy: '語族内転移' },
+            { month: 40, focus: 'マレー語(最終段階)', active: ['インドネシア語', 'マレー語'], strategy: '転移率85%活用' },
+            { month: 47, focus: '全言語マスター達成！', active: ['完成'], strategy: '多言語認知完成' }
+        ];
+
+        const cognitiveStages = [
+            { stage: 'Stage 1', period: '1-8ヶ月', title: '中華圏基盤構築', description: 'メタ言語意識の基礎形成', icon: 'brain' },
+            { stage: 'Stage 2', period: '9-30ヶ月', title: '認知制御強化', description: '注意制御・言語切り替え能力向上', icon: 'zap' },
+            { stage: 'Stage 3', period: '31-47ヶ月', title: '転移効率最大化', description: '語族内転移による加速学習', icon: 'target' }
+        ];
+
+        // 状態管理
+        let currentPhase = 0;
+        let isPlaying = false;
+        let animationSpeed = 2000;
+        let animationInterval = null;
+        let selectedLanguage = null;
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCognitiveStages();
+            renderTimeline();
+            renderLanguageCards();
+            setupEventListeners();
+            
+            // Lucide iconsを初期化
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 100);
+        });
+
+        function setupEventListeners() {
+            const playButton = document.getElementById('playButton');
+            const resetButton = document.getElementById('resetButton');
+            const speedSlider = document.getElementById('speedSlider');
+            const speedLabel = document.getElementById('speedLabel');
+
+            playButton.addEventListener('click', togglePlay);
+            resetButton.addEventListener('click', reset);
+            speedSlider.addEventListener('input', function(e) {
+                animationSpeed = parseInt(e.target.value);
+                speedLabel.textContent = (animationSpeed / 1000).toFixed(1) + '秒';
+                if (isPlaying) {
+                    clearInterval(animationInterval);
+                    startAnimation();
+                }
+            });
+        }
+
+        function togglePlay() {
+            const playButton = document.getElementById('playButton');
+            const icon = playButton.querySelector('i');
+            const text = playButton.querySelector('span');
+
+            if (isPlaying) {
+                clearInterval(animationInterval);
+                isPlaying = false;
+                icon.setAttribute('data-lucide', 'play');
+                text.textContent = 'アニメーション開始';
+            } else {
+                startAnimation();
+                isPlaying = true;
+                icon.setAttribute('data-lucide', 'pause');
+                text.textContent = 'ポーズ';
+            }
+            
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 50);
+        }
+
+        function startAnimation() {
+            animationInterval = setInterval(() => {
+                currentPhase = (currentPhase + 1) % timeline.length;
+                updateTimeline();
+                updateCognitiveStages();
+                updateLanguageCards();
+            }, animationSpeed);
+        }
+
+        function reset() {
+            clearInterval(animationInterval);
+            isPlaying = false;
+            currentPhase = 0;
+            const playButton = document.getElementById('playButton');
+            const icon = playButton.querySelector('i');
+            const text = playButton.querySelector('span');
+            icon.setAttribute('data-lucide', 'play');
+            text.textContent = 'アニメーション開始';
+            
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 50);
+            
+            updateTimeline();
+            updateCognitiveStages();
+            updateLanguageCards();
+        }
+
+        function getStatusColor(status) {
+            switch (status) {
+                case 'completed': return 'bg-green-500';
+                case 'phase1': return 'bg-blue-500';
+                case 'phase2': return 'bg-yellow-500';
+                case 'planning': return 'bg-orange-500';
+                case 'future': return 'bg-gray-400';
+                default: return 'bg-gray-300';
+            }
+        }
+
+        function renderCognitiveStages() {
+            const container = document.getElementById('cognitiveStages');
+            container.innerHTML = '';
+
+            cognitiveStages.forEach((stage, index) => {
+                const isActiveStage = currentPhase >= index * 3;
+                const stageElement = document.createElement('div');
+                stageElement.className = `cognitive-stage p-6 rounded-xl transition-all duration-1000 ${
+                    isActiveStage 
+                        ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-xl scale-105' 
+                        : 'bg-white text-gray-500 shadow-md'
+                }`;
+
+                stageElement.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <i data-lucide="${stage.icon}" class="w-8 h-8 mr-3 ${isActiveStage ? 'pulse' : ''}"></i>
+                        <div>
+                            <h3 class="font-bold text-lg">${stage.stage}</h3>
+                            <p class="text-sm opacity-80">${stage.period}</p>
+                        </div>
+                    </div>
+                    <h4 class="font-semibold mb-2">${stage.title}</h4>
+                    <p class="text-sm">${stage.description}</p>
+                `;
+
+                container.appendChild(stageElement);
+            });
+
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 50);
+        }
+
+        function updateCognitiveStages() {
+            const stages = document.querySelectorAll('.cognitive-stage');
+            stages.forEach((stage, index) => {
+                const isActiveStage = currentPhase >= index * 3;
+                const icon = stage.querySelector('i');
+                
+                if (isActiveStage) {
+                    stage.className = 'cognitive-stage p-6 rounded-xl transition-all duration-1000 bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-xl scale-105';
+                    if (icon) icon.className = `w-8 h-8 mr-3 pulse`;
+                } else {
+                    stage.className = 'cognitive-stage p-6 rounded-xl transition-all duration-1000 bg-white text-gray-500 shadow-md';
+                    if (icon) icon.className = 'w-8 h-8 mr-3';
+                }
+            });
+        }
+
+        function renderTimeline() {
+            const container = document.getElementById('timeline');
+            container.innerHTML = '';
+
+            timeline.forEach((milestone, index) => {
+                const milestoneElement = document.createElement('div');
+                milestoneElement.className = `timeline-milestone relative flex items-center justify-center transition-all duration-1000 ${
+                    index <= currentPhase ? 'opacity-100 scale-100' : 'opacity-50 scale-90'
+                }`;
+
+                const isLeft = index % 2 === 0;
+
+                milestoneElement.innerHTML = `
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full border-4 border-white shadow-lg transition-all duration-500 ${
+                        index <= currentPhase ? 'bg-gradient-to-r from-purple-500 to-blue-500 pulse' : 'bg-gray-300'
+                    }"></div>
+                    
+                    <div class="${isLeft ? 'mr-auto pr-8' : 'ml-auto pl-8'} w-5/12">
+                        <div class="p-4 rounded-lg shadow-lg transition-all duration-500 ${
+                            index <= currentPhase ? 'bg-white' : 'bg-gray-100'
+                        }">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <i data-lucide="calendar" class="w-5 h-5 text-purple-500"></i>
+                                <span class="font-bold text-purple-600">${milestone.month}ヶ月目</span>
+                            </div>
+                            <p class="text-gray-700 font-medium mb-2">${milestone.focus}</p>
+                            <div class="text-xs text-gray-500 mb-2">戦略: ${milestone.strategy}</div>
+                            <div class="flex flex-wrap gap-1">
+                                ${milestone.active.map(lang => `
+                                    <span class="px-2 py-1 bg-gradient-to-r from-purple-500 to-blue-500 text-white text-xs rounded-full">
+                                        ${lang}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(milestoneElement);
+            });
+
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 50);
+        }
+
+        function updateTimeline() {
+            const milestones = document.querySelectorAll('.timeline-milestone');
+            milestones.forEach((milestone, index) => {
+                const isActive = index <= currentPhase;
+                const circle = milestone.querySelector('.w-6.h-6');
+                const content = milestone.querySelector('.p-4');
+                
+                if (isActive) {
+                    milestone.classList.remove('opacity-50', 'scale-90');
+                    milestone.classList.add('opacity-100', 'scale-100');
+                    circle.className = 'absolute left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full border-4 border-white shadow-lg transition-all duration-500 bg-gradient-to-r from-purple-500 to-blue-500 pulse';
+                    content.className = 'p-4 rounded-lg shadow-lg transition-all duration-500 bg-white';
+                } else {
+                    milestone.classList.remove('opacity-100', 'scale-100');
+                    milestone.classList.add('opacity-50', 'scale-90');
+                    circle.className = 'absolute left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full border-4 border-white shadow-lg transition-all duration-500 bg-gray-300';
+                    content.className = 'p-4 rounded-lg shadow-lg transition-all duration-500 bg-gray-100';
+                }
+            });
+        }
+
+        function renderLanguageCards() {
+            const container = document.getElementById('languageCards');
+            container.innerHTML = '';
+
+            languages.forEach((language, index) => {
+                const isActive = currentPhase >= index || language.status === 'completed';
+                const card = document.createElement('div');
+                card.className = `language-card relative p-6 rounded-xl transition-all duration-1000 cursor-pointer transform hover:scale-105 ${
+                    isActive 
+                        ? `bg-gradient-to-r ${language.color} text-white shadow-2xl` 
+                        : 'bg-gray-100 text-gray-500 shadow-md'
+                } ${selectedLanguage === index ? 'ring-4 ring-purple-400' : ''}`;
+                card.dataset.index = index;
+                card.style.animationDelay = `${index * 200}ms`;
+                
+                if (!isActive) {
+                    card.style.transform = 'translateY(20px)';
+                    card.style.opacity = '0.7';
+                } else {
+                    card.style.transform = 'translateY(0)';
+                    card.style.opacity = '1';
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-3xl">${language.flag}</span>
+                            <div>
+                                <h3 class="font-bold text-lg">${language.name}</h3>
+                                <p class="text-sm opacity-80">${language.level}</p>
+                            </div>
+                        </div>
+                        <div class="${getStatusColor(language.status)} w-4 h-4 rounded-full pulse"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <span class="text-sm font-medium">${language.duration}</span>
+                        <div class="text-xs opacity-70 mt-1 flex items-center">
+                            <i data-lucide="brain" class="w-3 h-3 mr-1"></i>
+                            ${language.cognitiveAdvantage}
+                        </div>
+                    </div>
+
+                    ${isActive ? '<i data-lucide="chevron-right" class="w-5 h-5 bounce absolute bottom-4 right-4"></i>' : ''}
+
+                    <div class="phases-content ${selectedLanguage === index ? '' : 'hidden'}">
+                        <div class="mt-4 space-y-2 animate-fadeIn">
+                            ${language.phases.map(phase => `
+                                <div class="bg-white bg-opacity-20 rounded-lg p-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="font-semibold">${phase.name}</span>
+                                        <span class="text-xs">${phase.period}</span>
+                                    </div>
+                                    <p class="text-sm mt-1">${phase.focus}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+
+                card.addEventListener('click', () => toggleLanguageCard(index));
+                container.appendChild(card);
+            });
+
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                }
+            }, 50);
+        }
+
+        function updateLanguageCards() {
+            const cards = document.querySelectorAll('.language-card');
+            cards.forEach((card, index) => {
+                const language = languages[index];
+                const isActive = currentPhase >= index || language.status === 'completed';
+                
+                if (isActive) {
+                    card.className = `language-card relative p-6 rounded-xl transition-all duration-1000 cursor-pointer transform hover:scale-105 bg-gradient-to-r ${language.color} text-white shadow-2xl ${selectedLanguage === index ? 'ring-4 ring-purple-400' : ''}`;
+                    card.style.transform = 'translateY(0)';
+                    card.style.opacity = '1';
+                } else {
+                    card.className = `language-card relative p-6 rounded-xl transition-all duration-1000 cursor-pointer transform hover:scale-105 bg-gray-100 text-gray-500 shadow-md ${selectedLanguage === index ? 'ring-4 ring-purple-400' : ''}`;
+                    card.style.transform = 'translateY(20px)';
+                    card.style.opacity = '0.7';
+                }
+
+                // Update chevron visibility
+                const chevron = card.querySelector('[data-lucide="chevron-right"]');
+                if (chevron) {
+                    chevron.style.display = isActive ? 'block' : 'none';
+                }
+            });
+        }
+
+        function toggleLanguageCard(index) {
+            if (selectedLanguage === index) {
+                selectedLanguage = null;
+            } else {
+                selectedLanguage = index;
+            }
+            renderLanguageCards();
+        }
+
+        // 初期レンダリング
+        window.addEventListener('load', function() {
+            updateTimeline();
+            updateCognitiveStages();
+            updateLanguageCards();
+        });
+    </script>
+</body>
+</html>
