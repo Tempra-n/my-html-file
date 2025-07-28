@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychology Metaverse - 心理学の全てが繋がる3D世界</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .metaverse-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .navigation-hub {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            z-index: 1000;
+            max-width: 300px;
+        }
+        
+        .hub-title {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        
+        .world-selector {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .world-button {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(76, 175, 80, 0.1) 100%);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .world-button:hover {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.4) 0%, rgba(76, 175, 80, 0.2) 100%);
+            transform: translateX(5px);
+        }
+        
+        .world-button.active {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+        }
+        
+        .world-icon {
+            display: inline-block;
+            width: 20px;
+            margin-right: 8px;
+        }
+        
+        .metaverse-canvas {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #001122 0%, #000511 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .world-portal {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .world-portal:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+        }
+        
+        .world-portal.learning {
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.3) 0%, rgba(255, 165, 0, 0.1) 100%);
+            top: 20%;
+            left: 15%;
+            animation: pulse-learning 4s infinite;
+        }
+        
+        .world-portal.clinical {
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.3) 0%, rgba(75, 0, 130, 0.1) 100%);
+            top: 60%;
+            left: 10%;
+            animation: pulse-clinical 4s infinite 1s;
+        }
+        
+        .world-portal.developmental {
+            background: radial-gradient(circle, rgba(50, 205, 50, 0.3) 0%, rgba(34, 139, 34, 0.1) 100%);
+            top: 10%;
+            right: 20%;
+            animation: pulse-developmental 4s infinite 2s;
+        }
+        
+        .world-portal.social {
+            background: radial-gradient(circle, rgba(30, 144, 255, 0.3) 0%, rgba(0, 100, 200, 0.1) 100%);
+            top: 50%;
+            right: 15%;
+            animation: pulse-social 4s infinite 3s;
+        }
+        
+        .world-portal.cognitive {
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(255, 140, 0, 0.1) 100%);
+            top: 80%;
+            left: 50%;
+            animation: pulse-cognitive 4s infinite 0.5s;
+        }
+        
+        @keyframes pulse-learning {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        
+        @keyframes pulse-clinical {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        
+        @keyframes pulse-developmental {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        
+        @keyframes pulse-social {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        
+        @keyframes pulse-cognitive {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        
+        .connection-beam {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, rgba(76, 175, 80, 0.8) 50%, transparent 100%);
+            transform-origin: left center;
+            animation: beam-flow 3s infinite;
+        }
+        
+        @keyframes beam-flow {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        .world-info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 400px;
+        }
+        
+        .info-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #4ecdc4;
+        }
+        
+        .info-description {
+            font-size: 0.9em;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+        
+        .stats-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.8em;
+        }
+        
+        .stat-value {
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+        
+        .world-detail {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(30px);
+            border: 2px solid rgba(76, 175, 80, 0.5);
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            display: none;
+            z-index: 2000;
+        }
+        
+        .world-detail.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 15px;
+        }
+        
+        .detail-title {
+            font-size: 2em;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .close-button {
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid rgba(255, 107, 107, 0.5);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        
+        .close-button:hover {
+            background: rgba(255, 107, 107, 0.4);
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .feature-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #4ecdc4;
+        }
+        
+        .feature-description {
+            font-size: 0.8em;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+        
+        .code-preview {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8em;
+            margin: 15px 0;
+            border-left: 4px solid #4ecdc4;
+        }
+        
+        .demo-button {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(76, 205, 196, 0.3);
+        }
+        
+        .interconnection-map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(76, 175, 80, 0.6);
+            border-radius: 50%;
+            animation: float-particle 15s infinite linear;
+        }
+        
+        @keyframes float-particle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            z-index: 3000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border: 2px solid #4ecdc4;
+            backdrop-filter: blur(20px);
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="metaverse-container">
+        <div class="floating-particles" id="particles"></div>
+        <div class="interconnection-map" id="connections"></div>
+        
+        <div class="navigation-hub">
+            <div class="hub-title">🧠 Psychology Metaverse</div>
+            <div class="world-selector">
+                <div class="world-button active" onclick="exploreWorld('overview')">
+                    <span class="world-icon">🌌</span>メタバース概観
+                </div>
+                <div class="world-button" onclick="exploreWorld('learning')">
+                    <span class="world-icon">🧠</span>記憶宮殿ワールド
+                </div>
+                <div class="world-button" onclick="exploreWorld('clinical')">
+                    <span class="world-icon">🏥</span>治療地形ワールド
+                </div>
+                <div class="world-button" onclick="exploreWorld('developmental')">
+                    <span class="world-icon">👶</span>時空間マップワールド
+                </div>
+                <div class="world-button" onclick="exploreWorld('social')">
+                    <span class="world-icon">👥</span>集団力学ワールド
+                </div>
+                <div class="world-button" onclick="exploreWorld('cognitive')">
+                    <span class="world-icon">⚡</span>思考フローワールド
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px; padding: 10px; background: rgba(76, 175, 80, 0.1); border-radius: 8px; font-size: 0.7em;">
+                <strong>💡 操作方法:</strong><br>
+                • ポータルをクリック: 詳細表示<br>
+                • ワールド間移動: 瞬時転送<br>
+                • VR対応: 没入体験可能
+            </div>
+        </div>
+        
+        <div class="metaverse-canvas" id="metaverseCanvas">
+            <!-- 学習心理学ポータル -->
+            <div class="world-portal learning" onclick="openWorldDetail('learning')">
+                🧠
+            </div>
+            
+            <!-- 臨床心理学ポータル -->
+            <div class="world-portal clinical" onclick="openWorldDetail('clinical')">
+                🏥
+            </div>
+            
+            <!-- 発達心理学ポータル -->
+            <div class="world-portal developmental" onclick="openWorldDetail('developmental')">
+                👶
+            </div>
+            
+            <!-- 社会心理学ポータル -->
+            <div class="world-portal social" onclick="openWorldDetail('social')">
+                👥
+            </div>
+            
+            <!-- 認知心理学ポータル -->
+            <div class="world-portal cognitive" onclick="openWorldDetail('cognitive')">
+                ⚡
+            </div>
+        </div>
+        
+        <div class="world-info" id="worldInfo">
+            <div class="info-title">🌌 心理学メタバース</div>
+            <div class="info-description">
+                5つの心理学分野が相互連結された3D世界。各ポータルから専門ワールドに入り、
+                没入型の学習・研究体験が可能です。分野間の知識も自然に繋がります。
+            </div>
+        </div>
+        
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span>アクティブワールド:</span>
+                <span class="stat-value" id="activeWorlds">5</span>
+            </div>
+            <div class="stat-item">
+                <span>相互接続数:</span>
+                <span class="stat-value" id="connections-count">12</span>
+            </div>
+            <div class="stat-item">
+                <span>学習効率:</span>
+                <span class="stat-value" id="efficiency">340%</span>
+            </div>
+            <div class="stat-item">
+                <span>没入度:</span>
+                <span class="stat-value" id="immersion">MAX</span>
+            </div>
+        </div>
+        
+        <!-- ワールド詳細ウィンドウ -->
+        <div class="world-detail" id="worldDetail">
+            <div class="detail-header">
+                <div class="detail-title" id="detailTitle">ワールド詳細</div>
+                <button class="close-button" onclick="closeWorldDetail()">✕ 閉じる</button>
+            </div>
+            <div id="detailContent">
+                <!-- 動的にコンテンツが挿入される -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+    
+    <script>
+        // ワールドデータ定義
+        const worlds = {
+            learning: {
+                title: '🧠 記憶宮殿ワールド - 学習心理学',
+                description: '古代ギリシャの記憶術を最新3D技術で再現。あなた専用の記憶宮殿を構築し、学習効率を革命的に向上させます。',
+                features: [
+                    {
+                        icon: '🏛️',
+                        title: '個人用記憶宮殿',
+                        description: 'あなたの思い出の場所を3D化。各部屋に学習内容を配置し、空間記憶を活用した超効率学習。'
+                    },
+                    {
+                        icon: '📊',
+                        title: 'リアルタイム効率測定',
+                        description: '視線追跡、脳波、学習時間を分析。AIが最適な記憶ルートを提案し、個人に合わせた宮殿をカスタマイズ。'
+                    },
+                    {
+                        icon: '🎮',
+                        title: '学習ゲーミフィケーション',
+                        description: '記憶クエスト、知識バトル、チーム宮殿建築。友達と競いながら楽しく学習効率を向上。'
+                    },
+                    {
+                        icon: '🔬',
+                        title: '忘却曲線可視化',
+                        description: 'エビングハウスの忘却曲線を3D地形として表現。復習タイミングが山や谷として直感的に理解可能。'
+                    }
+                ],
+                codePreview: `// 記憶宮殿の3D構築
+const memoryPalace = new MemoryPalace3D();
+
+// あなたの実際の部屋をスキャン
+const roomData = await scanUserRoom();
+palace.buildFromRealSpace(roomData);
+
+// 学習内容を空間に配置
+palace.addMemoryRoom("心理学理論", {
+    location: "リビング",
+    items: ["フロイト", "ユング", "ピアジェ"],
+    associations: createVisualAssociations()
+});
+
+// VR歩行による記憶定着
+const walkingPath = await vr.recordWalkingSession();
+const retentionRate = calculateMemoryRetention(walkingPath);
+
+console.log(\`記憶定着率: \${retentionRate}% 向上\`);`
+            },
+            clinical: {
+                title: '🏥 治療地形ワールド - 臨床心理学',
+                description: '心の状態を美しい3D地形として可視化。うつ病、不安障害、PTSD等の症状が地形の特徴として現れ、治療進捗を立体的に追跡。',
+                features: [
+                    {
+                        icon: '🌄',
+                        title: 'うつ病の谷間地形',
+                        description: 'うつ症状の深さと広がりを谷の深さで表現。治療により谷が浅くなり、最終的に平原へと変化。'
+                    },
+                    {
+                        icon: '⛰️',
+                        title: '不安の山岳システム',
+                        description: '不安レベルを険しい山として可視化。呼吸法、認知療法により山が緩やかな丘へと変化。'
+                    },
+                    {
+                        icon: '🌊',
+                        title: 'PTSD津波シミュレーション',
+                        description: 'フラッシュバックを津波として表現。EMDR治療により波が穏やかになる過程を3D体験。'
+                    },
+                    {
+                        icon: '🏗️',
+                        title: 'レジリエンス建築システム',
+                        description: '心の回復力を建築物として構築。治療により強固な建物が建設される過程を立体的に表現。'
+                    }
+                ],
+                codePreview: `// うつ病地形の動的生成
+const depressionTerrain = new ClinicalTerrain3D();
+
+// PHQ-9スコアから地形を生成
+const phq9Score = patient.getCurrentPHQ9();
+terrain.generateDepression(phq9Score, {
+    depth: phq9Score * 10,
+    width: phq9Score * 5,
+    color: \`hsl(\${240 - phq9Score * 10}, 70%, 30%)\`
+});
+
+// 治療進捗による地形変化
+patient.onTreatmentProgress((progress) => {
+    terrain.smoothTerrain(progress.improvementRate);
+    
+    if (progress.recoveryMilestone) {
+        terrain.addHopeBeacon(progress.location);
+    }
+});
+
+// VRで患者と共に地形を歩く
+const therapistAvatar = new TherapistGuide3D();
+therapistAvatar.walkWithPatient(terrain.getRecoveryPath());`
+            },
+            developmental: {
+                title: '👶 時空間マップワールド - 発達心理学',
+                description: '人間の生涯発達を4次元（3D+時間）で追跡。胎児期から老年期まで、身体・認知・社会・情緒発達が時空間軌道として可視化。',
+                features: [
+                    {
+                        icon: '⏰',
+                        title: '4次元発達軌道',
+                        description: '各個人の発達が美しい軌道として時空間に描かれ、発達の個人差や共通パターンが一目で理解可能。'
+                    },
+                    {
+                        icon: '🧬',
+                        title: '遺伝-環境相互作用',
+                        description: '遺伝的要因を青い軌道、環境要因を緑の軌道として表現。両者の相互作用が3D空間で動的に変化。'
+                    },
+                    {
+                        icon: '🎯',
+                        title: '発達段階の境界面',
+                        description: 'ピアジェの認知発達段階、エリクソンの心理社会的段階を3D境界面として表現。発達の質的変化が視覚的に理解。'
+                    },
+                    {
+                        icon: '🔮',
+                        title: '発達予測システム',
+                        description: '機械学習により将来の発達軌道を予測。リスク要因や保護要因が軌道の変化として可視化。'
+                    }
+                ],
+                codePreview: `// 4次元発達空間の構築
+const developmentalSpace = new FourDimensionalSpace();
+
+// 時間軸の設定（0-100歳）
+space.setTimeAxis(0, 100, "years");
+
+// 発達領域の3D軸
+space.setDevelopmentalAxes({
+    cognitive: { axis: "x", color: "blue" },
+    social: { axis: "y", color: "green" },
+    emotional: { axis: "z", color: "red" }
+});
+
+// 個人の発達軌道をプロット
+const individualTrajectory = new DevelopmentalTrajectory();
+lifeEvents.forEach((event, age) => {
+    trajectory.addDevelopmentalPoint({
+        age: age,
+        cognitive: assessCognitiveDevelopment(event),
+        social: assessSocialDevelopment(event),
+        emotional: assessEmotionalDevelopment(event)
+    });
+});
+
+// 軌道の3D可視化
+space.plotTrajectory(trajectory, {
+    style: "flowing_ribbon",
+    animation: "life_progression"
+});`
+            },
+            social: {
+                title: '👥 集団力学ワールド - 社会心理学',
+                description: '人間関係と集団行動を物理シミュレーションとして3D化。同調、リーダーシップ、集団思考等の社会現象が力学法則として表現。',
+                features: [
+                    {
+                        icon: '🌐',
+                        title: '社会ネットワーク物理学',
+                        description: '人間関係を重力、電磁気力、弾性力として表現。友情は引力、対立は斥力として3D空間で動的に変化。'
+                    },
+                    {
+                        icon: '👑',
+                        title: 'リーダーシップ場理論',
+                        description: 'リーダーの影響力を磁場として可視化。フォロワーの行動変化が磁力線に沿った動きとして表現。'
+                    },
+                    {
+                        icon: '🌊',
+                        title: '同調圧力の波動',
+                        description: '集団内の同調現象を波動として表現。個人の意見変化が波の伝播として3D空間を移動。'
+                    },
+                    {
+                        icon: '⚡',
+                        title: '偏見の電気回路',
+                        description: 'ステレオタイプや偏見を電気回路として表現。認知バイアスが電流として流れ、回路の変更で偏見を減少。'
+                    }
+                ],
+                codePreview: `// 社会集団の物理シミュレーション
+const socialPhysics = new SocialPhysicsEngine();
+
+// 個人をパーティクルとして定義
+const groupMembers = [
+    new SocialParticle("Leader", { influence: 100, position: center }),
+    new SocialParticle("Follower1", { conformity: 80, position: nearby }),
+    new SocialParticle("Rebel", { conformity: 20, position: distant })
+];
+
+// 社会
