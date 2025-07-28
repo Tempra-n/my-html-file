@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗号通貨市場のしくみ - アニメーション</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .scene {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            min-height: 400px;
+            display: none;
+        }
+        
+        .scene.active {
+            display: block;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .character {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 10px;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .character.student {
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+        }
+        
+        .character.teacher {
+            background: linear-gradient(45deg, #a8edea, #fed6e3);
+        }
+        
+        .character.trader {
+            background: linear-gradient(45deg, #ffecd2, #fcb69f);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .coin {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            display: inline-block;
+            margin: 5px;
+            position: relative;
+            animation: spin 4s linear infinite;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+        
+        .market-chart {
+            width: 300px;
+            height: 200px;
+            margin: 20px auto;
+            position: relative;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .price-line {
+            position: absolute;
+            bottom: 50%;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #4CAF50;
+            animation: priceMove 6s ease-in-out infinite;
+            border-radius: 2px;
+        }
+        
+        @keyframes priceMove {
+            0% { transform: translateY(0) scaleX(0); background: #4CAF50; }
+            25% { transform: translateY(-30px) scaleX(0.5); background: #8BC34A; }
+            50% { transform: translateY(-60px) scaleX(1); background: #FFEB3B; }
+            75% { transform: translateY(-30px) scaleX(0.7); background: #FF9800; }
+            100% { transform: translateY(20px) scaleX(0.3); background: #F44336; }
+        }
+        
+        .blockchain-blocks {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 5px;
+        }
+        
+        .block {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            animation: blockAppear 1s ease-out;
+            animation-fill-mode: both;
+            position: relative;
+        }
+        
+        .block::after {
+            content: '🔗';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+        }
+        
+        .block:last-child::after {
+            display: none;
+        }
+        
+        @keyframes blockAppear {
+            from {
+                opacity: 0;
+                transform: scale(0) rotate(180deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        
+        .wallet {
+            width: 120px;
+            height: 80px;
+            background: linear-gradient(45deg, #fa709a, #fee140);
+            border-radius: 15px;
+            margin: 20px auto;
+            position: relative;
+            animation: walletPulse 2s ease-in-out infinite;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        
+        @keyframes walletPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .trading-scene {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 30px 0;
+        }
+        
+        .arrow {
+            font-size: 3em;
+            animation: arrowMove 2s ease-in-out infinite;
+        }
+        
+        @keyframes arrowMove {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+        
+        .controls {
+            margin: 30px 0;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 0 10px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .scene-title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .explanation {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin: 20px 0;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+        }
+        
+        .emoji {
+            font-size: 2em;
+            margin: 0 10px;
+            animation: wiggle 1s ease-in-out infinite;
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .market-participants {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+        }
+        
+        .participant {
+            text-align: center;
+            animation: participantPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes participantPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .risk-meter {
+            width: 200px;
+            height: 20px;
+            background: linear-gradient(90deg, #4CAF50 0%, #FFEB3B 50%, #F44336 100%);
+            border-radius: 10px;
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .risk-indicator {
+            position: absolute;
+            top: -5px;
+            width: 30px;
+            height: 30px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            animation: riskMove 4s ease-in-out infinite;
+        }
+        
+        @keyframes riskMove {
+            0% { left: 0; }
+            25% { left: 25%; }
+            50% { left: 50%; }
+            75% { left: 75%; }
+            100% { left: 85%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 暗号通貨市場のしくみ 🚀</h1>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        
+        <!-- シーン1: 暗号通貨とは？ -->
+        <div class="scene active" id="scene1">
+            <div class="scene-title">🪙 暗号通貨って何だろう？</div>
+            <div class="explanation">
+                暗号通貨は「インターネットの中にある特別なお金」だよ！<br>
+                ポケモンカードのデジタル版みたいなものなんだ 🎮
+            </div>
+            <div style="margin: 30px 0;">
+                <div class="coin"></div>
+                <span class="emoji">💻</span>
+                <div class="coin"></div>
+                <span class="emoji">🌐</span>
+                <div class="coin"></div>
+            </div>
+            <div style="font-size: 1.1em;">
+                手で触ることはできないけど、<br>
+                本当に価値を持っているんだよ！
+            </div>
+        </div>
+        
+        <!-- シーン2: 市場の仕組み -->
+        <div class="scene" id="scene2">
+            <div class="scene-title">🏪 市場の仕組み</div>
+            <div class="explanation">
+                暗号通貨市場は学校の売店と同じ！<br>
+                でも24時間365日開いている不思議なお店なんだ 🕐
+            </div>
+            <div class="trading-scene">
+                <div class="character student"></div>
+                <div class="arrow">💰➡️</div>
+                <div class="wallet"></div>
+                <div class="arrow">⬅️🪙</div>
+                <div class="character trader"></div>
+            </div>
+            <div style="font-size: 1.1em;">
+                買いたい人と売りたい人が集まって<br>
+                取引をする場所だよ！
+            </div>
+        </div>
+        
+        <!-- シーン3: ブロックチェーン -->
+        <div class="scene" id="scene3">
+            <div class="scene-title">📚 みんなで管理する帳簿</div>
+            <div class="explanation">
+                ブロックチェーンは「みんなで管理する帳簿」！<br>
+                クラスの貸し借りノートみたいなものだよ 📝
+            </div>
+            <div class="blockchain-blocks">
+                <div class="block" style="animation-delay: 0s;">1</div>
+                <div class="block" style="animation-delay: 0.2s;">2</div>
+                <div class="block" style="animation-delay: 0.4s;">3</div>
+                <div class="block" style="animation-delay: 0.6s;">4</div>
+                <div class="block" style="animation-delay: 0.8s;">5</div>
+            </div>
+            <div style="font-size: 1.1em;">
+                みんなでチェックするから<br>
+                ウソを書くことができないんだ！
+            </div>
+        </div>
+        
+        <!-- シーン4: 価格変動 -->
+        <div class="scene" id="scene4">
+            <div class="scene-title">📈 価格が変わる理由</div>
+            <div class="explanation">
+                人気のおもちゃと同じで、<br>
+                欲しい人が多いと値段が上がるよ！ 📊
+            </div>
+            <div class="market-chart">
+                <div class="price-line"></div>
+            </div>
+            <div style="font-size: 1.1em;">
+                <span class="emoji">😃</span>良いニュース = 価格UP<br>
+                <span class="emoji">😰</span>悪いニュース = 価格DOWN
+            </div>
+        </div>
+        
+        <!-- シーン5: 参加者 -->
+        <div class="scene" id="scene5">
+            <div class="scene-title">👥 誰が参加しているの？</div>
+            <div class="explanation">
+                世界中のいろんな人が参加しているよ！<br>
+                フリーマーケットみたいな感じだね 🌍
+            </div>
+            <div class="market-participants">
+                <div class="participant">
+                    <div class="character student"></div>
+                    <div>個人投資家</div>
+                </div>
+                <div class="participant">
+                    <div class="character trader"></div>
+                    <div>会社</div>
+                </div>
+                <div class="participant">
+                    <div class="character teacher"></div>
+                    <div>銀行</div>
+                </div>
+            </div>
+            <div style="font-size: 1.1em;">
+                約8億6000万人が参加しているんだ！
+            </div>
+        </div>
+        
+        <!-- シーン6: リスク -->
+        <div class="scene" id="scene6">
+            <div class="scene-title">⚠️ 気をつけること</div>
+            <div class="explanation">
+                暗号通貨はお金が増えたり減ったりするよ！<br>
+                遊戯王カードの値段と同じだね 🃏
+            </div>
+            <div class="risk-meter">
+                <div class="risk-indicator"></div>
+            </div>
+            <div style="font-size: 1.1em;">
+                <span class="emoji">⚠️</span>知らない人の話は信じちゃダメ<br>
+                <span class="emoji">🔒</span>パスワードは絶対に秘密<br>
+                <span class="emoji">👨‍👩‍👧‍👦</span>困ったら大人に相談
+            </div>
+        </div>
+        
+        <!-- コントロール -->
+        <div class="controls">
+            <button onclick="previousScene()" id="prevBtn" disabled>⬅️ 前へ</button>
+            <button onclick="nextScene()" id="nextBtn">次へ ➡️</button>
+            <button onclick="restartAnimation()" style="margin-left: 20px;">🔄 最初から</button>
+        </div>
+        
+        <div style="margin-top: 30px; font-size: 1.1em; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px;">
+            <span class="emoji">🎓</span>
+            暗号通貨は大人でも難しいもの。<br>
+            分からないことがあったら、必ず信頼できる大人に相談しよう！
+        </div>
+    </div>
+
+    <script>
+        let currentScene = 1;
+        const totalScenes = 6;
+
+        function showScene(sceneNumber) {
+            // すべてのシーンを隠す
+            for (let i = 1; i <= totalScenes; i++) {
+                document.getElementById(`scene${i}`).classList.remove('active');
+            }
+            
+            // 指定されたシーンを表示
+            document.getElementById(`scene${sceneNumber}`).classList.add('active');
+            
+            // プログレスバーを更新
+            const progress = (sceneNumber / totalScenes) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+            
+            // ボタンの状態を更新
+            document.getElementById('prevBtn').disabled = sceneNumber === 1;
+            document.getElementById('nextBtn').disabled = sceneNumber === totalScenes;
+            
+            if (sceneNumber === totalScenes) {
+                document.getElementById('nextBtn').textContent = '完了! 🎉';
+            } else {
+                document.getElementById('nextBtn').textContent = '次へ ➡️';
+            }
+        }
+
+        function nextScene() {
+            if (currentScene < totalScenes) {
+                currentScene++;
+                showScene(currentScene);
+            }
+        }
+
+        function previousScene() {
+            if (currentScene > 1) {
+                currentScene--;
+                showScene(currentScene);
+            }
+        }
+
+        function restartAnimation() {
+            currentScene = 1;
+            showScene(currentScene);
+        }
+
+        // 初期化
+        showScene(1);
+
+        // 自動進行（オプション）
+        let autoPlay = false;
+        function toggleAutoPlay() {
+            autoPlay = !autoPlay;
+            if (autoPlay) {
+                const interval = setInterval(() => {
+                    if (currentScene < totalScenes) {
+                        nextScene();
+                    } else {
+                        clearInterval(interval);
+                        autoPlay = false;
+                    }
+                }, 5000);
+            }
+        }
+
+        // キーボード操作
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextScene();
+            if (e.key === 'ArrowLeft') previousScene();
+            if (e.key === ' ') toggleAutoPlay();
+        });
+    </script>
+</body>
+</html>
