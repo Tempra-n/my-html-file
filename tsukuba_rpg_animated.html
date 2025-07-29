@@ -1,0 +1,925 @@
+                },
+                {
+                    id: 4,
+                    name: "実践力の研究所",
+                    icon: "🔬",
+                    theme: "知識の実践的応用",
+                    stages: [
+                        { id: "4-1", name: "実験設計の科学者", icon: "🧪", mission: "研究計画書を作成", content: "興味のある研究テーマを3つ候補として選定、各テーマの先行研究を5本ずつ調査、研究の意義・目的・方法をA4用紙2枚にまとめ、研究スケジュール（6ヶ月計画）をガントチャートで作成", clearCondition: "研究計画書完成、先行研究15本の整理完了" },
+                        { id: "4-2", name: "データ分析の魔術師", icon: "📊", mission: "統計解析スキル習得", content: "Excel/R/Pythonから1つ選択して統計ソフト習得、基本統計量の計算練習、グラフ作成10種類、仮想データセットで仮説検定を5パターン実行", clearCondition: "統計ソフトの基本操作習得、10種類のグラフ作成完了" },
+                        { id: "4-3", name: "プレゼンの演説家", icon: "🎤", mission: "学術発表スキル習得", content: "専門テーマで10分プレゼン資料作成、パワーポイント15枚以内で構成、発表練習を録画して自己評価、想定質問20個とその回答を準備", clearCondition: "プレゼン資料完成、発表時間10分±1分で調整" },
+                        { id: "4-4", name: "批判的思考の哲学者", icon: "🤔", mission: "論文の批判的読解", content: "専門分野の論文3本を批判的に分析、各論文の論理構造の問題点を指摘、研究方法の限界と改善案を提示、結論の妥当性を多角的に検証", clearCondition: "3論文の批判的分析完了、具体的改善案を各論文3つずつ提示" },
+                        { id: "4-5", name: "学際連携の外交官", icon: "🤝", mission: "異分野との関連性探求", content: "自分の専門と他分野（3分野）の接点を調査、各分野の専門書を1冊ずつ読破、学際的研究の事例を10個収集、新しい学際的アプローチを3つ提案", clearCondition: "3分野×1冊の読書完了、学際的アプローチ提案書作成" },
+                        { id: "4-6", name: "問題解決の策士", icon: "🧩", mission: "複合問題の解決策立案", content: "現実の社会問題を1つ選定、問題の多面的分析、既存の解決策3つの長所・短所を比較、新しい解決アプローチを2つ提案、実現可能性を含めた提案書作成", clearCondition: "問題分析レポート完成、実現可能な新提案2つ完成" },
+                        { id: "4-7", name: "創造性の芸術家", icon: "🎨", mission: "独創的アイデア創出", content: "ブレインストーミング技法を3種類習得、専門分野の未解決問題を5つリストアップ、各問題に対して斬新なアプローチを3つずつ考案、アイデアの実現可能性を5段階評価", clearCondition: "15個の独創的アイデア創出、実現可能性評価完了" },
+                        { id: "4-8", name: "協働の指揮者", icon: "👥", mission: "チームワークスキル習得", content: "研究グループまたは学習グループを結成（3-5人）、共同プロジェクトのテーマ設定と役割分担、進捗管理システムの構築、チーム内コミュニケーションルールの確立", clearCondition: "チーム結成と運営完了、共同成果物1つ完成" },
+                        { id: "4-9", name: "実践力の賢王", icon: "👑", mission: "総合実践課題クリア", content: "これまでのスキルを統合した総合課題設定、研究→分析→発表→批判→改善のサイクル実行、他者からのフィードバックを5人以上から収集、自己評価と他者評価の比較分析", clearCondition: "総合課題80%以上の完成度、実践力の総合評価B以上獲得", isBoss: true }
+                    ]
+                },
+                {
+                    id: 5,
+                    name: "思考力の神殿",
+                    icon: "🏛️",
+                    theme: "高次思考能力の開発",
+                    stages: [
+                        { id: "5-1", name: "論理構築の建築家", icon: "🏗️", mission: "完璧な論理構造作成", content: "三段論法・帰納法・演繹法の基本パターン習得、論理的誤謬20種類の識別練習、専門分野の主張を論理的に構造化（5テーマ）、反駁に対する再反駁の準備", clearCondition: "論理パターン習得確認テスト90%正答、5テーマの論理構造完成" },
+                        { id: "5-2", name: "抽象化の哲学者", icon: "💭", mission: "概念の抽象化スキル", content: "具体例から一般原理を導出する練習（10事例）、複雑な現象をモデル化する技法習得、異なる分野の共通パターンを発見（5パターン）、抽象概念を具体例で説明する逆変換練習", clearCondition: "10事例の抽象化完了、5つの共通パターン発見" },
+                        { id: "5-3", name: "類推の魔導師", icon: "🔮", mission: "アナロジー思考の習得", content: "専門分野の概念を日常例で説明（10概念）、他分野からの類推で新しい理解を獲得（5事例）、メタファーを使った効果的説明技法習得、類推の限界と注意点の理解", clearCondition: "10概念の類推説明完成、5事例の類推理解達成" },
+                        { id: "5-4", name: "統合思考の錬金術師", icon: "⚗️", mission: "複数要素の統合", content: "異なる理論3つを統合した新理論構築、矛盾する情報の調整と統合技法習得、多角的視点からの総合判断練習（5ケース）、統合結果の検証と妥当性確認", clearCondition: "新理論の統合完了、5ケースの総合判断実行" },
+                        { id: "5-5", name: "創発思考の創造主", icon: "✨", mission: "創発的アイデア生成", content: "セレンディピティを意図的に誘発する技法習得、既存要素の新しい組み合わせ探索（50通り）、予想外の関連性発見練習（10事例）、創発的思考を促進する環境設計", clearCondition: "50通りの新組み合わせ創出、10事例の新関連性発見" },
+                        { id: "5-6", name: "システム思考の設計者", icon: "🔧", mission: "全体システムの理解", content: "複雑システムの構造分析（3システム）、フィードバックループの識別と分析、システムの振る舞いパターン予測、システム介入ポイントの特定", clearCondition: "3システムの構造分析完了、フィードバック分析習得" },
+                        { id: "5-7", name: "直観力の預言者", icon: "🔯", mission: "直観的洞察力開発", content: "直観的判断の精度測定（100回試行）、直観の後の論理的検証習慣確立、パターン認識能力の向上訓練、直観と分析のバランス調整", clearCondition: "直観判断精度70%以上達成、直観→検証プロセス確立" },
+                        { id: "5-8", name: "メタ認知の観察者", icon: "👁️", mission: "思考の思考習得", content: "自分の思考プロセスの客観的観察、思考の癖とバイアスの特定（10個以上）、思考の質的改善戦略立案、メタ認知を活用した学習効率向上", clearCondition: "思考バイアス10個の特定、メタ認知活用による学習効率20%向上" },
+                        { id: "5-9", name: "思考力の大賢者", icon: "🧙", mission: "高次思考力統合テスト", content: "複雑な学術問題への多角的アプローチ、論理・直観・創造・批判の思考統合、制限時間内での高度な問題解決、思考プロセスの言語化と評価", clearCondition: "統合問題80%以上解決、思考力総合評価A獲得", isBoss: true }
+                    ]
+                },
+                {
+                    id: 6,
+                    name: "専門性の極地",
+                    icon: "🏔️",
+                    theme: "専門分野での卓越性追求",
+                    stages: [
+                        { id: "6-1", name: "最新研究の探偵", icon: "🔍", mission: "最前線研究の完全把握", content: "過去2年間の主要論文100本をリストアップ、各論文を重要度でS・A・B・Cランク分類、Sランク論文20本の詳細分析と要約、研究トレンドを時系列グラフで可視化", clearCondition: "100本の論文分類完了、20本の詳細分析レポート作成" },
+                        { id: "6-2", name: "方法論の職人", icon: "🔨", mission: "研究手法の完全習得", content: "専門分野の主要研究手法5つの原理理解、各手法の適用条件と限界の明確化、手法改良のアイデアを3つ以上提案、新しい方法論の開発に挑戦", clearCondition: "5手法の完全習得確認、改良アイデア3つの検証" },
+                        { id: "6-3", name: "理論構築の建設者", icon: "🏗️", mission: "独自理論の構築", content: "既存理論の限界点を5つ特定、新理論の基本仮定を3つ設定、理論から導出される予測を10個立案、理論の検証可能性を設計", clearCondition: "新理論の完全な構築、10個の予測の論理的整合性確認" },
+                        { id: "6-4", name: "実証研究の実験者", icon: "⚗️", mission: "実証データによる検証", content: "研究仮説を5つ設定、各仮説の検証実験を設計、データ収集計画の詳細化、統計分析手法の選定と実行、結果の解釈と理論的含意の考察", clearCondition: "5つの仮説検証実験完了、統計的有意性の確認" },
+                        { id: "6-5", name: "学術執筆の文豪", icon: "✍️", mission: "学術論文の執筆", content: "研究論文（8000字以上）の完全執筆、学術的文章作法の完全習得、引用規則の厳密な遵守、査読対応を想定した論文品質確保", clearCondition: "論文初稿完成、文章品質チェック80点以上" },
+                        { id: "6-6", name: "国際発信の大使", icon: "🌐", mission: "国際学会での発表準備", content: "英語での学術発表資料作成（20分発表用）、国際的な聴衆を意識した内容構成、質疑応答の想定と準備（英語50問）、文化的配慮を含む発表技法習得", clearCondition: "英語発表資料完成、50問の質疑応答準備完了" },
+                        { id: "6-7", name: "学際融合の架橋者", icon: "🌉", mission: "異分野との融合研究", content: "他分野（3分野）との接点研究の立案、各分野の専門家との対話機会創出、融合研究の独創的アプローチ開発、学際的研究計画書の作成", clearCondition: "3分野との融合研究案完成、専門家3名以上との対話実現" },
+                        { id: "6-8", name: "知識創造の錬金術師", icon: "🔬", mission: "全く新しい知識の創出", content: "従来の常識を疑う視点の獲得、パラダイム転換の可能性探索、革新的仮説の大胆な設定、創造的研究アプローチの開発", clearCondition: "革新的仮説3つの設定、創造的アプローチの実証" },
+                        { id: "6-9", name: "専門性の頂点", icon: "⛰️", mission: "専門分野での最高レベル達成", content: "専門分野の全領域での深い理解確認、独自の研究貢献の明確な提示、他の専門家からの評価獲得、専門性を社会に還元する計画立案", clearCondition: "専門性評価テストS判定獲得、独自貢献の客観的証明", isBoss: true }
+                    ]
+                },
+                {
+                    id: 7,
+                    name: "応用力の高原",
+                    icon: "🏔️",
+                    theme: "高度な問題解決能力",
+                    stages: [
+                        { id: "7-1", name: "複合問題の解析者", icon: "🔬", mission: "多要素問題の分解と理解", content: "複雑な社会問題を3つ選定、各問題を10以上の要素に分解分析、要素間の相互関係をネットワーク図で表現、問題の根本原因を階層的に特定", clearCondition: "3問題の完全分解分析、相互関係図の作成完了" },
+                        { id: "7-2", name: "制約条件の策略家", icon: "⚖️", mission: "制約下での最適解発見", content: "時間・予算・人材の制約下での課題設定（5課題）、各制約条件の詳細分析と影響評価、制約を活用した創造的解決法開発、トレードオフの最適バランス点発見", clearCondition: "5課題の制約分析完了、創造的解決法5つの開発" },
+                        { id: "7-3", name: "不確実性の舵取り", icon: "🧭", mission: "不確実な状況での意思決定", content: "不確実性の高い問題5つを設定、確率的思考による状況分析、シナリオプランニング技法の習得と適用、リスク評価とリスク管理戦略立案", clearCondition: "5問題のシナリオ分析完了、リスク管理戦略の実効性確認" },
+                        { id: "7-4", name: "創造的発想の天才", icon: "💡", mission: "突破的アイデアの創出", content: "創造性技法10種類の習得と実践、既存の枠を超えた解決法を20個創出、アイデアの実現可能性を段階的に評価、最も革新的なアイデア3つの詳細化", clearCondition: "20個の革新的アイデア創出、3つのアイデア詳細化完了" },
+                        { id: "7-5", name: "統合戦略の司令官", icon: "⚔️", mission: "複数分野の知識統合", content: "5つ以上の異分野知識を統合した解決策立案、各分野の専門性を活かした役割分担設計、統合効果を最大化するシナジー創出、統合戦略の実行計画とマイルストーン設定", clearCondition: "5分野統合戦略の完成、シナジー効果の定量的証明" },
+                        { id: "7-6", name: "価値創造の企業家", icon: "💰", mission: "社会価値を生む解決策開発", content: "社会課題3つに対する価値創造提案、ステークホルダー分析と利害調整方法立案、持続可能なビジネスモデル設計、社会的インパクト測定指標の設定", clearCondition: "3つの価値創造提案完成、ビジネスモデルの持続性証明" },
+                        { id: "7-7", name: "創造の天才", icon: "🎭", mission: "オリジナル研究テーマ発案", content: "既存研究の空白領域を3つ特定、各領域での独創的研究テーマを提案、研究の社会的意義と学術的貢献を明確化、実現可能性を含めた研究計画立案", clearCondition: "3つの独創的研究テーマ完成、実現可能性の確認" },
+                        { id: "7-8", name: "統合の賢者", icon: "🧙‍♂️", mission: "複数分野の知識を統合", content: "5つ以上の学問分野から知識を抽出、分野間の共通原理と相違点を明確化、統合的アプローチによる新しい理論構築、統合知識の実践的応用例を3つ開発", clearCondition: "5分野の知識統合完了、新理論の論理的整合性確認" },
+                        { id: "7-9", name: "応用力の帝王", icon: "👑", mission: "応用問題完全制覇", content: "筑波大学の最難関応用問題50問に挑戦、問題解決プロセスを詳細記録・分析、解法パターンを15種類に分類整理、制限時間内での正確な問題処理能力確認", clearCondition: "50問中40問以上正答（80%以上）、解法パターン15種類完全習得", isBoss: true }
+                    ]
+                },
+                {
+                    id: 8,
+                    name: "試験技術の雷域",
+                    icon: "⚡",
+                    theme: "試験対策とテクニック",
+                    stages: [
+                        { id: "8-1", name: "時間管理の時計職人", icon: "⏰", mission: "完璧な時間配分習得", content: "過去問5年分の時間分析（問題別所要時間測定）、理想的時間配分表を科目別に作成、時間短縮技術を10種類習得、見直し時間込みの戦略的時間割り当て", clearCondition: "時間配分表3科目分完成、短縮技術10種類習得確認" },
+                        { id: "8-2", name: "記憶術の魔術師", icon: "🧠", mission: "高速記憶技術習得", content: "記憶術5種類（場所法・連想法・語呂合わせ・映像記憶・物語法）習得、各技術で専門用語100語ずつ暗記（計500語）、長期記憶への定着確認テスト（1ヶ月後）", clearCondition: "5技術×100語暗記達成、1ヶ月後テスト90%以上正答" },
+                        { id: "8-3", name: "集中力の僧侶", icon: "🧘", mission: "超集中状態の獲得", content: "集中力向上技術10種類の習得、集中状態の持続時間を段階的に延長（30分→2時間）、集中阻害要因の完全除去システム構築、フロー状態への意図的入り方習得", clearCondition: "2時間連続集中達成、フロー状態再現率80%以上" },
+                        { id: "8-4", name: "ストレス管理の治療師", icon: "💊", mission: "試験ストレス完全制御", content: "ストレス反応パターンの自己分析、リラクゼーション技法10種類習得、本番想定での緊張管理実践、ストレス解消法の効果測定と最適化", clearCondition: "10技法習得とマスター認定、模擬試験でのストレス制御成功" },
+                        { id: "8-5", name: "時間配分の戦術家", icon: "📏", mission: "本番想定時間配分マスター", content: "過去問3年分を本番時間で実行（専門科目）、各問題の理想的時間配分表を作成、「捨て問」判断基準を5項目で明文化、時間不足パターン別対処法リスト作成", clearCondition: "過去問3年分×制限時間内完了、時間配分の精度85%以上達成" },
+                        { id: "8-6", name: "解答技術の職人", icon: "✏️", mission: "完璧な解答作成技術", content: "記述式解答の構成テンプレート10種類作成、採点者の視点を考慮した解答戦略立案、部分点獲得のテクニック20種類習得、見直し技術の体系化（誤答発見率95%以上）", clearCondition: "10テンプレート完成と実用性確認、部分点技術20種類実証" },
+                        { id: "8-7", name: "情報処理の計算機", icon: "💻", mission: "高速情報処理能力獲得", content: "速読技術習得（読解速度2倍向上）、図表読み取り技術の高速化、キーワード抽出能力の向上（3秒以内）、要点整理技術の自動化", clearCondition: "読解速度2倍達成、キーワード抽出3秒以内達成" },
+                        { id: "8-8", name: "戦略立案の軍師", icon: "🎯", mission: "試験戦略の完成", content: "各科目の攻略優先順位決定、問題選択戦略（捨て問基準）の明確化、得点最大化のための配点戦略立案、予想外事態への対応プラン3パターン作成", clearCondition: "全科目戦略立案完了、対応プラン3パターン完成" },
+                        { id: "8-9", name: "試験技術の雷神", icon: "⚡", mission: "全試験技術習得完了", content: "これまでの全技術を統合した模擬試験実行、本番同様の条件での総合力測定、各技術の精度と速度の最終確認、弱点技術の最終強化", clearCondition: "統合模擬試験85%以上得点、全技術の習得レベルB以上", isBoss: true }
+                    ]
+                },
+                {
+                    id: 9,
+                    name: "最終決戦の王宮",
+                    icon: "🏰",
+                    theme: "最終仕上げと本番対策",
+                    stages: [
+                        { id: "9-1", name: "総復習の司令官", icon: "📋", mission: "全分野総復習完了", content: "全学習内容の総点検チェックリスト作成（300項目）、分野別復習スケジュール（30日計画）の実行、記憶の抜け漏れチェックテスト実施、理解度の最終確認（全分野90%以上）", clearCondition: "300項目チェックリスト完了、理解度テスト全分野90%以上" },
+                        { id: "9-2", name: "弱点克服の戦略家", icon: "🛡️", mission: "残る弱点を完全克服", content: "弱点分析の最終更新（残存弱点の特定）、各弱点に対する集中対策プログラム実行、弱点克服の進捗測定（毎日評価）、克服困難な弱点への代替戦略立案", clearCondition: "主要弱点95%以上克服、代替戦略3つ以上確立" },
+                        { id: "9-3", name: "時間管理の将軍", icon: "⚔️", mission: "本番時間配分完璧化", content: "本番想定タイムスケジュール完全版作成、時間配分の微調整（分単位での最適化）、予備時間活用戦略の確立、時間不足シナリオ対応プラン作成", clearCondition: "完璧時間配分表完成、実戦練習5回すべて時間内完了" },
+                        { id: "9-4", name: "メンタルの僧侶", icon: "🧘‍♂️", mission: "本番メンタル強化完了", content: "試験当日のメンタルシミュレーション実行、プレッシャー耐性の最終強化訓練、緊張コントロール技術の完全習得、ポジティブマインドセット確立", clearCondition: "高プレッシャー下でのパフォーマンス維持、緊張コントロール成功率95%以上" },
+                        { id: "9-5", name: "情報収集の忍者", icon: "🥷", mission: "最新入試情報完全把握", content: "筑波大学の最新情報総収集、出題傾向変化の詳細分析、合格基準点の正確な把握、同期受験生の動向調査、情報の信頼性検証と整理", clearCondition: "最新情報100%収集完了、出題傾向予測精度85%以上" },
+                        { id: "9-6", name: "体調管理の治療師", icon: "💊", mission: "最適体調システム確立", content: "試験期間の体調管理計画詳細化、睡眠・食事・運動の最適パターン確立、体調不良時の対応プロトコル作成、免疫力向上プログラムの実行", clearCondition: "体調管理システム実行30日継続、体調不良対応プロトコル3つ完成" },
+                        { id: "9-7", name: "最終調整の職人", icon: "🔧", mission: "全スキル最終調整完了", content: "全習得スキルの最終点検と微調整、スキル間の連携精度向上、実戦での運用効率最適化、調整結果の効果測定、完璧な準備状態の達成", clearCondition: "全スキル調整完了、連携精度95%以上達成" },
+                        { id: "9-8", name: "決意の勇者", icon: "🗡️", mission: "最終決意固め完了", content: "合格への決意を文章化（1000字）、目標達成への覚悟の確認、支援者への感謝の表明、試験への恐れの完全払拭、勝利への確信の獲得", clearCondition: "決意文完成、恐れの払拭確認、勝利確信の獲得" },
+                        { id: "9-9", name: "魔王城突入準備完了", icon: "🏰", mission: "全準備完了確認", content: "全81ステージの達成度最終確認、総合実力の最終測定テスト実行、準備完了の公式認定、ラスボス戦への最終調整、合格への道筋の最終確認", clearCondition: "全ステージ達成度90%以上、総合実力テストS判定、準備完了の公式認定獲得", isBoss: true }
+                    ]
+                }<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCHOLAR QUEST - 究極の学習RPG</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            overflow-x: auto;
+            color: #ffffff;
+        }
+
+        .rpg-container {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .title {
+            text-align: center;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0 0 10px #00ffff; }
+            to { text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0 0 20px #00ffff, 0 0 30px #0080ff; }
+        }
+
+        .progress-bar {
+            background: rgba(0,0,0,0.4);
+            border-radius: 20px;
+            height: 30px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffff, #0080ff, #004080);
+            width: 0%;
+            transition: width 0.8s ease;
+            border-radius: 18px;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .world-container {
+            margin: 30px 0;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            animation: worldAppear 0.6s ease-out;
+            box-shadow: 0 8px 32px rgba(0, 255, 255, 0.1);
+        }
+
+        @keyframes worldAppear {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .world-title {
+            font-size: 24px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+
+        .stages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .stage {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid #00ffff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .stage.completed {
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            animation: completed-pulse 2s infinite;
+            border-color: #00ff88;
+        }
+
+        @keyframes completed-pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(0, 255, 136, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(0, 255, 136, 0.8); }
+        }
+
+        .stage.current {
+            background: linear-gradient(135deg, #ff6b00, #ff8500);
+            animation: current-glow 1.5s ease-in-out infinite alternate;
+            border-color: #ff6b00;
+        }
+
+        @keyframes current-glow {
+            from { box-shadow: 0 0 20px #ff6b00; }
+            to { box-shadow: 0 0 30px #ff6b00, 0 0 40px #ff8500; }
+        }
+
+        .stage.locked {
+            background: linear-gradient(135deg, #2c2c54, #40407a);
+            opacity: 0.4;
+            cursor: not-allowed;
+            border-color: #666;
+        }
+
+        .stage:hover:not(.locked) {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .stage-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+
+        .stage-name {
+            font-size: 14px;
+            color: #fff;
+            margin: 5px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+
+        .stage-icon {
+            font-size: 30px;
+            margin: 10px 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .boss-stage {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6) !important;
+            border: 5px solid #ff3838 !important;
+            animation: boss-pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(255, 56, 56, 0.6);
+        }
+
+        @keyframes boss-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); box-shadow: 0 0 30px rgba(255, 56, 56, 0.8); }
+        }
+
+        .final-boss {
+            background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
+            border: 5px solid #f1c40f !important;
+            font-size: 18px !important;
+            animation: final-boss-epic 3s ease-in-out infinite;
+        }
+
+        @keyframes final-boss-epic {
+            0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 0 25px #e74c3c; 
+            }
+            33% { 
+                transform: scale(1.1); 
+                box-shadow: 0 0 35px #e74c3c, 0 0 45px #f1c40f; 
+            }
+            66% { 
+                transform: scale(1.05); 
+                box-shadow: 0 0 30px #e74c3c, 0 0 40px #f1c40f; 
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0f0f23, #1a1a2e);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 3px solid #00ffff;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 20px rgba(0, 255, 255, 0.3);
+            animation: modalSlideIn 0.4s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            color: #fff;
+            float: right;
+            font-size: 36px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        .modal h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .modal-section {
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 5px solid #00ffff;
+            box-shadow: 0 2px 10px rgba(0, 255, 255, 0.1);
+        }
+
+        .modal-section h3 {
+            color: #00ffff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+        }
+
+        .modal-section p, .modal-section li {
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .complete-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .stats-panel {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .stat-value {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .level-up-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #00ffff, #0080ff);
+            color: #000;
+            padding: 30px 50px;
+            border-radius: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            z-index: 2000;
+            animation: levelUp 2s ease-in-out;
+            border: 5px solid #fff;
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.8);
+        }
+
+        @keyframes levelUp {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .world-icons {
+            display: inline-block;
+            margin-right: 10px;
+            font-size: 28px;
+        }
+
+        .download-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #00ffff, #0080ff);
+            color: #000;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 255, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .stages-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 10px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 2% auto;
+                padding: 20px;
+            }
+            
+            .stage {
+                padding: 10px;
+            }
+            
+            .stage-icon {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="download-btn" onclick="downloadHTML()">📥 HTMLダウンロード</button>
+    
+    <div class="rpg-container">
+        <h1 class="title">⚡ SCHOLAR QUEST ⚡<br><span style="font-size: 0.6em; opacity: 0.8;">- 究極の学習RPG -</span></h1>
+        
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span>🏆 総進捗率</span>
+                <span class="stat-value" id="overallProgress">0%</span>
+            </div>
+            <div class="stat-item">
+                <span>⭐ 現在レベル</span>
+                <span class="stat-value" id="currentLevel">1</span>
+            </div>
+            <div class="stat-item">
+                <span>🎯 完了ステージ</span>
+                <span class="stat-value" id="completedStages">0/81</span>
+            </div>
+            <div class="stat-item">
+                <span>👑 撃破ボス</span>
+                <span class="stat-value" id="defeatedBosses">0/12</span>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div id="worldsContainer"></div>
+    </div>
+
+    <!-- モーダル -->
+    <div id="stageModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // ゲームデータ
+        const gameData = {
+            worlds: [
+                {
+                    id: 1,
+                    name: "基礎力養成城",
+                    icon: "🏰",
+                    theme: "学習習慣とベース作り",
+                    stages: [
+                        { id: "1-1", name: "勇者の目覚め", icon: "⚔️", mission: "1日15分勉強継続", content: "タイマーを15分セット、筑波大学の募集要項を印刷して熟読、受験科目と配点を手書きでまとめる、勉強ログシートを作成し記入開始", clearCondition: "上記4項目を3日連続実行" },
+                        { id: "1-2", name: "時間の魔法使い", icon: "⏰", mission: "勉強時間を30分に延長×3日", content: "ポモドーロタイマー（25分勉強+5分休憩）を導入、休憩時間のルール設定、30分間の集中度を10段階で記録、集中が切れたタイミングと原因をメモ、最適な勉強開始時間を3パターン試行", clearCondition: "30分×3日連続達成、集中度平均7以上維持" },
+                        { id: "1-3", name: "集中の守護者", icon: "🛡️", mission: "スマホを別部屋に置いて勉強", content: "勉強部屋からスマホ・タブレット完全除去、集中阻害要因リスト10項目作成、各阻害要因への対処法を具体化、集中度測定、「集中儀式」の確立", clearCondition: "スマホ分離勉強を5日連続実行、気が散る回数を50%以下に削減" },
+                        { id: "1-4", name: "計画立案師", icon: "📋", mission: "1週間の学習計画を立てる", content: "筑波大学の試験日から逆算したスケジュール表作成、週間計画テンプレートをA4用紙にデザイン、各科目の優先度を5段階評価で設定", clearCondition: "1週間計画の完全実行（達成率80%以上）" },
+                        { id: "1-5", name: "習慣の錬金術師", icon: "🧪", mission: "毎日同じ時間に勉強開始×5日", content: "最適勉強開始時刻を分単位で固定、開始前30分のルーティンを5ステップで設計、勉強開始の「トリガー」を環境に設置", clearCondition: "設定時刻の±5分以内で開始を5日連続" },
+                        { id: "1-6", name: "記録の史官", icon: "📝", mission: "学習内容を記録×7日", content: "学習ログフォーマットを作成、色ペンで理解度を視覚化、その日最も理解が進んだポイントを1つ記録、つまずいた箇所とその原因を具体的に記述", clearCondition: "7日間連続でログ記録完了、理解度の推移グラフを作成" },
+                        { id: "1-7", name: "復習の賢者", icon: "🔄", mission: "前日の内容を復習×3日", content: "エビングハウス忘却曲線に基づく復習スケジュール作成、前日学習内容の要点を3分で口頭説明、復習専用ノート作成", clearCondition: "3日連続で復習実行、口頭説明で70%以上の内容再現" },
+                        { id: "1-8", name: "継続の戦士", icon: "💪", mission: "2週間連続学習達成", content: "毎日の学習時間を累積グラフ化、モチベーション低下日の対処法を5つ準備、「やる気ゼロの日」でも実行できるミニマル課題設定", clearCondition: "14日間学習継続（1日最低15分以上）" },
+                        { id: "1-9", name: "基礎力の番人", icon: "👹", mission: "基礎学力診断テスト実施", content: "筑波大学の過去問から基礎問題を30問選定、制限時間内での実力測定テスト実行、分野別正答率を円グラフで視覚化", clearCondition: "診断テスト60%以上正答", isBoss: true }
+                    ]
+                },
+                {
+                    id: 2,
+                    name: "専門知識の森",
+                    icon: "🌲",
+                    theme: "専門科目の基礎固め",
+                    stages: [
+                        { id: "2-1", name: "教科書の探検家", icon: "📚", mission: "専門科目教科書の目次を把握", content: "筑波大学推奨参考書リストから主要3冊選定、各教科書の目次を手書きでマインドマップ化、章間の関連性を矢印と色分けで表示", clearCondition: "3冊の目次マップ完成" },
+                        { id: "2-2", name: "用語集の編纂者", icon: "📖", mission: "重要用語20個をカード化", content: "専門分野の基礎用語50個をリストアップ、その中から最重要20個を厳選、単語カード作成、関連用語同士を色分けでグループ化", clearCondition: "20枚の用語カード完成、ランダム出題で90%正答達成" },
+                        { id: "2-3", name: "図解の芸術家", icon: "🎨", mission: "複雑な概念を3つ図解化", content: "専門分野の複雑な理論3つを選定、各理論をA4用紙1枚に図解（色ペン4色以上使用）、図解には矢印・吹き出し・アイコンを活用", clearCondition: "3つの理論図解完成、各図解の白紙再現テスト80%以上再現" },
+                        { id: "2-4", name: "例題の解読者", icon: "🔍", mission: "基本例題を10問解く", content: "教科書から基本例題10問を厳選、各問題の解法プロセスを7ステップに分解、解法の「なぜそうするのか」を言語化", clearCondition: "10問すべて完全解答" },
+                        { id: "2-5", name: "質問の魔導師", icon: "❓", mission: "わからない点を5つ明確化", content: "学習中の疑問点を即座にメモする習慣確立、疑問を「概念・計算・応用」の3種類に分類、各疑問について「何がわからないのか」を文章化", clearCondition: "5つの明確な疑問文完成、疑問解決プロセス5回実行" },
+                        { id: "2-6", name: "要約の職人", icon: "✂️", mission: "1章分を1ページにまとめる", content: "専門書の1章（通常20-30ページ）を選定、重要ポイントを階層構造で整理、A4用紙1枚にビジュアル要約作成", clearCondition: "1ページ要約完成、再現テスト70%以上達成" },
+                        { id: "2-7", name: "関連付けの賢者", icon: "🔗", mission: "他分野との関連性を3つ発見", content: "現在学習中の専門分野と他分野の接点探索、具体的な関連事例を3つ以上発見、各関連性を図解で表現", clearCondition: "3つの関連性発見と図解化" },
+                        { id: "2-8", name: "演習の戦士", icon: "⚔️", mission: "章末問題を完全制覇", content: "選定した章の章末問題をすべて解答、間違えた問題の原因を分類、各間違いタイプの対策法を具体化", clearCondition: "章末問題正答率95%以上" },
+                        { id: "2-9", name: "専門知識の守護神", icon: "🐉", mission: "専門科目模擬試験60%以上", content: "筑波大学の過去問から専門科目50問選定、本番同様の時間制限で模擬試験実行、分野別正答率をレーダーチャートで視覚化", clearCondition: "模擬試験60%以上得点", isBoss: true }
+                    ]
+                },
+                {
+                    id: 3,
+                    name: "英語スキルの海",
+                    icon: "🌊",
+                    theme: "英語力強化",
+                    stages: [
+                        { id: "3-1", name: "単語帳の冒険者", icon: "📔", mission: "学術英単語100個暗記", content: "筑波大学頻出単語リストから100語選定、単語を分野別（20語×5分野）にグループ化、視覚的暗記法を活用", clearCondition: "100語のスペルテスト95%正答" },
+                        { id: "3-2", name: "文法の建築家", icon: "🏗️", mission: "学術英語の文法パターン習得", content: "論文でよく使われる文法構造20パターン選定、各パターンの例文を3つずつ作成、文法構造を視覚的に図解", clearCondition: "20パターンの文法習得確認テスト90%正答" },
+                        { id: "3-3", name: "読解の航海士", icon: "🧭", mission: "学術論文1本完読", content: "あなたの専門分野の英語論文（10ページ以上）を1本選定、段落ごとの要旨を日本語で1文にまとめ、不明単語をすべて調べて専用ノートに記録", clearCondition: "論文1本完全読破、内容要約テスト80%正答" },
+                        { id: "3-4", name: "翻訳の錬金術師", icon: "⚗️", mission: "専門用語の英日対訳表作成", content: "専門分野の重要用語50個を英日両方で整理、各用語の使用例文を英語で3つずつ作成、類義語・対義語も含めた関連語彙マップ作成", clearCondition: "50語の対訳表完成、瞬間翻訳テスト85%正答" },
+                        { id: "3-5", name: "聞き取りの魔法使い", icon: "👂", mission: "学術講義動画1本理解", content: "YouTube等で英語の学術講義動画（30分以上）を選定、字幕なしで内容理解度テスト実行、シャドーイング練習", clearCondition: "講義内容理解度70%以上" },
+                        { id: "3-6", name: "要約の詩人", icon: "📜", mission: "英語論文を日本語で要約", content: "英語論文（5-10ページ）を選定、論文の構造を把握、各セクションのキーポイントを英語で抜き出し、全体を日本語A4用紙1枚に要約", clearCondition: "要約完成（1000字以内）、再現テスト70%以上" },
+                        { id: "3-7", name: "議論の騎士", icon: "🏇", mission: "英語で専門的議論を理解", content: "2022年度以降の英語論文を5本選定、各論文の参考文献から専門文献を2本ずつ選択、各論文のアーギュメント構造を図解化", clearCondition: "15本の文献読破完了、アーギュメント図解5枚完成" },
+                        { id: "3-8", name: "表現の芸術家", icon: "🎭", mission: "英語で専門知識を説明", content: "専門分野の基本概念を5つ選定、各概念を英語で3分間スピーチできるよう準備、説明用の視覚資料も英語で作成", clearCondition: "5概念×3分スピーチ完遂、発音明瞭度80%以上" },
+                        { id: "3-9", name: "英語マスター", icon: "👑", mission: "英語模擬試験70%以上", content: "筑波大学の英語過去問3年分を時間制限で実行、長文読解・英作文・リスニングの総合テスト、分野別正答率をグラフ化", clearCondition: "模擬試験70%以上得点", isBoss: true }
+                    ]
+                }
+            ],
+            finalBoss: {
+                name: "筑波大学入学試験",
+                phases: [
+                    { name: "筆記試験（専門科目）", icon: "📝" },
+                    { name: "口述試験", icon: "🗣️" },
+                    { name: "筆記試験（英語）", icon: "🌍" }
+                ]
+            }
+        };
+
+        // ゲーム状態
+        let gameState = {
+            completedStages: new Set(),
+            currentStage: "1-1",
+            level: 1,
+            defeatedBosses: 0
+        };
+
+        // ローカルストレージからデータを読み込み
+        function loadGameState() {
+            const saved = localStorage.getItem('tsukubaRPGState');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                gameState.completedStages = new Set(parsed.completedStages || []);
+                gameState.currentStage = parsed.currentStage || "1-1";
+                gameState.level = parsed.level || 1;
+                gameState.defeatedBosses = parsed.defeatedBosses || 0;
+            }
+        }
+
+        // ゲーム状態を保存
+        function saveGameState() {
+            const toSave = {
+                completedStages: Array.from(gameState.completedStages),
+                currentStage: gameState.currentStage,
+                level: gameState.level,
+                defeatedBosses: gameState.defeatedBosses
+            };
+            localStorage.setItem('tsukubaRPGState', JSON.stringify(toSave));
+        }
+
+        // 統計を更新
+        function updateStats() {
+            const totalStages = gameData.worlds.reduce((sum, world) => sum + world.stages.length, 0);
+            const completed = gameState.completedStages.size;
+            const progressPercent = Math.round((completed / totalStages) * 100);
+            
+            document.getElementById('overallProgress').textContent = `${progressPercent}%`;
+            document.getElementById('currentLevel').textContent = gameState.level;
+            document.getElementById('completedStages').textContent = `${completed}/${totalStages}`;
+            document.getElementById('defeatedBosses').textContent = `${gameState.defeatedBosses}/12`;
+            
+            // プログレスバー更新
+            document.getElementById('progressFill').style.width = `${progressPercent}%`;
+        }
+
+        // ワールドを生成
+        function createWorlds() {
+            const container = document.getElementById('worldsContainer');
+            
+            gameData.worlds.forEach(world => {
+                const worldDiv = document.createElement('div');
+                worldDiv.className = 'world-container';
+                worldDiv.style.animationDelay = `${world.id * 0.2}s`;
+                
+                const stagesGrid = document.createElement('div');
+                stagesGrid.className = 'stages-grid';
+                
+                world.stages.forEach(stage => {
+                    const stageDiv = document.createElement('div');
+                    stageDiv.className = 'stage';
+                    stageDiv.setAttribute('data-stage-id', stage.id);
+                    
+                    // ステージの状態を判定
+                    if (gameState.completedStages.has(stage.id)) {
+                        stageDiv.classList.add('completed');
+                    } else if (stage.id === gameState.currentStage || isStageUnlocked(stage.id)) {
+                        if (stage.id === gameState.currentStage) {
+                            stageDiv.classList.add('current');
+                        }
+                    } else {
+                        stageDiv.classList.add('locked');
+                    }
+                    
+                    if (stage.isBoss) {
+                        stageDiv.classList.add('boss-stage');
+                    }
+                    
+                    stageDiv.innerHTML = `
+                        <div class="stage-icon">${stage.icon}</div>
+                        <div class="stage-number">${stage.id}</div>
+                        <div class="stage-name">${stage.name}</div>
+                    `;
+                    
+                    stageDiv.addEventListener('click', () => openStageModal(stage));
+                    stagesGrid.appendChild(stageDiv);
+                });
+                
+                worldDiv.innerHTML = `
+                    <h2 class="world-title">
+                        <span class="world-icons">${world.icon}</span>
+                        WORLD ${world.id}: ${world.name}
+                    </h2>
+                    <p style="text-align: center; color: #fff; margin-bottom: 20px; font-style: italic;">
+                        ${world.theme}
+                    </p>
+                `;
+                worldDiv.appendChild(stagesGrid);
+                container.appendChild(worldDiv);
+            });
+            
+            // ファイナルボス追加
+            const finalBossDiv = document.createElement('div');
+            finalBossDiv.className = 'world-container';
+            finalBossDiv.innerHTML = `
+                <h2 class="world-title">
+                    <span class="world-icons">👑</span>
+                    FINAL BOSS: ${gameData.finalBoss.name}
+                </h2>
+                <div class="stages-grid">
+                    ${gameData.finalBoss.phases.map((phase, index) => `
+                        <div class="stage final-boss" data-stage-id="final-${index + 1}">
+                            <div class="stage-icon">${phase.icon}</div>
+                            <div class="stage-number">Phase ${index + 1}</div>
+                            <div class="stage-name">${phase.name}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            container.appendChild(finalBossDiv);
+        }
+
+        // ステージがアンロックされているか判定
+        function isStageUnlocked(stageId) {
+            const [world, stage] = stageId.split('-').map(Number);
+            
+            // 1-1は常にアンロック
+            if (stageId === "1-1") return true;
+            
+            // 同じワールドの前のステージが完了している
+            if (stage > 1) {
+                const prevStage = `${world}-${stage - 1}`;
+                return gameState.completedStages.has(prevStage);
+            }
+            
+            // 前のワールドの最後のステージ（ボス）が完了している
+            if (world > 1) {
+                const prevWorldBoss = `${world - 1}-9`;
+                return gameState.completedStages.has(prevWorldBoss);
+            }
+            
+            return false;
+        }
+
+        // ステージモーダルを開く
+        function openStageModal(stage) {
+            if (!isStageUnlocked(stage.id) && !gameState.completedStages.has(stage.id)) {
+                return;
+            }
+            
+            const modal = document.getElementById('stageModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            const isCompleted = gameState.completedStages.has(stage.id);
+            const completeBtnText = isCompleted ? '✅ 完了済み' : '🎯 ステージクリア！';
+            const completeBtnClass = isCompleted ? 'completed' : '';
+            
+            modalContent.innerHTML = `
+                <h2>${stage.icon} ${stage.id}: ${stage.name}</h2>
+                
+                <div class="modal-section">
+                    <h3>🎯 ミッション</h3>
+                    <p>${stage.mission}</p>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>📋 具体的内容</h3>
+                    <p>${stage.content}</p>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>✅ クリア条件</h3>
+                    <p>${stage.clearCondition}</p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="complete-btn ${completeBtnClass}" onclick="completeStage('${stage.id}')" ${isCompleted ? 'disabled' : ''}>
+                        ${completeBtnText}
+                    </button>
+                    ${!isCompleted ? `<button class="complete-btn" onclick="resetStage('${stage.id}')" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">🔄 リセット</button>` : ''}
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        // ステージを完了
+        function completeStage(stageId) {
+            if (gameState.completedStages.has(stageId)) return;
+            
+            gameState.completedStages.add(stageId);
+            
+            // ボスステージの場合
+            if (stageId.endsWith('-9')) {
+                gameState.defeatedBosses++;
+                showLevelUpAnimation(`🏆 ボス撃破！\nWORLD ${stageId.split('-')[0]} クリア！`);
+            } else {
+                showLevelUpAnimation(`✨ ステージクリア！\n${stageId} 完了！`);
+            }
+            
+            // レベルアップ判定
+            const newLevel = Math.floor(gameState.completedStages.size / 9) + 1;
+            if (newLevel > gameState.level) {
+                gameState.level = newLevel;
+                setTimeout(() => {
+                    showLevelUpAnimation(`🎉 LEVEL UP!\nレベル ${gameState.level} に到達！`);
+                }, 1000);
+            }
+            
+            // 次のステージを設定
+            updateCurrentStage(stageId);
+            
+            saveGameState();
+            updateStats();
+            refreshDisplay();
+            closeModal();
+        }
+
+        // 現在のステージを更新
+        function updateCurrentStage(completedStageId) {
+            const [world, stage] = completedStageId.split('-').map(Number);
+            
+            // 同じワールドの次のステージ
+            if (stage < 9) {
+                gameState.currentStage = `${world}-${stage + 1}`;
+            } else {
+                // 次のワールドの最初のステージ
+                const nextWorld = world + 1;
+                if (nextWorld <= gameData.worlds.length) {
+                    gameState.currentStage = `${nextWorld}-1`;
+                } else {
+                    gameState.currentStage = "final-1";
+                }
+            }
+        }
+
+        // ステージをリセット
+        function resetStage(stageId) {
+            gameState.completedStages.delete(stageId);
+            gameState.currentStage = stageId;
+            
+            // ボス撃破数も調整
+            if (stageId.endsWith('-9')) {
+                gameState.defeatedBosses = Math.max(0, gameState.defeatedBosses - 1);
+            }
+            
+            saveGameState();
+            updateStats();
+            refreshDisplay();
+            closeModal();
+        }
+
+        // レベルアップアニメーションを表示
+        function showLevelUpAnimation(text) {
+            const animation = document.createElement('div');
+            animation.className = 'level-up-animation';
+            animation.innerHTML = text.replace('\n', '<br>');
+            document.body.appendChild(animation);
+            
+            setTimeout(() => {
+                document.body.removeChild(animation);
+            }, 2000);
+        }
+
+        // 表示を更新
+        function refreshDisplay() {
+            const container = document.getElementById('worldsContainer');
+            container.innerHTML = '';
+            createWorlds();
+        }
+
+        // モーダルを閉じる
+        function closeModal() {
+            document.getElementById('stageModal').style.display = 'none';
+        }
+
+        // HTMLをダウンロード
+        function downloadHTML() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'SCHOLAR_QUEST_究極の学習RPG.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGameState();
+            createWorlds();
+            updateStats();
+            
+            // モーダルのクローズイベント
+            document.querySelector('.close').addEventListener('click', closeModal);
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('stageModal');
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
