@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心理学者たちの関係性マップ</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #4a5568;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .network-container {
+            position: relative;
+            width: 100%;
+            height: 1200px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .psychologist-node {
+            position: absolute;
+            background: linear-gradient(135deg, #4299e1, #63b3ed);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .psychologist-node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        
+        /* 各学派の色分け */
+        .experimental { background: linear-gradient(135deg, #e53e3e, #fc8181); }
+        .psychoanalysis { background: linear-gradient(135deg, #805ad5, #b794f6); }
+        .behaviorism { background: linear-gradient(135deg, #dd6b20, #f6ad55); }
+        .humanistic { background: linear-gradient(135deg, #38a169, #68d391); }
+        .cognitive { background: linear-gradient(135deg, #3182ce, #63b3ed); }
+        .social { background: linear-gradient(135deg, #d69e2e, #f6e05e); }
+        .developmental { background: linear-gradient(135deg, #e53e3e, #fc8181); }
+        .neuroscience { background: linear-gradient(135deg, #2d3748, #4a5568); }
+        .attachment { background: linear-gradient(135deg, #c53030, #fc8181); }
+        
+        /* SVG矢印 */
+        .connections-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        .arrow {
+            stroke: #4a5568;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+        
+        .influence-arrow {
+            stroke: #e53e3e;
+            stroke-width: 3;
+            stroke-dasharray: 8,4;
+        }
+        
+        .collaboration-arrow {
+            stroke: #38a169;
+            stroke-width: 3;
+            stroke-dasharray: 4,4;
+        }
+        
+        .theoretical-arrow {
+            stroke: #3182ce;
+            stroke-width: 2;
+        }
+        
+        .conflict-arrow {
+            stroke: #d69e2e;
+            stroke-width: 3;
+            stroke-dasharray: 10,5;
+        }
+        
+        .legend {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 15;
+            max-width: 300px;
+        }
+        
+        .legend h3 {
+            margin-top: 0;
+            color: #2d3748;
+            font-size: 1.2em;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+        
+        .legend-line {
+            width: 30px;
+            height: 3px;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+        
+        .legend-influence { background: #e53e3e; }
+        .legend-collaboration { background: #38a169; }
+        .legend-theoretical { background: #3182ce; }
+        .legend-conflict { background: #d69e2e; }
+        
+        .era-label {
+            position: absolute;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            color: #2d3748;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 12;
+        }
+        
+        .school-label {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            color: #4a5568;
+            font-weight: bold;
+            z-index: 11;
+        }
+        
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            pointer-events: none;
+            z-index: 20;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 心理学者たちの関係性ネットワーク ✨</h1>
+        
+        <div class="network-container">
+            <!-- SVG for connections -->
+            <svg class="connections-svg" viewBox="0 0 1600 1200">
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#4a5568"/>
+                    </marker>
+                </defs>
+                
+                <!-- 影響関係の矢印 -->
+                <!-- ヴント → ジェームズ -->
+                <path d="M 80 100 Q 150 80 220 100" class="arrow influence-arrow"/>
+                
+                <!-- ジェームズ → フロイト -->
+                <path d="M 240 120 Q 280 160 320 200" class="arrow influence-arrow"/>
+                
+                <!-- フロイト → ユング -->
+                <path d="M 340 220 Q 380 240 420 260" class="arrow influence-arrow"/>
+                
+                <!-- フロイト → エリクソン -->
+                <path d="M 340 220 Q 380 320 420 420" class="arrow influence-arrow"/>
+                
+                <!-- ユング ↔ エリクソン -->
+                <path d="M 440 280 Q 460 350 440 400" class="arrow collaboration-arrow"/>
+                
+                <!-- パブロフ → ワトソン -->
+                <path d="M 600 200 Q 640 220 680 240" class="arrow influence-arrow"/>
+                
+                <!-- ワトソン → スキナー -->
+                <path d="M 700 260 Q 740 300 780 340" class="arrow influence-arrow"/>
+                
+                <!-- スキナー → バンデューラ -->
+                <path d="M 800 360 Q 840 400 880 440" class="arrow influence-arrow"/>
+                
+                <!-- ピアジェ ↔ ヴィゴツキー -->
+                <path d="M 200 400 Q 300 380 400 400" class="arrow collaboration-arrow"/>
+                
+                <!-- ボウルビー → アインズワース -->
+                <path d="M 1000 500 Q 1040 520 1080 540" class="arrow influence-arrow"/>
+                
+                <!-- ハーロウ → ボウルビー -->
+                <path d="M 900 480 Q 950 490 1000 500" class="arrow influence-arrow"/>
+                
+                <!-- ナイサー ← → ミラー -->
+                <path d="M 200 700 Q 300 680 400 700" class="arrow collaboration-arrow"/>
+                
+                <!-- カーネマン ↔ ツヴェルスキー -->
+                <path d="M 800 800 Q 860 820 920 840" class="arrow collaboration-arrow"/>
+                
+                <!-- ヒューベル ↔ ヴィーゼル -->
+                <path d="M 1200 900 Q 1260 920 1320 940" class="arrow collaboration-arrow"/>
+                
+                <!-- スペリー → ガザニガ -->
+                <path d="M 1000 900 Q 1050 920 1100 940" class="arrow influence-arrow"/>
+                
+                <!-- ブローカ → ウェルニッケ -->
+                <path d="M 1200 1000 Q 1260 1020 1320 1040" class="arrow influence-arrow"/>
+                
+                <!-- 対立関係 -->
+                <!-- フロイト vs ユング -->
+                <path d="M 330 210 Q 360 230 390 250" class="arrow conflict-arrow"/>
+                
+                <!-- 行動主義 vs 認知心理学 -->
+                <path d="M 700 340 Q 500 500 300 660" class="arrow conflict-arrow"/>
+                
+                <!-- 理論的発展 -->
+                <!-- アトキンソン & シフリン → バドリー -->
+                <path d="M 600 700 Q 650 720 700 740" class="arrow theoretical-arrow"/>
+                
+                <!-- チューリップ ↔ クレイク & ロックハート -->
+                <path d="M 900 700 Q 1000 720 1100 740" class="arrow collaboration-arrow"/>
+                
+                <!-- レヴィン → アッシュ → ミルグラム → ジンバルド -->
+                <path d="M 1200 600 Q 1240 620 1280 640" class="arrow influence-arrow"/>
+                <path d="M 1300 660 Q 1340 680 1380 700" class="arrow influence-arrow"/>
+                <path d="M 1400 720 Q 1440 740 1480 760" class="arrow influence-arrow"/>
+                
+                <!-- ロジャーズ ↔ マズロー -->
+                <path d="M 1000 600 Q 1050 620 1100 640" class="arrow collaboration-arrow"/>
+            </svg>
+            
+            <!-- 時代ラベル -->
+            <div class="era-label" style="top: 80px;">1800年代後期</div>
+            <div class="era-label" style="top: 180px;">1900年代前期</div>
+            <div class="era-label" style="top: 380px;">1900年代中期</div>
+            <div class="era-label" style="top: 580px;">1900年代後期</div>
+            <div class="era-label" style="top: 680px;">認知革命</div>
+            <div class="era-label" style="top: 880px;">現代</div>
+            
+            <!-- 学派ラベル -->
+            <div class="school-label" style="top: 60px; left: 300px;">実験心理学</div>
+            <div class="school-label" style="top: 160px; left: 500px;">精神分析</div>
+            <div class="school-label" style="top: 160px; left: 700px;">行動主義</div>
+            <div class="school-label" style="top: 360px; left: 300px;">発達心理学</div>
+            <div class="school-label" style="top: 480px; left: 1100px;">愛着理論</div>
+            <div class="school-label" style="top: 560px; left: 1200px;">人間性心理学</div>
+            <div class="school-label" style="top: 580px; left: 1400px;">社会心理学</div>
+            <div class="school-label" style="top: 660px; left: 400px;">認知心理学</div>
+            <div class="school-label" style="top: 860px; left: 1100px;">脳科学</div>
+            
+            <!-- 心理学者ノード -->
+            <!-- 1800年代後期 -->
+            <div class="psychologist-node experimental" style="left: 60px; top: 80px;">ヴント</div>
+            <div class="psychologist-node experimental" style="left: 200px; top: 80px;">ジェームズ</div>
+            
+            <!-- 1900年代前期 -->
+            <div class="psychologist-node psychoanalysis" style="left: 300px; top: 180px;">フロイト</div>
+            <div class="psychologist-node psychoanalysis" style="left: 400px; top: 240px;">ユング</div>
+            <div class="psychologist-node behaviorism" style="left: 580px; top: 180px;">パブロフ</div>
+            <div class="psychologist-node behaviorism" style="left: 680px; top: 220px;">ワトソン</div>
+            
+            <!-- 1900年代中期 -->
+            <div class="psychologist-node developmental" style="left: 180px; top: 380px;">ピアジェ</div>
+            <div class="psychologist-node developmental" style="left: 380px; top: 380px;">ヴィゴツキー</div>
+            <div class="psychologist-node developmental" style="left: 400px; top: 400px;">エリクソン</div>
+            <div class="psychologist-node behaviorism" style="left: 760px; top: 320px;">スキナー</div>
+            <div class="psychologist-node behaviorism" style="left: 860px; top: 420px;">バンデューラ</div>
+            
+            <!-- 1900年代後期 -->
+            <div class="psychologist-node attachment" style="left: 880px; top: 460px;">ハーロウ</div>
+            <div class="psychologist-node attachment" style="left: 980px; top: 480px;">ボウルビー</div>
+            <div class="psychologist-node attachment" style="left: 1080px; top: 520px;">アインズワース</div>
+            <div class="psychologist-node humanistic" style="left: 980px; top: 580px;">ロジャーズ</div>
+            <div class="psychologist-node humanistic" style="left: 1080px; top: 620px;">マズロー</div>
+            <div class="psychologist-node social" style="left: 1180px; top: 580px;">レヴィン</div>
+            <div class="psychologist-node social" style="left: 1260px; top: 620px;">アッシュ</div>
+            <div class="psychologist-node social" style="left: 1360px; top: 660px;">ミルグラム</div>
+            <div class="psychologist-node social" style="left: 1460px; top: 740px;">ジンバルド</div>
+            
+            <!-- 認知革命 -->
+            <div class="psychologist-node cognitive" style="left: 180px; top: 680px;">ナイサー</div>
+            <div class="psychologist-node cognitive" style="left: 380px; top: 680px;">ミラー</div>
+            <div class="psychologist-node cognitive" style="left: 480px; top: 700px;">ブロードベント</div>
+            <div class="psychologist-node cognitive" style="left: 580px; top: 720px;">トライズマン</div>
+            <div class="psychologist-node cognitive" style="left: 580px; top: 680px;">アトキンソン</div>
+            <div class="psychologist-node cognitive" style="left: 680px; top: 700px;">シフリン</div>
+            <div class="psychologist-node cognitive" style="left: 680px; top: 720px;">バドリー</div>
+            <div class="psychologist-node cognitive" style="left: 880px; top: 680px;">チューリップ</div>
+            <div class="psychologist-node cognitive" style="left: 1080px; top: 720px;">クレイク</div>
+            <div class="psychologist-node cognitive" style="left: 1180px; top: 740px;">ロックハート</div>
+            <div class="psychologist-node cognitive" style="left: 80px; top: 720px;">チョムスキー</div>
+            
+            <!-- 現代 -->
+            <div class="psychologist-node cognitive" style="left: 780px; top: 780px;">カーネマン</div>
+            <div class="psychologist-node cognitive" style="left: 900px; top: 820px;">ツヴェルスキー</div>
+            <div class="psychologist-node neuroscience" style="left: 980px; top: 880px;">スペリー</div>
+            <div class="psychologist-node neuroscience" style="left: 1080px; top: 920px;">ガザニガ</div>
+            <div class="psychologist-node neuroscience" style="left: 1180px; top: 880px;">カンデル</div>
+            <div class="psychologist-node neuroscience" style="left: 1180px; top: 880px;">ヒューベル</div>
+            <div class="psychologist-node neuroscience" style="left: 1300px; top: 920px;">ヴィーゼル</div>
+            <div class="psychologist-node neuroscience" style="left: 1180px; top: 980px;">ブローカ</div>
+            <div class="psychologist-node neuroscience" style="left: 1300px; top: 1020px;">ウェルニッケ</div>
+            <div class="psychologist-node neuroscience" style="left: 1400px; top: 880px;">ペンフィールド</div>
+            <div class="psychologist-node neuroscience" style="left: 1080px; top: 1020px;">ラシュリー</div>
+            <div class="psychologist-node neuroscience" style="left: 1000px; top: 1020px;">ヘブ</div>
+            <div class="psychologist-node social" style="left: 680px; top: 820px;">ハイダー</div>
+            <div class="psychologist-node social" style="left: 580px; top: 840px;">ケリー</div>
+            <div class="psychologist-node social" style="left: 480px; top: 820px;">フェスティンガー</div>
+            <div class="psychologist-node behaviorism" style="left: 780px; top: 880px;">ガルシア</div>
+            <div class="psychologist-node behaviorism" style="left: 380px; top: 880px;">ローレンツ</div>
+            <div class="psychologist-node behaviorism" style="left: 280px; top: 900px;">ティンバーゲン</div>
+            <div class="psychologist-node cognitive" style="left: 180px; top: 880px;">ギブソン</div>
+        </div>
+        
+        <div class="legend">
+            <h3>🔗 矢印の意味</h3>
+            <div class="legend-item">
+                <div class="legend-line legend-influence"></div>
+                <span>影響関係（師弟・理論継承）</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line legend-collaboration"></div>
+                <span>協力関係（共同研究）</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line legend-theoretical"></div>
+                <span>理論的発展</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line legend-conflict"></div>
+                <span>対立・分裂関係</span>
+            </div>
+            
+            <h3 style="margin-top: 20px;">🎨 色分け</h3>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #e53e3e, #fc8181);"></div>
+                <span>実験心理学・発達心理学</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #805ad5, #b794f6);"></div>
+                <span>精神分析学派</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #dd6b20, #f6ad55);"></div>
+                <span>行動主義</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #3182ce, #63b3ed);"></div>
+                <span>認知心理学</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #38a169, #68d391);"></div>
+                <span>人間性心理学</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #d69e2e, #f6e05e);"></div>
+                <span>社会心理学</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #2d3748, #4a5568);"></div>
+                <span>脳科学・神経心理学</span>
+            </div>
+        </div>
+        
+        <div class="tooltip" id="tooltip"></div>
+    </div>
+    
+    <script>
+        // ノードにホバーエフェクトを追加
+        document.querySelectorAll('.psychologist-node').forEach(node => {
+            node.addEventListener('mouseenter', function(e) {
+                const tooltip = document.getElementById('tooltip');
+                const name = this.textContent;
+                let description = '';
+                
+                // 各心理学者の説明
+                const descriptions = {
+                    'ヴント': '実験心理学の父、心理学を独立した学問として確立',
+                    'ジェームズ': '機能主義心理学、意識の流れの概念を提唱',
+                    'フロイト': '精神分析学の創始者、無意識の発見',
+                    'ユング': '分析心理学、集合的無意識の概念',
+                    'パブロフ': '古典的条件づけの発見、条件反射の研究',
+                    'ワトソン': '行動主義の宣言、客観的心理学の提唱',
+                    'スキナー': 'オペラント条件づけ、行動分析学の発展',
+                    'バンデューラ': '社会学習理論、観察学習の研究',
+                    'ピアジェ': '認知発達理論、発達段階の概念',
+                    'ヴィゴツキー': '社会文化的発達理論、発達の最近接領域',
+                    'エリクソン': '心理社会的発達理論、アイデンティティの概念',
+                    'ボウルビー': '愛着理論の創始者、母子関係の重要性',
+                    'アインズワース': 'ストレンジシチュエーション、愛着パターンの分類',
+                    'ハーロウ': '代理母実験、愛着行動の研究',
+                    'ロジャーズ': '来談者中心療法、人間性心理学',
+                    'マズロー': '欲求階層説、自己実現の概念',
+                    'レヴィン': '場の理論、集団力学の研究',
+                    'アッシュ': '同調実験、集団圧力の研究',
+                    'ミルグラム': '服従実験、権威への服従の研究',
+                    'ジンバルド': 'スタンフォード監獄実験、役割行動の研究',
+                    'ナイサー': '認知心理学の命名、認知革命の推進',
+                    'ミラー': '7±2の法則、短期記憶の容量制限',
+                    'カーネマン': 'プロスペクト理論、認知バイアスの研究',
+                    'ツヴェルスキー': 'プロスペクト理論、意思決定の研究',
+                    'スペリー': '分離脳研究、大脳半球の機能分化',
+                    'ガザニガ': '分離脳研究、認知神経科学の発展',
+                    'チョムスキー': '生成文法理論、言語獲得装置の概念'
+                };
+                
+                description = descriptions[name] || '心理学の発展に貢献した重要人物';
+                
+                tooltip.innerHTML = `<strong>${name}</strong><br>${description}`;
+                tooltip.style.display = 'block';
+                tooltip.style.left = e.pageX + 10 + 'px';
+                tooltip.style.top = e.pageY + 10 + 'px';
+            });
+            
+            node.addEventListener('mouseleave', function() {
+                document.getElementById('tooltip').style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
