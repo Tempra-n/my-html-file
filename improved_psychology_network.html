@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心理学者たちの関係性マップ - 改良版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #667eea 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            position: relative;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            font-size: 2.8em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .network-container {
+            position: relative;
+            width: 100%;
+            height: 1400px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 3px solid #e2e8f0;
+        }
+        
+        .psychologist-node {
+            position: absolute;
+            background: linear-gradient(135deg, #4299e1, #63b3ed);
+            color: white;
+            padding: 14px 18px;
+            border-radius: 30px;
+            font-size: 0.95em;
+            font-weight: 600;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+            text-align: center;
+            min-width: 90px;
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .psychologist-node:hover {
+            transform: scale(1.15) translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            z-index: 15;
+        }
+        
+        /* 各学派の色分け - より鮮明で区別しやすく */
+        .experimental { 
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            border-color: rgba(220, 38, 38, 0.3);
+        }
+        .psychoanalysis { 
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+        .behaviorism { 
+            background: linear-gradient(135deg, #ea580c, #fb923c);
+            border-color: rgba(234, 88, 12, 0.3);
+        }
+        .humanistic { 
+            background: linear-gradient(135deg, #059669, #10b981);
+            border-color: rgba(5, 150, 105, 0.3);
+        }
+        .cognitive { 
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            border-color: rgba(2, 132, 199, 0.3);
+        }
+        .social { 
+            background: linear-gradient(135deg, #ca8a04, #eab308);
+            border-color: rgba(202, 138, 4, 0.3);
+        }
+        .developmental { 
+            background: linear-gradient(135deg, #be185d, #ec4899);
+            border-color: rgba(190, 24, 93, 0.3);
+        }
+        .neuroscience { 
+            background: linear-gradient(135deg, #374151, #6b7280);
+            border-color: rgba(55, 65, 81, 0.3);
+        }
+        .attachment { 
+            background: linear-gradient(135deg, #b91c1c, #dc2626);
+            border-color: rgba(185, 28, 28, 0.3);
+        }
+        
+        /* SVG矢印の改善 */
+        .connections-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        .arrow {
+            stroke: #4a5568;
+            stroke-width: 2.5;
+            fill: none;
+            marker-end: url(#arrowhead);
+            opacity: 0.7;
+        }
+        
+        .influence-arrow {
+            stroke: #dc2626;
+            stroke-width: 3.5;
+            stroke-dasharray: 8,4;
+            opacity: 0.8;
+        }
+        
+        .collaboration-arrow {
+            stroke: #059669;
+            stroke-width: 3.5;
+            stroke-dasharray: 4,4;
+            opacity: 0.8;
+        }
+        
+        .theoretical-arrow {
+            stroke: #0284c7;
+            stroke-width: 2.5;
+            opacity: 0.7;
+        }
+        
+        .conflict-arrow {
+            stroke: #ca8a04;
+            stroke-width: 4;
+            stroke-dasharray: 12,6;
+            opacity: 0.8;
+        }
+        
+        .legend {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            z-index: 15;
+            max-width: 320px;
+            border: 2px solid #e2e8f0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .legend h3 {
+            margin-top: 0;
+            color: #2d3748;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.95em;
+            color: #4a5568;
+        }
+        
+        .legend-line {
+            width: 35px;
+            height: 4px;
+            margin-right: 12px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        
+        .legend-influence { background: #dc2626; }
+        .legend-collaboration { background: #059669; }
+        .legend-theoretical { background: #0284c7; }
+        .legend-conflict { background: #ca8a04; }
+        
+        .era-label {
+            position: absolute;
+            left: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            color: #2d3748;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 12;
+            font-size: 0.95em;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .school-label {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 14px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            color: #4a5568;
+            font-weight: 600;
+            z-index: 11;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .tooltip {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            pointer-events: none;
+            z-index: 25;
+            display: none;
+            max-width: 300px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* インタラクティブ要素の改善 */
+        .controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 15;
+        }
+        
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #e2e8f0;
+            padding: 8px 16px;
+            margin: 4px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #4a5568;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover {
+            background: #4299e1;
+            color: white;
+            border-color: #4299e1;
+        }
+        
+        .filter-btn.active {
+            background: #3182ce;
+            color: white;
+            border-color: #3182ce;
+        }
+        
+        /* レスポンシブ対応 */
+        @media (max-width: 1400px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .network-container {
+                height: 1200px;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .legend {
+                max-width: 280px;
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .network-container {
+                height: 1000px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .legend {
+                position: relative;
+                margin-top: 20px;
+                max-width: 100%;
+            }
+            
+            .controls {
+                position: relative;
+                margin-bottom: 15px;
+            }
+            
+            .psychologist-node {
+                font-size: 0.8em;
+                padding: 10px 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 心理学者たちの関係性ネットワーク</h1>
+        <p class="subtitle">Psychology Relationship Network - 理論の発展と人間関係の可視化</p>
+        
+        <div class="controls">
+            <button class="filter-btn active" onclick="filterBySchool('all')">全て表示</button>
+            <button class="filter-btn" onclick="filterBySchool('experimental')">実験心理学</button>
+            <button class="filter-btn" onclick="filterBySchool('psychoanalysis')">精神分析</button>
+            <button class="filter-btn" onclick="filterBySchool('behaviorism')">行動主義</button>
+            <button class="filter-btn" onclick="filterBySchool('cognitive')">認知心理学</button>
+            <button class="filter-btn" onclick="filterBySchool('neuroscience')">神経科学</button>
+        </div>
+        
+        <div class="network-container">
+            <!-- SVG for connections -->
+            <svg class="connections-svg" viewBox="0 0 1800 1400">
+                <defs>
+                    <marker id="arrowhead" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+                        <polygon points="0 0, 12 4, 0 8" fill="#4a5568"/>
+                    </marker>
+                </defs>
+                
+                <!-- 影響関係の矢印 -->
+                <!-- ヴント → ジェームズ -->
+                <path d="M 120 120 Q 180 100 260 120" class="arrow influence-arrow"/>
+                
+                <!-- ジェームズ → フロイト -->
+                <path d="M 280 140 Q 320 180 360 220" class="arrow influence-arrow"/>
+                
+                <!-- フロイト → ユング -->
+                <path d="M 380 240 Q 420 260 460 280" class="arrow influence-arrow"/>
+                
+                <!-- フロイト → エリクソン -->
+                <path d="M 380 240 Q 420 360 460 460" class="arrow influence-arrow"/>
+                
+                <!-- ユング ↔ エリクソン -->
+                <path d="M 480 300 Q 500 380 480 440" class="arrow collaboration-arrow"/>
+                
+                <!-- パブロフ → ワトソン -->
+                <path d="M 660 220 Q 700 240 740 260" class="arrow influence-arrow"/>
+                
+                <!-- ワトソン → スキナー -->
+                <path d="M 760 280 Q 800 340 840 380" class="arrow influence-arrow"/>
+                
+                <!-- スキナー → バンデューラ -->
+                <path d="M 860 400 Q 900 460 940 500" class="arrow influence-arrow"/>
+                
+                <!-- ピアジェ ↔ ヴィゴツキー -->
+                <path d="M 240 440 Q 350 420 460 440" class="arrow collaboration-arrow"/>
+                
+                <!-- ボウルビー → アインズワース -->
+                <path d="M 1100 540 Q 1140 560 1180 580" class="arrow influence-arrow"/>
+                
+                <!-- ハーロウ → ボウルビー -->
+                <path d="M 1000 520 Q 1050 530 1100 540" class="arrow influence-arrow"/>
+                
+                <!-- ナイサー ↔ ミラー -->
+                <path d="M 240 760 Q 350 740 460 760" class="arrow collaboration-arrow"/>
+                
+                <!-- カーネマン ↔ ツヴェルスキー -->
+                <path d="M 860 860 Q 920 880 980 900" class="arrow collaboration-arrow"/>
+                
+                <!-- ヒューベル ↔ ヴィーゼル -->
+                <path d="M 1300 980 Q 1360 1000 1420 1020" class="arrow collaboration-arrow"/>
+                
+                <!-- スペリー → ガザニガ -->
+                <path d="M 1100 980 Q 1150 1000 1200 1020" class="arrow influence-arrow"/>
+                
+                <!-- ブローカ → ウェルニッケ -->
+                <path d="M 1300 1080 Q 1360 1100 1420 1120" class="arrow influence-arrow"/>
+                
+                <!-- 対立関係 -->
+                <!-- フロイト vs ユング -->
+                <path d="M 370 230 Q 400 250 430 270" class="arrow conflict-arrow"/>
+                
+                <!-- 行動主義 vs 認知心理学 -->
+                <path d="M 760 380 Q 550 560 340 720" class="arrow conflict-arrow"/>
+                
+                <!-- 理論的発展 -->
+                <!-- アトキンソン & シフリン → バドリー -->
+                <path d="M 660 760 Q 710 780 760 800" class="arrow theoretical-arrow"/>
+                
+                <!-- チューリップ ↔ クレイク & ロックハート -->
+                <path d="M 960 760 Q 1080 780 1200 800" class="arrow collaboration-arrow"/>
+                
+                <!-- レヴィン → アッシュ → ミルグラム → ジンバルド -->
+                <path d="M 1300 640 Q 1340 660 1380 680" class="arrow influence-arrow"/>
+                <path d="M 1400 700 Q 1440 720 1480 740" class="arrow influence-arrow"/>
+                <path d="M 1500 760 Q 1540 780 1580 800" class="arrow influence-arrow"/>
+                
+                <!-- ロジャーズ ↔ マズロー -->
+                <path d="M 1100 640 Q 1150 660 1200 680" class="arrow collaboration-arrow"/>
+            </svg>
+            
+            <!-- 時代ラベル -->
+            <div class="era-label" style="top: 100px;">1879-1900<br>創設期</div>
+            <div class="era-label" style="top: 200px;">1900-1920<br>学派形成期</div>
+            <div class="era-label" style="top: 420px;">1920-1950<br>理論発展期</div>
+            <div class="era-label" style="top: 620px;">1950-1970<br>多様化期</div>
+            <div class="era-label" style="top: 740px;">1970-1990<br>認知革命</div>
+            <div class="era-label" style="top: 960px;">1990-現在<br>統合・応用期</div>
+            
+            <!-- 学派ラベル -->
+            <div class="school-label" style="top: 80px; left: 400px;">実験心理学の誕生</div>
+            <div class="school-label" style="top: 180px; left: 600px;">精神分析学派</div>
+            <div class="school-label" style="top: 180px; left: 800px;">行動主義革命</div>
+            <div class="school-label" style="top: 400px; left: 350px;">発達心理学</div>
+            <div class="school-label" style="top: 520px; left: 1200px;">愛着理論</div>
+            <div class="school-label" style="top: 600px; left: 1300px;">人間性心理学</div>
+            <div class="school-label" style="top: 620px; left: 1500px;">社会心理学</div>
+            <div class="school-label" style="top: 720px; left: 500px;">認知心理学の台頭</div>
+            <div class="school-label" style="top: 940px; left: 1200px;">神経科学との融合</div>
+            
+            <!-- 心理学者ノード -->
+            <!-- 1879-1900年 創設期 -->
+            <div class="psychologist-node experimental" style="left: 100px; top: 100px;">ヴント<br><small>1832-1920</small></div>
+            <div class="psychologist-node experimental" style="left: 240px; top: 100px;">ジェームズ<br><small>1842-1910</small></div>
+            
+            <!-- 1900-1920年 学派形成期 -->
+            <div class="psychologist-node psychoanalysis" style="left: 340px; top: 200px;">フロイト<br><small>1856-1939</small></div>
+            <div class="psychologist-node psychoanalysis" style="left: 440px; top: 260px;">ユング<br><small>1875-1961</small></div>
+            <div class="psychologist-node behaviorism" style="left: 640px; top: 200px;">パブロフ<br><small>1849-1936</small></div>
+            <div class="psychologist-node behaviorism" style="left: 740px; top: 240px;">ワトソン<br><small>1878-1958</small></div>
+            
+            <!-- 1920-1950年 理論発展期 -->
+            <div class="psychologist-node developmental" style="left: 220px; top: 420px;">ピアジェ<br><small>1896-1980</small></div>
+            <div class="psychologist-node developmental" style="left: 440px; top: 420px;">ヴィゴツキー<br><small>1896-1934</small></div>
+            <div class="psychologist-node developmental" style="left: 440px; top: 440px;">エリクソン<br><small>1902-1994</small></div>
+            <div class="psychologist-node behaviorism" style="left: 820px; top: 360px;">スキナー<br><small>1904-1990</small></div>
+            <div class="psychologist-node behaviorism" style="left: 920px; top: 480px;">バンデューラ<br><small>1925-2021</small></div>
+            
+            <!-- 1950-1970年 多様化期 -->
+            <div class="psychologist-node attachment" style="left: 980px; top: 500px;">ハーロウ<br><small>1905-1981</small></div>
+            <div class="psychologist-node attachment" style="left: 1080px; top: 520px;">ボウルビー<br><small>1907-1990</small></div>
+            <div class="psychologist-node attachment" style="left: 1180px; top: 560px;">アインズワース<br><small>1913-1999</small></div>
+            <div class="psychologist-node humanistic" style="left: 1080px; top: 620px;">ロジャーズ<br><small>1902-1987</small></div>
+            <div class="psychologist-node humanistic" style="left: 1180px; top: 660px;">マズロー<br><small>1908-1970</small></div>
+            <div class="psychologist-node social" style="left: 1280px; top: 620px;">レヴィン<br><small>1890-1947</small></div>
+            <div class="psychologist-node social" style="left: 1360px; top: 660px;">アッシュ<br><small>1907-1996</small></div>
+            <div class="psychologist-node social" style="left: 1460px; top: 700px;">ミルグラム<br><small>1933-1984</small></div>
+            <div class="psychologist-node social" style="left: 1560px; top: 780px;">ジンバルド<br><small>1933-</small></div>
+            
+            <!-- 1970-1990年 認知革命 -->
+            <div class="psychologist-node cognitive" style="left: 220px; top: 740px;">ナイサー<br><small>1928-2012</small></div>
+            <div class="psychologist-node cognitive" style="left: 440px; top: 740px;">ミラー<br><small>1920-2012</small></div>
+            <div class="psychologist-node cognitive" style="left: 540px; top: 760px;">ブロードベント<br><small>1926-1993</small></div>
+            <div class="psychologist-node cognitive" style="left: 640px; top: 780px;">トライズマン<br><small>1935-2018</small></div>
+            <div class="psychologist-node cognitive" style="left: 640px; top: 740px;">アトキンソン<br><small>1929-</small></div>
+            <div class="psychologist-node cognitive" style="left: 740px; top: 760px;">シフリン<br><small>1942-</small></div>
+            <div class="psychologist-node cognitive" style="left: 740px; top: 780px;">バドリー<br><small>1934-</small></div>
+            <div class="psychologist-node cognitive" style="left: 940px; top: 740px;">チューリップ<br><small>1927-2017</small></div>
+            <div class="psychologist-node cognitive" style="left: 1180px; top: 780px;">クレイク<br><small>1935-</small></div>
+            <div class="psychologist-node cognitive" style="left: 1280px; top: 800px;">ロックハート<br><small>1939-</small></div>
+            <div class="psychologist-node cognitive" style="left: 120px; top: 780px;">チョムスキー<br><small>1928-</small></div>
+            
+            <!-- 1990年-現在 統合・応用期 -->
+            <div class="psychologist-node cognitive" style="left: 840px; top: 840px;">カーネマン<br><small>1934-</small></div>
+            <div class="psychologist-node cognitive" style="left: 960px; top: 880px;">ツヴェルスキー<br><small>1937-1996</small></div>
+            <div class="psychologist-node neuroscience" style="left: 1080px; top: 960px;">スペリー<br><small>1913-1994</small></div>
+            <div class="psychologist-node neuroscience" style="left: 1180px; top: 1000px;">ガザニガ<br><small>1939-</small></div>
+            <div class="psychologist-node neuroscience" style="left: 1280px; top: 960px;">カンデル<br><small>1929-</small></div>
+            <div class="psychologist-node neuroscience" style="left: 1280px; top: 960px;">ヒューベル<br><small>1926-2013</small></div>
+            <div class="psychologist-node neuroscience" style="left: 1400px; top: 1000px;">ヴィーゼル<br><small>1924-</small></div>
+            <div class="psychologist-node neuroscience" style="left: 1280px; top: 1060px;">ブローカ<br><small>1824-1880</small></div>
+            <div class="psychologist-node neuroscience" style="left: 1400px; top: 1100px;">ウェルニッケ<br><small>1848-1905</small></div>
+            <div class="psychologist-node neuroscience" style="left: 1500px; top: 960px;">ペンフィールド<br><small>1891-1976</small></div>
+            <div class="psychologist-node neuroscience" style="left: 1180px; top: 1100px;">ラシュリー<br><small>1890-1958</small></div>
+            <div class="psychologist-node neuroscience" style="left: 1100px; top: 1100px;">ヘブ<br><small>1904-1985</small></div>
+            <div class="psychologist-node social" style="left: 740px; top: 880px;">ハイダー<br><small>1896-1988</small></div>
+            <div class="psychologist-node social" style="left: 640px; top: 900px;">ケリー<br><small>1905-1967</small></div>
+            <div class="psychologist-node social" style="left: 540px; top: 880px;">フェスティンガー<br><small>1919-1989</small></div>
+            <div class="psychologist-node behaviorism" style="left: 840px; top: 960px;">ガルシア<br><small>1917-2012</small></div>
+            <div class="psychologist-node behaviorism" style="left: 440px; top: 960px;">ローレンツ<br><small>1903-1989</small></div>
+            <div class="psychologist-node behaviorism" style="left: 340px; top: 980px;">ティンバーゲン<br><small>1907-1988</small></div>
+            <div class="psychologist-node cognitive" style="left: 240px; top: 960px;">ギブソン<br><small>1904-1979</small></div>
+        </div>
+        
+        <div class="legend">
+            <h3>🔗 関係性の種類</h3>
+            <div class="legend-item">
+                <div class="legend-line legend-influence"></div>
+                <span>影響関係（師弟・理論継承）</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line legend-collaboration"></div>
+                <span>協力関係（共同研究）</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line legend-theoretical"></div>
+                <span>理論的発展</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line legend-conflict"></div>
+                <span>対立・分裂関係</span>
+            </div>
+            
+            <h3 style="margin-top: 20px;">🎨 学派の色分け</h3>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #dc2626, #ef4444);"></div>
+                <span>実験心理学</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #7c3aed, #a855f7);"></div>
+                <span>精神分析学派</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #ea580c, #fb923c);"></div>
+                <span>行動主義</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #0284c7, #0ea5e9);"></div>
+                <span>認知心理学</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #059669, #10b981);"></div>
+                <span>人間性心理学</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #ca8a04, #eab308);"></div>
+                <span>社会心理学</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #be185d, #ec4899);"></div>
+                <span>発達心理学</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #b91c1c, #dc2626);"></div>
+                <span>愛着理論</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: linear-gradient(135deg, #374151, #6b7280);"></div>
+                <span>神経科学</span>
+            </div>
+        </div>
+        
+        <div class="tooltip" id="tooltip"></div>
+    </div>
+    
+    <script>
+        // 各心理学者の詳細情報
+        const psychologistInfo = {
+            'ヴント': {
+                fullName: 'ヴィルヘルム・ヴント (Wilhelm Wundt)',
+                description: '「実験心理学の父」と呼ばれる。1879年ライプツィヒ大学に世界初の心理学実験室を設立。反応時間の測定や感覚実験を通じて内観法を科学的手法として確立した。',
+                contributions: ['世界初の心理学実験室', '内観法の科学化', '要素主義心理学']
+            },
+            'ジェームズ': {
+                fullName: 'ウィリアム・ジェームズ (William James)',
+                description: 'アメリカ心理学の父。「意識は途切れることのない流れである」と主張し、心の働きを重視する機能主義を創始。「心理学原理」は古典的名著。',
+                contributions: ['機能主義心理学', '意識の流れ理論', 'ジェームズ・ランゲ説']
+            },
+            'フロイト': {
+                fullName: 'ジークムント・フロイト (Sigmund Freud)',
+                description: '精神分析の創始者。「夢は無意識への王道」と述べ、夢分析・自由連想法を開発。心を意識・前意識・無意識に分け、性的欲動を重視した。',
+                contributions: ['精神分析学', '無意識理論', 'エディプス・コンプレックス']
+            },
+            'ユング': {
+                fullName: 'カール・グスタフ・ユング (Carl Gustav Jung)',
+                description: 'フロイトの弟子から独立し分析心理学を創始。個人的無意識の奥に全人類共通の「集合的無意識」があると主張。内向・外向の性格類型も提唱。',
+                contributions: ['集合的無意識', '元型理論', '内向・外向性格類型']
+            },
+            'パブロフ': {
+                fullName: 'イワン・パブロフ (Ivan Pavlov)',
+                description: '生理学者として消化研究でノーベル賞受賞。犬の唾液分泌実験で偶然発見した「条件反射」は学習理論の基礎となった。ベルと餌の実験が有名。',
+                contributions: ['古典的条件づけ', '条件反射の発見', '高次神経活動理論']
+            },
+            'ワトソン': {
+                fullName: 'ジョン・ワトソン (John Watson)',
+                description: '「心理学者の宣言」で行動主義革命を起こした。「意識は観察できないので科学的でない」として行動のみを研究対象に。リトル・アルバート実験で恐怖条件づけを実証。',
+                contributions: ['行動主義宣言', 'リトル・アルバート実験', '環境決定論']
+            },
+            'スキナー': {
+                fullName: 'バラス・スキナー (B.F. Skinner)',
+                description: '「スキナー箱」でハトやラットの行動を研究し、オペラント条件づけを発見。行動の直後の結果（強化・罰）が学習を決定すると主張。プログラム学習も開発。',
+                contributions: ['オペラント条件づけ', 'スキナー箱', 'プログラム学習']
+            },
+            'バンデューラ': {
+                fullName: 'アルバート・バンデューラ (Albert Bandura)',
+                description: 'ボボ人形実験で「子どもは大人の暴力行動を模倣する」ことを実証。観察学習（モデリング）理論を提唱し、「やればできる」という自己効力感概念も開発。',
+                contributions: ['社会学習理論', 'ボボ人形実験', '自己効力感']
+            },
+            'ピアジェ': {
+                fullName: 'ジャン・ピアジェ (Jean Piaget)',
+                description: '子どもの認知発達を4段階（感覚運動期→前操作期→具体的操作期→形式的操作期）に分類。「保存の概念」実験で子どもの論理思考発達を解明した。',
+                contributions: ['認知発達4段階理論', '保存概念実験', 'スキーマ理論']
+            },
+            'ヴィゴツキー': {
+                fullName: 'レフ・ヴィゴツキー (Lev Vygotsky)',
+                description: '「発達の最近接領域（ZPD）」理論で、子どもは大人や仲間との相互作用を通じて学習することを強調。言語が思考発達に重要な役割を果たすと主張。',
+                contributions: ['発達の最近接領域（ZPD）', '社会文化的学習理論', '言語と思考の関係']
+            },
+            'エリクソン': {
+                fullName: 'エリク・エリクソン (Erik Erikson)',
+                description: '人生を8段階に分け、各段階で解決すべき「発達危機」があると主張。青年期の「アイデンティティ危機」概念は現代でも重要。生涯発達の視点を提供。',
+                contributions: ['心理社会的発達8段階', 'アイデンティティ理論', '発達危機概念']
+            },
+            'ボウルビー': {
+                fullName: 'ジョン・ボウルビー (John Bowlby)',
+                description: '愛着理論の創始者。「三つ子の魂百まで」を科学的に証明。乳幼児期の母子関係が生涯の人間関係パターンを決定する「内的作業モデル」を提唱。',
+                contributions: ['愛着理論', '内的作業モデル', '母性剥奪症候群']
+            },
+            'アインズワース': {
+                fullName: 'メアリー・アインズワース (Mary Ainsworth)',
+                description: '「ストレンジ・シチュエーション」実験で愛着を測定。母子分離・再会場面で子どもの反応を観察し、安全型・回避型・アンビバレント型の愛着パターンを発見。',
+                contributions: ['ストレンジ・シチュエーション法', '愛着パターン分類', '敏感性仮説']
+            },
+            'ハーロウ': {
+                fullName: 'ハリー・ハーロウ (Harry Harlow)',
+                description: 'アカゲザルの「代理母実験」で愛着の本質を解明。針金の母親より布の母親を選ぶ子ザルを観察し、愛着は食物より「接触快感」が重要であることを証明。',
+                contributions: ['代理母実験', '接触快感理論', '愛着行動の解明']
+            },
+            'ロジャーズ': {
+                fullName: 'カール・ロジャーズ (Carl Rogers)',
+                description: '「来談者中心療法」を開発。カウンセラーは指導せず、共感的理解・無条件の積極的関心・純粋性の3条件で来談者の自己実現を支援する。人間性心理学の中核人物。',
+                contributions: ['来談者中心療法', '無条件の積極的関心', '自己概念理論']
+            },
+            'マズロー': {
+                fullName: 'アブラハム・マズロー (Abraham Maslow)',
+                description: '人間の欲求を5段階のピラミッド（生理→安全→所属→承認→自己実現）で表現。最高段階の「自己実現」を目指す存在として人間を捉える人間性心理学を創始。',
+                contributions: ['欲求階層説', '自己実現理論', '人間性心理学']
+            },
+            'レヴィン': {
+                fullName: 'クルト・レヴィン (Kurt Lewin)',
+                description: '「場の理論」で行動を個人と環境の関数B=f(P,E)として定式化。集団力学の創始者として、リーダーシップ研究や組織開発の基礎を築いた。',
+                contributions: ['場の理論', '集団力学', 'リーダーシップ研究']
+            },
+            'アッシュ': {
+                fullName: 'ソロモン・アッシュ (Solomon Asch)',
+                description: '線分の長さ判断実験で「同調現象」を発見。明らかに間違った答えでも集団圧力により75%の人が同調することを実証し、社会的影響の強さを示した。',
+                contributions: ['同調実験', '集団圧力研究', '社会的認知']
+            },
+            'ミルグラム': {
+                fullName: 'スタンレー・ミルグラム (Stanley Milgram)',
+                description: '「服従実験」でナチスのホロコーストを心理学的に検証。権威者の命令により65%の参加者が「他者に致命的な電気ショック」を与えることを実証した。',
+                contributions: ['服従実験', '権威への服従研究', '6次の隔たり']
+            },
+            'ジンバルド': {
+                fullName: 'フィリップ・ジンバルド (Philip Zimbardo)',
+                description: '「スタンフォード監獄実験」で役割が人格を変える恐ろしさを実証。普通の学生が看守役では残虐に、囚人役では従順になり、実験は6日で中止された。',
+                contributions: ['スタンフォード監獄実験', '役割行動研究', '時間心理学']
+            },
+            'ナイサー': {
+                fullName: 'ユリック・ナイサー (Ulric Neisser)',
+                description: '「認知心理学」という用語を作り、認知革命を推進。情報処理アプローチで心を「コンピューター」に例え、知覚・記憶・思考を科学的に研究する道筋を示した。',
+                contributions: ['認知心理学の命名', '情報処理理論', '生態学的知覚理論']
+            },
+            'ミラー': {
+                fullName: 'ジョージ・ミラー (George Miller)',
+                description: '「マジカルナンバー7±2」で短期記憶の容量限界を発見。人間は7個前後のチャンク（意味のあるまとまり）しか同時に覚えられないことを実証した。',
+                contributions: ['マジカルナンバー7±2', 'チャンキング理論', '認知革命']
+            },
+            'カーネマン': {
+                fullName: 'ダニエル・カーネマン (Daniel Kahneman)',
+                description: '心理学者として唯一ノーベル経済学賞を受賞。「プロスペクト理論」で人間は損失を利得の2倍重く感じることを発見。行動経済学の父。',
+                contributions: ['プロスペクト理論', '行動経済学', 'システム1・システム2']
+            },
+            'ツヴェルスキー': {
+                fullName: 'エイモス・ツヴェルスキー (Amos Tversky)',
+                description: 'カーネマンと共にプロスペクト理論を開発。「代表性ヒューリスティック」「利用可能性ヒューリスティック」など認知バイアスの研究で人間の判断エラーを体系化。',
+                contributions: ['プロスペクト理論', 'ヒューリスティック研究', '判断と意思決定']
+            },
+            'スペリー': {
+                fullName: 'ロジャー・スペリー (Roger Sperry)',
+                description: '重度てんかん患者の脳梁切断手術により「分離脳」を研究。左脳は言語・論理、右脳は空間・直感を担うという脳の機能分化を発見し、ノーベル医学賞を受賞。',
+                contributions: ['分離脳研究', '大脳半球機能分化', '神経可塑性']
+            },
+            'ガザニガ': {
+                fullName: 'マイケル・ガザニガ (Michael Gazzaniga)',
+                description: 'スペリーの弟子として分離脳研究を継続。左脳の「解釈者」機能を発見し、人間の意識と自由意志の本質に迫る。「認知神経科学」という分野を確立した。',
+                contributions: ['認知神経科学の確立', '解釈者理論', '脳の機能局在']
+            },
+            'チョムスキー': {
+                fullName: 'ノーム・チョムスキー (Noam Chomsky)',
+                description: '「生成文法理論」で言語学革命を起こし、人間には生得的な「言語獲得装置（LAD）」があると主張。行動主義的な言語学習理論を覆し、認知革命の火付け役となった。',
+                contributions: ['生成文法理論', '言語獲得装置（LAD）', '普遍文法']
+            },
+            'ブロードベント': {
+                fullName: 'ドナルド・ブロードベント (Donald Broadbent)',
+                description: '注意の「フィルター理論」を提唱。人間の情報処理能力には限界があり、重要な情報のみを選択的に処理する「注意のボトルネック」があることを発見。',
+                contributions: ['注意のフィルター理論', '選択的注意', '情報処理理論']
+            },
+            'トライズマン': {
+                fullName: 'アン・トライズマン (Anne Treisman)',
+                description: 'ブロードベントの弟子として「注意の減衰理論」を発展。カクテルパーティ効果を説明し、視覚的注意における「特徴統合理論」も提唱した。',
+                contributions: ['注意の減衰理論', '特徴統合理論', 'カクテルパーティ効果']
+            },
+            'アトキンソン': {
+                fullName: 'リチャード・アトキンソン (Richard Atkinson)',
+                description: 'シフリンと共に記憶の「多重貯蔵モデル」を提唱。記憶を感覚記憶→短期記憶→長期記憶の3段階で処理するモデルは記憶研究の基礎となった。',
+                contributions: ['多重貯蔵モデル', '記憶の3段階理論', '数学的学習理論']
+            },
+            'シフリン': {
+                fullName: 'リチャード・シフリン (Richard Shiffrin)',
+                description: 'アトキンソンと共に記憶の多重貯蔵モデルを開発。後に「検索誘導忘却」現象を発見し、記憶検索プロセスの複雑さを明らかにした。',
+                contributions: ['多重貯蔵モデル', '検索誘導忘却', '記憶検索理論']
+            },
+            'バドリー': {
+                fullName: 'アラン・バドリー (Alan Baddeley)',
+                description: '「作業記憶」モデルで短期記憶の詳細な仕組みを解明。中央実行系・視空間スケッチパッド・音韻ループの3成分が協働して情報を一時保持・操作すると提唱。',
+                contributions: ['作業記憶モデル', '中央実行系理論', '記憶の意識性']
+            },
+            'チューリップ': {
+                fullName: 'エンデル・チューリップ (Endel Tulving)',
+                description: '記憶を「エピソード記憶」（個人的体験）と「意味記憶」（一般知識）に分類。「符号化特定性原理」で学習時と想起時の文脈一致が記憶成績を向上させることを発見。',
+                contributions: ['エピソード記憶・意味記憶', '符号化特定性原理', '記憶システム理論']
+            },
+            'クレイク': {
+                fullName: 'ファーガス・クレイク (Fergus Craik)',
+                description: 'ロックハートと共に「処理水準理論」を提唱。浅い処理（文字の形）より深い処理（意味の理解）の方が記憶に残りやすいことを実証した。',
+                contributions: ['処理水準理論', '精緻化リハーサル', '加齢と記憶']
+            },
+            'ロックハート': {
+                fullName: 'ロバート・ロックハート (Robert Lockhart)',
+                description: 'クレイクと共に処理水準理論を開発。記憶の保持は「どのくらい練習したか」ではなく「どれだけ深く処理したか」によって決まることを示した。',
+                contributions: ['処理水準理論', '記憶の深度処理', '忘却曲線研究']
+            },
+            'ハイダー': {
+                fullName: 'フリッツ・ハイダー (Fritz Heider)',
+                description: '「バランス理論」で人間関係の安定性を説明。人は認知的矛盾を避けるため、好きな人の意見に同調する傾向があることを発見。帰属理論の基礎も築いた。',
+                contributions: ['バランス理論', '帰属理論の基礎', '素朴心理学']
+            },
+            'ケリー': {
+                fullName: 'ジョージ・ケリー (George Kelly)',
+                description: '「個人構成概念理論」で人間を「科学者」として捉え、各人が独自の理論（構成概念）で世界を理解すると主張。レパートリー・グリッド技法も開発。',
+                contributions: ['個人構成概念理論', 'レパートリー・グリッド', '人間＝科学者モデル']
+            },
+            'フェスティンガー': {
+                fullName: 'レオン・フェスティンガー (Leon Festinger)',
+                description: '「認知的不協和理論」で人間の矛盾解決メカニズムを説明。行動と態度が矛盾すると不快感（不協和）が生じ、それを解消しようとする心理過程を発見。',
+                contributions: ['認知的不協和理論', '社会的比較理論', '集団凝集性研究']
+            },
+            'ガルシア': {
+                fullName: 'ジョン・ガルシア (John Garcia)',
+                description: '「味覚嫌悪学習」で生物学的制約の重要性を発見。一回の食中毒体験で特定の味を嫌悪するようになる現象は、進化的適応としての学習能力を示した。',
+                contributions: ['味覚嫌悪学習', '学習の生物学的制約', 'ガルシア効果']
+            },
+            'ローレンツ': {
+                fullName: 'コンラート・ローレンツ (Konrad Lorenz)',
+                description: 'ガチョウの「刷り込み」現象を発見し、動物行動学（エソロジー）を確立。生後すぐに見た動く物を「親」と認識する本能的学習は「臨界期」の概念も生んだ。',
+                contributions: ['刷り込み現象', '動物行動学', '臨界期概念']
+            },
+            'ティンバーゲン': {
+                fullName: 'ニコ・ティンバーゲン (Niko Tinbergen)',
+                description: 'ローレンツと共に動物行動学を発展。動物行動の「4つのなぜ」（機能・因果・発達・進化）を提唱し、行動研究の体系的枠組みを提供した。',
+                contributions: ['行動の4つのなぜ', '動物行動学', '本能行動研究']
+            },
+            'ギブソン': {
+                fullName: 'ジェームズ・ギブソン (James Gibson)',
+                description: '「生態学的知覚理論」で環境に含まれる情報（アフォーダンス）が知覚を導くと主張。コンピューター的な情報処理理論に対抗し、環境との相互作用を重視した。',
+                contributions: ['生態学的知覚理論', 'アフォーダンス概念', '直接知覚理論']
+            },
+            'ヒューベル': {
+                fullName: 'デイビッド・ヒューベル (David Hubel)',
+                description: 'ヴィーゼルと共にネコの視覚野を研究し、単純細胞・複雑細胞・超複雑細胞の階層的情報処理を発見。視覚認識の神経メカニズムを解明しノーベル医学賞を受賞。',
+                contributions: ['視覚野の階層処理', '受容野の発見', '臨界期の神経基盤']
+            },
+            'ヴィーゼル': {
+                fullName: 'トルステン・ヴィーゼル (Torsten Wiesel)',
+                description: 'ヒューベルと共にネコの視覚皮質を電極で記録し、方向選択性細胞や眼球優位性コラムを発見。視覚の「臨界期」概念も確立した。',
+                contributions: ['視覚皮質の機能構造', '眼球優位性コラム', '視覚発達の臨界期']
+            },
+            'ブローカ': {
+                fullName: 'ポール・ブローカ (Paul Broca)',
+                description: '失語症患者の脳解剖により、左前頭葉の特定部位（ブローカ野）が言語産出を担うことを発見。脳の機能局在説の先駆けとなった。',
+                contributions: ['ブローカ野の発見', '失語症研究', '脳の機能局在']
+            },
+            'ウェルニッケ': {
+                fullName: 'カール・ウェルニッケ (Carl Wernicke)',
+                description: 'ブローカの発見を受け、左側頭葉の特定部位（ウェルニッケ野）が言語理解を担うことを発見。言語の産出と理解が脳の異なる部位で処理されることを実証。',
+                contributions: ['ウェルニッケ野の発見', '感覚性失語症', '言語の脳内ネットワーク']
+            },
+            'ペンフィールド': {
+                fullName: 'ワイルダー・ペンフィールド (Wilder Penfield)',
+                description: 'てんかん手術中の脳電気刺激により「脳の地図」を作成。運動野・感覚野の詳細な機能マップ（ペンフィールドのホムンクルス）を発見した。',
+                contributions: ['脳の機能マップ', 'ペンフィールドのホムンクルス', '記憶の脳内基盤']
+            },
+            'ラシュリー': {
+                fullName: 'カール・ラシュリー (Karl Lashley)',
+                description: 'ラットの脳を部分的に破壊し学習能力への影響を調査。記憶は脳の特定部位ではなく全体に分散保存されるという「等能性原理」を提唱した。',
+                contributions: ['等能性原理', '集団作用の法則', '記憶の分散保存']
+            },
+            'ヘブ': {
+                fullName: 'ドナルド・ヘブ (Donald Hebb)',
+                description: '「一緒に発火するニューロンは結合する」（ヘブの法則）を提唱。学習と記憶の神経基盤として、シナプス結合の可塑性を理論化した。',
+                contributions: ['ヘブの法則', 'シナプス可塑性理論', 'セルアセンブリ理論']
+            },
+            'カンデル': {
+                fullName: 'エリック・カンデル (Eric Kandel)',
+                description: 'アメフラシの単純な学習により、記憶形成の分子メカニズムを解明。短期記憶から長期記憶への転換にタンパク質合成が必要であることを発見しノーベル賞受賞。',
+                contributions: ['記憶の分子機構', 'シナプス可塑性', '学習の生化学']
+            }
+        };
+        
+        // フィルタリング機能
+        function filterBySchool(school) {
+            const allNodes = document.querySelectorAll('.psychologist-node');
+            const allButtons = document.querySelectorAll('.filter-btn');
+            
+            // ボタンのアクティブ状態を更新
+            allButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            allNodes.forEach(node => {
+                if (school === 'all') {
+                    node.style.display = 'block';
+                    node.style.opacity = '1';
+                } else {
+                    if (node.classList.contains(school)) {
+                        node.style.display = 'block';
+                        node.style.opacity = '1';
+                    } else {
+                        node.style.opacity = '0.2';
+                    }
+                }
+            });
+        }
+        
+        // ツールチップ機能の改善
+        document.querySelectorAll('.psychologist-node').forEach(node => {
+            node.addEventListener('mouseenter', function(e) {
+                const tooltip = document.getElementById('tooltip');
+                const name = this.textContent.split('\n')[0]; // 名前部分のみ取得
+                const info = psychologistInfo[name];
+                
+                if (info) {
+                    tooltip.innerHTML = `
+                        <div style="font-weight: bold; margin-bottom: 8px; font-size: 1em; color: #fbbf24;">
+                            ${info.fullName}
+                        </div>
+                        <div style="margin-bottom: 8px; line-height: 1.4; color: #e5e7eb;">
+                            ${info.description}
+                        </div>
+                        <div style="font-size: 0.85em; color: #9ca3af; font-style: italic;">
+                            主な貢献: ${info.contributions.join(', ')}
+                        </div>
+                    `;
+                } else {
+                    tooltip.innerHTML = `
+                        <strong style="color: #fbbf24;">${name}</strong><br>
+                        <span style="color: #e5e7eb;">心理学の重要人物（詳細情報準備中）</span>
+                    `;
+                }
+                
+                tooltip.style.display = 'block';
+                
+                // ツールチップの位置調整
+                const rect = this.getBoundingClientRect();
+                tooltip.style.left = rect.left + rect.width / 2 - tooltip.offsetWidth / 2 + 'px';
+                tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px';
+                
+                // 画面端での位置調整
+                const tooltipRect = tooltip.getBoundingClientRect();
+                if (tooltipRect.left < 10) {
+                    tooltip.style.left = '10px';
+                }
+                if (tooltipRect.right > window.innerWidth - 10) {
+                    tooltip.style.left = window.innerWidth - tooltip.offsetWidth - 10 + 'px';
+                }
+                if (tooltipRect.top < 10) {
+                    tooltip.style.top = rect.bottom + 10 + 'px';
+                }
+            });
+            
+            node.addEventListener('mouseleave', function() {
+                document.getElementById('tooltip').style.display = 'none';
+            });
+            
+            // クリック時のアニメーション
+            node.addEventListener('click', function() {
+                this.style.transform = 'scale(1.2) translateY(-8px)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+        
+        // スムーズスクロール機能
+        function scrollToEra(era) {
+            const eraPositions = {
+                'foundation': 100,
+                'schools': 200,
+                'development': 420,
+                'diversification': 620,
+                'cognitive': 740,
+                'modern': 960
+            };
+            
+            const container = document.querySelector('.network-container');
+            container.scrollTo({
+                top: eraPositions[era] - 50,
+                behavior: 'smooth'
+            });
+        }
+        
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            // アニメーション効果
+            const nodes = document.querySelectorAll('.psychologist-node');
+            nodes.forEach((node, index) => {
+                node.style.opacity = '0';
+                node.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    node.style.transition = 'all 0.5s ease';
+                    node.style.opacity = '1';
+                    node.style.transform = 'translateY(0)';
+                }, index * 50);
+            });
+        });
+        
+        // フィルタリング機能
+        function filterBySchool(school) {
+            const allNodes = document.querySelectorAll('.psychologist-node');
+            const allButtons = document.querySelectorAll('.filter-btn');
+            
+            // ボタンのアクティブ状態を更新
+            allButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            allNodes.forEach(node => {
+                if (school === 'all') {
+                    node.style.display = 'block';
+                    node.style.opacity = '1';
+                } else {
+                    if (node.classList.contains(school)) {
+                        node.style.display = 'block';
+                        node.style.opacity = '1';
+                    } else {
+                        node.style.opacity = '0.2';
+                    }
+                }
+            });
+        }
+        
+        // ツールチップ機能の改善
+        document.querySelectorAll('.psychologist-node').forEach(node => {
+            node.addEventListener('mouseenter', function(e) {
+                const tooltip = document.getElementById('tooltip');
+                const name = this.textContent.split('\n')[0]; // 名前部分のみ取得
+                const info = psychologistInfo[name];
+                
+                if (info) {
+                    tooltip.innerHTML = `
+                        <div style="font-weight: bold; margin-bottom: 8px; font-size: 1em;">
+                            ${info.fullName}
+                        </div>
+                        <div style="margin-bottom: 8px; line-height: 1.4;">
+                            ${info.description}
+                        </div>
+                        <div style="font-size: 0.85em; color: #e2e8f0;">
+                            主な貢献: ${info.contributions.join(', ')}
+                        </div>
+                    `;
+                } else {
+                    tooltip.innerHTML = `
+                        <strong>${name}</strong><br>
+                        心理学の発展に貢献した重要人物
+                    `;
+                }
+                
+                tooltip.style.display = 'block';
+                
+                // ツールチップの位置調整
+                const rect = this.getBoundingClientRect();
+                tooltip.style.left = rect.left + rect.width / 2 - tooltip.offsetWidth / 2 + 'px';
+                tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px';
+                
+                // 画面端での位置調整
+                const tooltipRect = tooltip.getBoundingClientRect();
+                if (tooltipRect.left < 10) {
+                    tooltip.style.left = '10px';
+                }
+                if (tooltipRect.right > window.innerWidth - 10) {
+                    tooltip.style.left = window.innerWidth - tooltip.offsetWidth - 10 + 'px';
+                }
+                if (tooltipRect.top < 10) {
+                    tooltip.style.top = rect.bottom + 10 + 'px';
+                }
+            });
+            
+            node.addEventListener('mouseleave', function() {
+                document.getElementById('tooltip').style.display = 'none';
+            });
+            
+            // クリック時のアニメーション
+            node.addEventListener('click', function() {
+                this.style.transform = 'scale(1.2) translateY(-8px)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+        
+        // スムーズスクロール機能
+        function scrollToEra(era) {
+            const eraPositions = {
+                'foundation': 100,
+                'schools': 200,
+                'development': 420,
+                'diversification': 620,
+                'cognitive': 740,
+                'modern': 960
+            };
+            
+            const container = document.querySelector('.network-container');
+            container.scrollTo({
+                top: eraPositions[era] - 50,
+                behavior: 'smooth'
+            });
+        }
+        
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            // アニメーション効果
+            const nodes = document.querySelectorAll('.psychologist-node');
+            nodes.forEach((node, index) => {
+                node.style.opacity = '0';
+                node.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    node.style.transition = 'all 0.5s ease';
+                    node.style.opacity = '1';
+                    node.style.transform = 'translateY(0)';
+                }, index * 50);
+            });
+        });
+    </script>
+</body>
+</html>
