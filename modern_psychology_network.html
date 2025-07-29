@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>現代心理学・認知科学の概念ネットワーク</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            margin: 0;
+            padding: 20px;
+            color: #2d3748;
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2b6cb0;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+        
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            position: relative;
+        }
+        
+        .era-section {
+            position: relative;
+            padding: 30px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            border-left: 6px solid;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .era-1 { border-left-color: #e53e3e; }
+        .era-2 { border-left-color: #38a169; }
+        .era-3 { border-left-color: #3182ce; }
+        .era-4 { border-left-color: #d69e2e; }
+        .era-5 { border-left-color: #805ad5; }
+        .era-6 { border-left-color: #c53030; }
+        
+        .era-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #2d3748;
+        }
+        
+        .category-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .category-box {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            position: relative;
+        }
+        
+        .category-title {
+            font-weight: bold;
+            color: #2b6cb0;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 8px;
+        }
+        
+        .concept-item {
+            background: linear-gradient(135deg, #4299e1, #63b3ed);
+            color: white;
+            padding: 10px 8px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-weight: 500;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .concept-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        /* カテゴリ別色分け */
+        .predictive { background: linear-gradient(135deg, #e53e3e, #fc8181); }
+        .embodied { background: linear-gradient(135deg, #38a169, #68d391); }
+        .complex { background: linear-gradient(135deg, #805ad5, #b794f6); }
+        .ai-tech { background: linear-gradient(135deg, #3182ce, #63b3ed); }
+        .digital-health { background: linear-gradient(135deg, #d69e2e, #f6e05e); color: #2d3748; }
+        .neuro-tech { background: linear-gradient(135deg, #dd6b20, #f6ad55); }
+        .consciousness { background: linear-gradient(135deg, #c53030, #fc8181); }
+        
+        .flow-arrows {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            gap: 10px;
+        }
+        
+        .arrow-text {
+            background: rgba(66, 153, 225, 0.1);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: #2b6cb0;
+            font-weight: 500;
+        }
+        
+        .arrow-symbol {
+            font-size: 1.5em;
+            color: #4299e1;
+        }
+        
+        .connections-between-eras {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .era-connection {
+            background: rgba(66, 153, 225, 0.1);
+            border: 2px solid #4299e1;
+            border-radius: 25px;
+            padding: 10px 20px;
+            color: #2b6cb0;
+            font-weight: bold;
+            position: relative;
+        }
+        
+        .era-connection::after {
+            content: '↓';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2em;
+            color: #4299e1;
+        }
+        
+        .legend-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            max-width: 300px;
+            z-index: 1000;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .legend-title {
+            font-weight: bold;
+            color: #2b6cb0;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.85em;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+        
+        .summary-box {
+            background: rgba(66, 153, 225, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 2px solid #4299e1;
+        }
+        
+        .summary-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2b6cb0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .key-flows {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .flow-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #4299e1;
+        }
+        
+        .flow-title {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .flow-desc {
+            font-size: 0.9em;
+            color: #4a5568;
+        }
+        
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            pointer-events: none;
+            z-index: 1001;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 現代心理学・認知科学の概念マップ</h1>
+        
+        <div class="timeline">
+            <!-- 理論的基盤 -->
+            <div class="era-section era-1">
+                <div class="era-title">🔮 理論的基盤 (2000年代〜)</div>
+                <div class="category-group">
+                    <div class="category-box">
+                        <div class="category-title">予測脳理論</div>
+                        <div class="concepts-grid">
+                            <div class="concept-item predictive">予測符号化</div>
+                            <div class="concept-item predictive">ベイジアンブレイン</div>
+                            <div class="concept-item predictive">自由エネルギー原理</div>
+                            <div class="concept-item predictive">アクティブインファレンス</div>
+                            <div class="concept-item predictive">予測処理理論</div>
+                        </div>
+                        <div class="flow-arrows">
+                            <span class="arrow-text">予測符号化</span>
+                            <span class="arrow-symbol">→</span>
+                            <span class="arrow-text">ベイジアンブレイン</span>
+                            <span class="arrow-symbol">→</span>
+                            <span class="arrow-text">自由エネルギー原理</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="connections-between-eras">
+                    <div class="era-connection">理論から実装へ</div>
+                </div>
+            </div>
+            
+            <!-- 身体化・状況化認知 -->
+            <div class="era-section era-2">
+                <div class="era-title">🤖 身体化・状況化認知</div>
+                <div class="category-group">
+                    <div class="category-box">
+                        <div class="category-title">身体化認知理論</div>
+                        <div class="concepts-grid">
+                            <div class="concept-item embodied">エンアクティヴィズム</div>
+                            <div class="concept-item embodied">拡張認知</div>
+                            <div class="concept-item embodied">身体化認知</div>
+                            <div class="concept-item embodied">状況認知</div>
+                            <div class="concept-item embodied">分散認知</div>
+                        </div>
+                        <div class="flow-arrows">
+                            <span class="arrow-text">身体</span>
+                            <span class="arrow-symbol">↔</span>
+                            <span class="arrow-text">環境</span>
+                            <span class="arrow-symbol">↔</span>
+                            <span class="arrow-text">認知</span>
+                        </div>
+                    </div>
+                    <div class="category-box">
+                        <div class="category-title">複雑系・ネットワーク</div>
+                        <div class="concepts-grid">
+                            <div class="concept-item complex">ネットワーク科学</div>
+                            <div class="concept-item complex">複雑系</div>
+                            <div class="concept-item complex">創発</div>
+                            <div class="concept-item complex">自己組織化</div>
+                            <div class="concept-item complex">非線形ダイナミクス</div>
+                            <div class="concept-item complex">カオス理論</div>
+                            <div class="concept-item complex">フラクタル</div>
+                            <div class="concept-item complex">スケールフリー</div>
+                            <div class="concept-item complex">スモールワールド</div>
+                            <div class="concept-item complex">社会ネットワーク分析</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="connections-between-eras">
+                    <div class="era-connection">計算論的実装へ</div>
+                </div>
+            </div>
+            
+            <!-- AI・計算論的アプローチ -->
+            <div class="era-section era-3">
+                <div class="era-title">💻 AI・計算論的アプローチ</div>
+                <div class="category-group">
+                    <div class="category-box">
+                        <div class="category-title">AI・機械学習</div>
+                        <div class="concepts-grid">
+                            <div class="concept-item ai-tech">計算論的心理学</div>
+                            <div class="concept-item ai-tech">人工知能と心理学</div>
+                            <div class="concept-item ai-tech">機械学習と心理学</div>
+                            <div class="concept-item ai-tech">ディープラーニング</div>
+                            <div class="concept-item ai-tech">ニューラルネットワーク</div>
+                            <div class="concept-item ai-tech">認知アーキテクチャ</div>
+                            <div class="concept-item ai-tech">記号主義</div>
+                            <div class="concept-item ai-tech">コネクショニズム</div>
+                        </div>
+                    </div>
+                    <div class="category-box">
+                        <div class="category-title">人間機械相互作用</div>
+                        <div class="concepts-grid">
+                            <div class="concept-item ai-tech">認知ロボティクス</div>
+                            <div class="concept-item ai-tech">人間機械相互作用</div>
+                            <div class="concept-item ai-tech">HCI</div>
+                            <div class="concept-item ai-tech">バーチャルリアリティ</div>
+                            <div class="concept-item ai-tech">拡張現実</div>
+                            <div class="concept-item ai-tech">混合現実</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="connections-between-eras">
+                    <div class="era-connection">実用化・応用へ</div>
+                </div>
+            </div>
+            
+            <!-- デジタルヘルス・神経技術 -->
+            <div class="era-section era-4">
+                <div class="era-title">🏥 デジタルヘルス・神経技術</div>
+                <div class="category-group">
+                    <div class="category-box">
+                        <div class="category-title">デジタルヘルス</div>
+                        <div class="concepts-grid">
+                            <div class="concept-item digital-health">デジタルセラピューティクス</div>
+                            <div class="concept-item digital-health">eヘルス</div>
+                            <div class="concept-item digital-health">mヘルス</div>
+                            <div class="concept-item digital-health">テレヘルス</div>
+                            <div class="concept-item digital-health">テレセラピー</div>
+                            <div class="concept-item digital-health">オンラインカウンセリング</div>
+                            <div class="concept-item digital-health">チャットボットセラピー</div>
+                            <div class="concept-item digital-health">AIセラピスト</div>
+                        </div>
+                    </div>
+                    <div class="category-box">
+                        <div class="category-title">神経技術・脳刺激</div>
+                        <div class="concepts-grid">
+                            <div class="concept-item neuro-tech">バイオフィードバック</div>
+                            <div class="concept-item neuro-tech">ニューロフィードバック</div>
+                            <div class="concept-item neuro-tech">脳刺激法</div>
+                            <div class="concept-item neuro-tech">経頭蓋磁気刺激</div>
+                            <div class="concept-item neuro-tech">経頭蓋直流刺激</div>
+                            <div class="concept-item neuro-tech">光遺伝学</div>
+                            <div class="concept-item neuro-tech">ケモジェネティクス</div>
+                            <div class="concept-item neuro-tech">脳オルガノイド</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="connections-between-eras">
+                    <div class="era-connection">脳解析技術の統合</div>
+                </div>
+            </div>
+            
+            <!-- 脳解析・AI倫理 -->
+            <div class="era-section era-5">
+                <div class="era-title">🔬 脳解析・AI倫理</div>
+                <div class="category-group">
+                    <div class="category-box">
+                        <div class="category-title">脳解析技術</div>
+                        <div class="concepts-grid">
+                            <div class="concept-item ai-tech">脳イメージング技術</div>
+                            <div class="concept-item ai-tech">リアルタイムfMRI</div>
+                            <div class="concept-item ai-tech">高密度EEG</div>
+                            <div class="concept-item ai-tech">BMI</div>
+                            <div class="concept-item ai-tech">BCI</div>
+                            <div class="concept-item ai-tech">神経デコーディング</div>
+                            <div class="concept-item ai-tech">神経エンコーディング</div>
+                            <div class="concept-item ai-tech">機械学習による脳解析</div>
+                        </div>
+                    </div>
+                    <div class="category-box">
+                        <div class="category-title">AI倫理・社会実装</div>
+                        <div class="concepts-grid">
+                            <div class="concept-item complex">説明可能AI</div>
+                            <div class="concept-item complex">AIの倫理</div>
+                            <div class="concept-item complex">アルゴリズムバイアス</div>
+                            <div class="concept-item complex">機械学習の公平性</div>
+                            <div class="concept-item complex">人間中心AI</div>
+                            <div class="concept-item complex">信頼できるAI</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="connections-between-eras">
+                    <div class="era-connection">意識の謎へ</div>
+                </div>
+            </div>
+            
+            <!-- 意識・クオリア研究 -->
+            <div class="era-section era-6">
+                <div class="era-title">🌟 意識・クオリア研究</div>
+                <div class="category-group">
+                    <div class="category-box">
+                        <div class="category-title">AI意識研究</div>
+                        <div class="concepts-grid">
+                            <div class="concept-item consciousness">AIと意識</div>
+                            <div class="concept-item consciousness">強いAI vs 弱いAI</div>
+                            <div class="concept-item consciousness">人工一般知能</div>
+                            <div class="concept-item consciousness">機械意識</div>
+                            <div class="concept-item consciousness">中国語の部屋</div>
+                            <div class="concept-item consciousness">チューリングテスト</div>
+                        </div>
+                    </div>
+                    <div class="category-box">
+                        <div class="category-title">意識理論</div>
+                        <div class="concepts-grid">
+                            <div class="concept-item consciousness">ハードプロブレム</div>
+                            <div class="concept-item consciousness">クオリア</div>
+                            <div class="concept-item consciousness">現象的意識</div>
+                            <div class="concept-item consciousness">アクセス意識</div>
+                            <div class="concept-item consciousness">統合情報理論</div>
+                            <div class="concept-item consciousness">グローバルワークスペース理論</div>
+                            <div class="concept-item consciousness">高次思考理論</div>
+                            <div class="concept-item consciousness">注意図式理論</div>
+                        </div>
+                    </div>
+                    <div class="category-box">
+                        <div class="category-title">意識現象の研究</div>
+                        <div class="concepts-grid">
+                            <div class="concept-item consciousness">意識の神経相関</div>
+                            <div class="concept-item consciousness">両眼競合</div>
+                            <div class="concept-item consciousness">変化盲</div>
+                            <div class="concept-item consciousness">非注意盲</div>
+                            <div class="concept-item consciousness">マスキング</div>
+                            <div class="concept-item consciousness">閾下知覚</div>
+                            <div class="concept-item consciousness">盲視</div>
+                            <div class="concept-item consciousness">分離脳と意識</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="summary-box">
+            <div class="summary-title">🎯 主要な発展の流れ</div>
+            <div class="key-flows">
+                <div class="flow-item">
+                    <div class="flow-title">🔮 理論革命</div>
+                    <div class="flow-desc">予測符号化 → ベイジアンブレイン → 自由エネルギー原理 → アクティブインファレンス</div>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-title">🤖 認知の再定義</div>
+                    <div class="flow-desc">エンアクティヴィズム ↔ 拡張認知 ↔ 身体化認知 ↔ 状況認知</div>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-title">💻 AI統合</div>
+                    <div class="flow-desc">計算論的心理学 → AI&心理学 → 機械学習 → ディープラーニング</div>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-title">🏥 実用化</div>
+                    <div class="flow-desc">デジタルセラピューティクス → テレヘルス → AIセラピスト</div>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-title">🧠 脳技術</div>
+                    <div class="flow-desc">脳刺激法 → BMI → BCI → ニューロプロステティクス</div>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-title">🌟 意識の謎</div>
+                    <div class="flow-desc">ハードプロブレム → クオリア → 統合情報理論 → 意識の神経相関</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="legend-panel">
+        <div class="legend-title">🎨 色分けガイド</div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: linear-gradient(135deg, #e53e3e, #fc8181);"></div>
+            <span>予測脳理論・意識研究</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: linear-gradient(135deg, #38a169, #68d391);"></div>
+            <span>身体化・状況化認知</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: linear-gradient(135deg, #805ad5, #b794f6);"></div>
+            <span>複雑系・AI倫理</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: linear-gradient(135deg, #3182ce, #63b3ed);"></div>
+            <span>AI・機械学習・脳解析</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: linear-gradient(135deg, #d69e2e, #f6e05e);"></div>
+            <span>デジタルヘルス</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: linear-gradient(135deg, #dd6b20, #f6ad55);"></div>
+            <span>神経技術・脳刺激</span>
+        </div>
+        
+        <div class="legend-title" style="margin-top: 20px;">🔗 矢印の意味</div>
+        <div style="font-size: 0.85em; color: #4a5568;">
+            <div>→ 理論的発展</div>
+            <div>↔ 相互関係</div>
+            <div>↓ 時代的継承</div>
+        </div>
+    </div>
+    
+    <div class="tooltip" id="tooltip"></div>
+    
+    <script>
+        // ホバーエフェクト
+        document.querySelectorAll('.concept-item').forEach(item => {
+            item.addEventListener('mouseenter', function(e) {
+                const tooltip = document.getElementById('tooltip');
+                const text = this.textContent;
+                
+                const descriptions = {
+                    '予測符号化': '脳が感覚入力を予測し、予測誤差を最小化するメカニズム',
+                    'ベイジアンブレイン': '脳がベイズ統計で不確実性を処理する理論',
+                    '自由エネルギー原理': '生物が驚きを最小化する統一理論',
+                    'エンアクティヴィズム': '認知が身体と環境の相互作用で生まれる理論',
+                    'ディープラーニング': '多層ニューラルネットワークによる機械学習',
+                    'BMI': '脳信号で外部機器を制御するインターフェース',
+                    'ハードプロブレム': 'なぜ主観的体験が存在するのかという意識の根本問題',
+                    'クオリア': '赤さ、痛みなど主観的体験の質的側面'
+                };
+                
+                tooltip.textContent = descriptions[text] || text;
+                tooltip.style.display = 'block';
+                tooltip.style.left = e.pageX + 10 + 'px';
+                tooltip.style.top = e.pageY + 10 + 'px';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                document.getElementById('tooltip').style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
