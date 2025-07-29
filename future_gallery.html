@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>あなたの未来作品ギャラリー</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: white;
+        min-height: 100vh;
+    }
+
+    .hero {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: white;
+        padding: 80px 40px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="g"><stop offset="0%" stop-color="%23fff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23fff" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="50" r="40" fill="url(%23g)"/></svg>') repeat;
+        opacity: 0.1;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero h1 {
+        font-size: 4em;
+        margin-bottom: 20px;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96c93d);
+        background-size: 400% 400%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradient 4s ease infinite;
+    }
+
+    @keyframes gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .hero p {
+        font-size: 1.4em;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+
+    .timeline {
+        position: relative;
+        padding: 50px 40px;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(to bottom, #667eea, #764ba2);
+        transform: translateX(-50%);
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 80px;
+        width: 50%;
+    }
+
+    .timeline-item:nth-child(odd) {
+        left: 0;
+        padding-right: 50px;
+    }
+
+    .timeline-item:nth-child(even) {
+        left: 50%;
+        padding-left: 50px;
+    }
+
+    .timeline-marker {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        top: 30px;
+        box-shadow: 0 0 0 8px white, 0 0 0 12px #667eea;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-marker {
+        right: -15px;
+    }
+
+    .timeline-item:nth-child(even) .timeline-marker {
+        left: -15px;
+    }
+
+    .work-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #f0f0f0;
+    }
+
+    .work-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+    }
+
+    .work-preview {
+        height: 250px;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3em;
+        overflow: hidden;
+    }
+
+    .work-preview::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    }
+
+    .work-preview .icon {
+        position: relative;
+        z-index: 1;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .work-info {
+        padding: 30px;
+    }
+
+    .work-period {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .work-title {
+        font-size: 1.8em;
+        color: #2c3e50;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+
+    .work-description {
+        color: #7f8c8d;
+        margin-bottom: 20px;
+        line-height: 1.7;
+    }
+
+    .work-details {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px 0;
+    }
+
+    .detail-section {
+        margin-bottom: 15px;
+    }
+
+    .detail-label {
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+
+    .detail-content {
+        color: #5d6d7e;
+        font-size: 0.95em;
+    }
+
+    .skills-used {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 15px;
+    }
+
+    .skill-tag {
+        background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-size: 0.8em;
+        font-weight: 500;
+    }
+
+    .impact-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .metric {
+        text-align: center;
+        padding: 15px;
+        background: white;
+        border-radius: 10px;
+        border: 2px solid #e9ecef;
+    }
+
+    .metric-value {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #667eea;
+        display: block;
+    }
+
+    .metric-label {
+        font-size: 0.8em;
+        color: #7f8c8d;
+        margin-top: 5px;
+    }
+
+    .achievement-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%);
+        color: #8b6914;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        font-weight: bold;
+        margin: 5px;
+        box-shadow: 0 3px 10px rgba(255, 215, 0, 0.3);
+    }
+
+    .future-vision {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        padding: 50px 40px;
+        text-align: center;
+    }
+
+    .vision-title {
+        font-size: 2.5em;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+
+    .vision-description {
+        font-size: 1.2em;
+        color: #5d4e75;
+        max-width: 800px;
+        margin: 0 auto 30px;
+        line-height: 1.8;
+    }
+
+    .career-paths {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-top: 40px;
+    }
+
+    .career-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .career-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .career-icon {
+        font-size: 3em;
+        margin-bottom: 15px;
+    }
+
+    .career-title {
+        font-size: 1.4em;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .career-description {
+        color: #7f8c8d;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+        .timeline::before {
+            left: 30px;
+        }
+
+        .timeline-item {
+            width: 100%;
+            left: 0 !important;
+            padding-left: 70px !important;
+            padding-right: 20px !important;
+        }
+
+        .timeline-marker {
+            left: 15px !important;
+            right: auto !important;
+        }
+
+        .hero h1 {
+            font-size: 2.5em;
+        }
+    }
+
+    .claude-integration {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+    }
+
+    .claude-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .claude-content {
+        font-size: 0.95em;
+        opacity: 0.9;
+        line-height: 1.6;
+    }
+</style>
+
+</head>
+<body>
+<div class="container">
+<div class="hero">
+<div class="hero-content">
+<h1>🎬 Your Future Gallery</h1>
+<p>あなたが創造する未来の作品たち</p>
+<p>Claude連携システムから始まる、創造の軌跡</p>
+</div>
+</div>
+
+    <div class="timeline">
+        <!-- 3ヶ月後 -->
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="work-card">
+                <div class="work-preview" style="background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);">
+                    <div class="icon">🏠</div>
+                </div>
+                <div class="work-info">
+                    <div class="work-period">3ヶ月後</div>
+                    <h3 class="work-title">「未来都市の一角」- モジュラー建築シリーズ</h3>
+                    <p class="work-description">
+                        Claude連携システムで生成したコードを発展させ、プロシージャルな建築物群を制作。
+                        SF映画にも使えるレベルの精密なモデリングと、リアルタイムレンダリング対応。
+                    </p>
+
+                    <div class="work-details">
+                        <div class="detail-section">
+                            <div class="detail-label">📝 制作プロセス</div>
+                            <div class="detail-content">
+                                1. Claudeに「近未来的な居住区の建築群」を依頼<br>
+                                2. 生成されたベースコードを改良・拡張<br>
+                                3. プロシージャルテクスチャとライティングで仕上げ<br>
+                                4. Unreal Engineでリアルタイム展示
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="detail-label">🛠️ 使用技術</div>
+                            <div class="skills-used">
+                                <span class="skill-tag">Blender Geometry Nodes</span>
+                                <span class="skill-tag">PBR Materials</span>
+                                <span class="skill-tag">HDRI Lighting</span>
+                                <span class="skill-tag">Claude AI</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="detail-label">🎯 達成した成果</div>
+                            <div class="impact-metrics">
+                                <div class="metric">
+                                    <span class="metric-value">15K</span>
+                                    <span class="metric-label">SNSいいね</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">3</span>
+                                    <span class="metric-label">企業からの依頼</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">50+</span>
+                                    <span class="metric-label">企業クライアント</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="claude-integration">
+                        <div class="claude-title">
+                            🤖 Claude連携ポイント
+                        </div>
+                        <div class="claude-content">
+                            スタジオの核となる「Claude Creative Engine」を開発。クライアントの要望を自然言語で入力するだけで、コンセプトアートからアニメーション、最終映像まで一貫して制作できるシステムを実現。業界に革命をもたらし、多くのスタジオが技術導入を希望。
+                        </div>
+                    </div>
+
+                    <div class="achievement-badge">🏢 起業家デビュー</div>
+                    <div class="achievement-badge">🌍 業界変革</div>
+                    <div class="achievement-badge">📈 IPO候補</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5年後 -->
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="work-card">
+                <div class="work-preview" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="icon">🌟</div>
+                </div>
+                <div class="work-info">
+                    <div class="work-period">5年後</div>
+                    <h3 class="work-title">「New Renaissance」- 世界的アート運動の創始</h3>
+                    <p class="work-description">
+                        AI協創アートの第一人者として、MoMA、ルーヴル美術館での個展開催。
+                        人間とAIの創造的パートナーシップを再定義し、新たな芸術ムーブメントを牽引。
+                    </p>
+
+                    <div class="work-details">
+                        <div class="detail-section">
+                            <div class="detail-label">🎨 芸術理論の確立</div>
+                            <div class="detail-content">
+                                「AI協創理論」を学術的に体系化。TEDxトーク「The Future of Human-AI Creativity」が1000万回再生を超え、世界中の大学でカリキュラムに採用される。芸術史に新たな章を刻む。
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="detail-label">🌍 グローバルインパクト</div>
+                            <div class="skills-used">
+                                <span class="skill-tag">Art Theory Development</span>
+                                <span class="skill-tag">Museum Curation</span>
+                                <span class="skill-tag">Academic Research</span>
+                                <span class="skill-tag">Cultural Innovation</span>
+                                <span class="skill-tag">Global Influence</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="detail-label">🏆 歴史的評価</div>
+                            <div class="impact-metrics">
+                                <div class="metric">
+                                    <span class="metric-value">5M</span>
+                                    <span class="metric-label">美術館来場者</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">200+</span>
+                                    <span class="metric-label">メディア掲載</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">3</span>
+                                    <span class="metric-label">芸術賞受賞</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="claude-integration">
+                        <div class="claude-title">
+                            🤖 Claude連携ポイント
+                        </div>
+                        <div class="claude-content">
+                            Claudeとの10年に渡るパートナーシップから生まれた独自の創作手法「Conscious Co-creation」を確立。AIと人間が対等なクリエイティブパートナーとして協働する新しい芸術形態を世界に提示し、芸術の定義そのものを拡張。
+                        </div>
+                    </div>
+
+                    <div class="achievement-badge">🎨 アート界の革命児</div>
+                    <div class="achievement-badge">🌟 文化的アイコン</div>
+                    <div class="achievement-badge">📚 教科書掲載</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="future-vision">
+        <h2 class="vision-title">🚀 あなたの未来、始まりは今日</h2>
+        <p class="vision-description">
+            これらの作品は、今日あなたがClaudeとBlenderで始める小さな一歩から生まれます。
+            AI連携システムを使いこなし、創造性と技術力を磨き続けることで、
+            想像を超える未来が待っています。
+        </p>
+
+        <div class="career-paths">
+            <div class="career-card">
+                <div class="career-icon">🎬</div>
+                <h3 class="career-title">映像プロデューサー</h3>
+                <p class="career-description">
+                    Netflix、Disney、Pixar等での大作映画制作。AI技術を駆使した新しい映像表現の開拓者として、エンターテイメント業界を牽引。
+                </p>
+            </div>
+
+            <div class="career-card">
+                <div class="career-icon">🎮</div>
+                <h3 class="career-title">ゲームアートディレクター</h3>
+                <p class="career-description">
+                    AAA級ゲームタイトルのビジュアル責任者。AI協創技術により、従来の10倍の効率でゲーム世界を構築し、業界標準を変革。
+                </p>
+            </div>
+
+            <div class="career-card">
+                <div class="career-icon">🏢</div>
+                <h3 class="career-title">テクノロジー起業家</h3>
+                <p class="career-description">
+                    AI×クリエイティブ分野での革新的企業を設立。世界中のクリエイターが使用するツールを開発し、創造産業の未来を形作る。
+                </p>
+            </div>
+
+            <div class="career-card">
+                <div class="career-icon">🎨</div>
+                <h3 class="career-title">デジタルアーティスト</h3>
+                <p class="career-description">
+                    世界の美術館で個展を開く現代アーティスト。AI協創という新しい芸術手法を確立し、人類の創造性の可能性を拡張する先駆者。
+                </p>
+            </div>
+
+            <div class="career-card">
+                <div class="career-icon">🎓</div>
+                <h3 class="career-title">未来教育者</h3>
+                <p class="career-description">
+                    世界トップ大学での教授職。AI時代のクリエイティブ教育を設計し、次世代のクリエイターを育成する教育革新者。
+                </p>
+            </div>
+
+            <div class="career-card">
+                <div class="career-icon">🌍</div>
+                <h3 class="career-title">カルチャーイノベーター</h3>
+                <p class="career-description">
+                    文化庁、ユネスコ等で政策立案。AI時代の文化政策を設計し、人類の創造的遺産を次世代に継承する文化的リーダー。
+                </p>
+            </div>
+        </div>
+
+        <div style="margin-top: 50px; padding: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; color: white; text-align: center;">
+            <h3 style="font-size: 2em; margin-bottom: 20px;">✨ Today is Day One</h3>
+            <p style="font-size: 1.2em; margin-bottom: 30px; opacity: 0.9;">
+                この壮大な未来への第一歩は、今日のあなたのBlender学習から始まります。<br>
+                Claude連携システムが、あなたの創造力を無限に拡張します。
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px;">
+                <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 15px; backdrop-filter: blur(10px);">
+                    <div style="font-size: 2em; margin-bottom: 10px;">🎯</div>
+                    <div style="font-weight: bold; margin-bottom: 5px;">今日のアクション</div>
+                    <div style="font-size: 0.9em; opacity: 0.9;">Blenderを開いて最初のオブジェクトを作成</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 15px; backdrop-filter: blur(10px);">
+                    <div style="font-size: 2em; margin-bottom: 10px;">🤖</div>
+                    <div style="font-weight: bold; margin-bottom: 5px;">来週の目標</div>
+                    <div style="font-size: 0.9em; opacity: 0.9;">Claude連携システムでコード生成成功</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 15px; backdrop-filter: blur(10px);">
+                    <div style="font-size: 2em; margin-bottom: 10px;">🏆</div>
+                    <div style="font-weight: bold; margin-bottom: 5px;">1ヶ月後</div>
+                    <div style="font-size: 0.9em; opacity: 0.9;">最初の作品をSNSでシェア</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 15px; backdrop-filter: blur(10px);">
+                    <div style="font-size: 2em; margin-bottom: 10px;">🌟</div>
+                    <div style="font-weight: bold; margin-bottom: 5px;">1年後</div>
+                    <div style="font-size: 0.9em; opacity: 0.9;">プロレベルの作品完成</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <button onclick="startJourney()" style="background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%); color: white; border: none; padding: 20px 40px; border-radius: 30px; font-size: 1.2em; font-weight: bold; cursor: pointer; box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3); transition: transform 0.3s ease;">
+                    🚀 今すぐ創造の旅を始める
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function startJourney() {
+        const message = `🎬 あなたの創造の旅が今始まります！
+
+📅 今日から始める具体的ステップ：
+
+1. 🎯 今すぐやること（5分）
+   • Blenderを開く
+   • 基本操作を確認
+   • 最初の立方体を作成
+
+2. 🤖 今週の目標（7日間）
+   • Claude連携システムのセットアップ
+   • 簡単なオブジェクト作成
+   • 基本的なレンダリング
+
+3. 🏆 今月の目標（30日間）
+   • ドーナツチュートリアル完成
+   • オリジナル作品1点制作
+   • SNSでのシェア開始
+
+4. 🌟 3ヶ月後の目標
+   • 複雑なシーン制作
+   • アニメーション挑戦
+   • ポートフォリオ開始
+
+あなたが今描いた未来の作品たちは、
+今日の小さな一歩から生まれます。
+
+Claude連携システムがあなたの強力な
+パートナーとなり、想像を超える創造を
+サポートします。
+
+準備はできましたか？
+Let's create the future! 🚀✨`;
+
+        const newWindow = window.open('', '_blank', 'width=600,height=700');
+        newWindow.document.write(`
+            <html>
+            <head>
+                <title>Your Creative Journey Starts Now!</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        padding: 30px;
+                        line-height: 1.6;
+                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                        color: white;
+                        margin: 0;
+                    }
+                    .container {
+                        background: rgba(255, 255, 255, 0.1);
+                        padding: 40px;
+                        border-radius: 20px;
+                        backdrop-filter: blur(20px);
+                        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+                    }
+                    h2 {
+                        text-align: center;
+                        font-size: 2.5em;
+                        margin-bottom: 30px;
+                        background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+                        background-size: 300% 300%;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        animation: gradient 3s ease infinite;
+                    }
+                    @keyframes gradient {
+                        0% { background-position: 0% 50%; }
+                        50% { background-position: 100% 50%; }
+                        100% { background-position: 0% 50%; }
+                    }
+                    .step {
+                        background: rgba(255, 255, 255, 0.2);
+                        padding: 20px;
+                        margin: 20px 0;
+                        border-radius: 15px;
+                        backdrop-filter: blur(10px);
+                    }
+                    .action-btn {
+                        display: block;
+                        width: 100%;
+                        background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+                        color: white;
+                        border: none;
+                        padding: 15px;
+                        border-radius: 25px;
+                        font-size: 1.1em;
+                        font-weight: bold;
+                        cursor: pointer;
+                        margin-top: 30px;
+                        transition: transform 0.3s ease;
+                    }
+                    .action-btn:hover {
+                        transform: scale(1.05);
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h2>🎬 Your Creative Journey</h2>
+                    <pre style="white-space: pre-wrap; font-family: inherit; font-size: 1em;">${message}</pre>
+                    <button class="action-btn" onclick="window.close()">
+                        ✨ Let's Start Creating! ✨
+                    </button>
+                </div>
+            </body>
+            </html>
+        `);
+    }
+
+    // スクロールアニメーション
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // ページ読み込み時の初期化
+    window.addEventListener('load', () => {
+        // アニメーション要素の設定
+        document.querySelectorAll('.timeline-item').forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(50px)';
+            item.style.transition = `all 0.8s ease ${index * 0.2}s`;
+            observer.observe(item);
+        });
+
+        // パーティクルエフェクト（簡易版）
+        createParticles();
+    });
+
+    function createParticles() {
+        const hero = document.querySelector('.hero');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+                position: absolute;
+                width: 2px;
+                height: 2px;
+                background: rgba(255, 255, 255, 0.5);
+                border-radius: 50%;
+                pointer-events: none;
+                animation: float ${3 + Math.random() * 4}s linear infinite;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                animation-delay: ${Math.random() * 5}s;
+            `;
+            hero.appendChild(particle);
+        }
+
+        // CSS アニメーション追加
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+                100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+</script>
+
+</body>
+</html>
+                                    <span class="metric-label">フォロワー増</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="claude-integration">
+                        <div class="claude-title">
+                            🤖 Claude連携ポイント
+                        </div>
+                        <div class="claude-content">
+                            「100棟の建物を効率的に配置する」「各建物に個性を持たせつつ統一感を保つ」といった複雑な要求を、自然言語でClaudeに依頼。生成されたPythonコードをベースに、自分のクリエイティブビジョンを実現。
+                        </div>
+                    </div>
+
+                    <div class="achievement-badge">🏆 初のバイラル作品</div>
+                    <div class="achievement-badge">💼 商業案件デビュー</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6ヶ月後 -->
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="work-card">
+                <div class="work-preview" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <div class="icon">🎭</div>
+                </div>
+                <div class="work-info">
+                    <div class="work-period">6ヶ月後</div>
+                    <h3 class="work-title">「記憶の欠片」- 短編アニメーション</h3>
+                    <p class="work-description">
+                        抽象的な記憶をテーマにした3分間の短編アニメーション。キャラクターアニメーション、
+                        パーティクルシステム、ポストプロダクションまで全工程を一人で制作。
+                    </p>
+
+                    <div class="work-details">
+                        <div class="detail-section">
+                            <div class="detail-label">🎬 ストーリーボード</div>
+                            <div class="detail-content">
+                                老人の回想シーンで、記憶が光の粒子として舞い上がり、過去の映像が空中に浮遊する幻想的な表現。Claudeに相談しながら効果的な演出方法を模索し、感情的なインパクトを最大化。
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="detail-label">🎨 アートディレクション</div>
+                            <div class="skills-used">
+                                <span class="skill-tag">Character Animation</span>
+                                <span class="skill-tag">Particle Systems</span>
+                                <span class="skill-tag">Volumetrics</span>
+                                <span class="skill-tag">Compositing</span>
+                                <span class="skill-tag">Sound Design</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="detail-label">🏆 映画祭での評価</div>
+                            <div class="impact-metrics">
+                                <div class="metric">
+                                    <span class="metric-value">5</span>
+                                    <span class="metric-label">映画祭入選</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">100K</span>
+                                    <span class="metric-label">YouTube再生</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">8.2</span>
+                                    <span class="metric-label">IMDb評価</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="claude-integration">
+                        <div class="claude-title">
+                            🤖 Claude連携ポイント
+                        </div>
+                        <div class="claude-content">
+                            複雑なパーティクルアニメーションの制御、感情表現のための色彩設計、効率的なレンダリング設定など、技術的な課題をClaudeと二人三脚で解決。特に「記憶の断片化」を視覚的に表現するアルゴリズムの開発が画期的だった。
+                        </div>
+                    </div>
+
+                    <div class="achievement-badge">🎪 映画祭入選</div>
+                    <div class="achievement-badge">📺 業界注目</div>
+                    <div class="achievement-badge">🎓 メンター依頼</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1年後 -->
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="work-card">
+                <div class="work-preview" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="icon">🎮</div>
+                </div>
+                <div class="work-info">
+                    <div class="work-period">1年後</div>
+                    <h3 class="work-title">「エコトピア」- インディーゲーム環境アート</h3>
+                    <p class="work-description">
+                        環境問題をテーマにしたインディーゲームの全環境アート制作を担当。
+                        美しい自然から荒廃した未来まで、多様な世界観を表現し、Steamで高評価を獲得。
+                    </p>
+
+                    <div class="work-details">
+                        <div class="detail-section">
+                            <div class="detail-label">🌍 世界観設計</div>
+                            <div class="detail-content">
+                                プレイヤーの選択によって変化する世界を、リアルタイムで美しく描き出すシステムを構築。
+                                Claudeとブレインストーミングを重ね、環境ストーリーテリングの新手法を開発。
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="detail-label">⚙️ 技術革新</div>
+                            <div class="skills-used">
+                                <span class="skill-tag">Procedural Generation</span>
+                                <span class="skill-tag">Real-time VFX</span>
+                                <span class="skill-tag">LOD Optimization</span>
+                                <span class="skill-tag">Dynamic Weather</span>
+                                <span class="skill-tag">Ecosystem Simulation</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="detail-label">💼 商業的成功</div>
+                            <div class="impact-metrics">
+                                <div class="metric">
+                                    <span class="metric-value">50K</span>
+                                    <span class="metric-label">販売本数</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">92%</span>
+                                    <span class="metric-label">Steam好評価</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">$150K</span>
+                                    <span class="metric-label">収益分配</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="claude-integration">
+                        <div class="claude-title">
+                            🤖 Claude連携ポイント
+                        </div>
+                        <div class="claude-content">
+                            「季節変化に応じて植生が動的に変わるシステム」「プレイヤーの行動によって生態系が変化するアルゴリズム」など、複雑なゲームロジックをClaudeとペアプログラミング。従来では数ヶ月かかる開発を数週間で実現。
+                        </div>
+                    </div>
+
+                    <div class="achievement-badge">🎮 Steam注目作品</div>
+                    <div class="achievement-badge">💰 初の大きな収益</div>
+                    <div class="achievement-badge">🌟 業界アワード候補</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2年後 -->
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="work-card">
+                <div class="work-preview" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="icon">🎭</div>
+                </div>
+                <div class="work-info">
+                    <div class="work-period">2年後</div>
+                    <h3 class="work-title">「量子の詩人」- Netflix配信VFX制作</h3>
+                    <p class="work-description">
+                        SF映画の重要なVFXシーンを単独で制作。量子物理学の可視化という困難なテーマに挑戦し、
+                        アカデミー賞VFX部門でのノミネート作品に貢献。
+                    </p>
+
+                    <div class="work-details">
+                        <div class="detail-section">
+                            <div class="detail-label">🔬 科学的考証</div>
+                            <div class="detail-content">
+                                量子もつれ、波動関数の収束、多世界解釈といった抽象的な物理現象を、一般観客にも理解できる美しい映像で表現。物理学者との協働により、科学的正確性と芸術性を両立。
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="detail-label">🎬 映画制作技術</div>
+                            <div class="skills-used">
+                                <span class="skill-tag">Photorealistic VFX</span>
+                                <span class="skill-tag">Scientific Visualization</span>
+                                <span class="skill-tag">Motion Capture</span>
+                                <span class="skill-tag">Color Science</span>
+                                <span class="skill-tag">Pipeline Development</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="detail-label">🏆 業界での評価</div>
+                            <div class="impact-metrics">
+                                <div class="metric">
+                                    <span class="metric-value">250M</span>
+                                    <span class="metric-label">全世界視聴者</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">85%</span>
+                                    <span class="metric-label">RT批評家評価</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">1</span>
+                                    <span class="metric-label">アカデミー候補</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="claude-integration">
+                        <div class="claude-title">
+                            🤖 Claude連携ポイント
+                        </div>
+                        <div class="claude-content">
+                            複雑な物理シミュレーションのパラメータ調整、大量のVFXショットの効率的な管理、レンダーファーム最適化など、Claudeが技術的パートナーとして活躍。特に「量子状態の重ね合わせ」を視覚化するアルゴリズムは革新的だった。
+                        </div>
+                    </div>
+
+                    <div class="achievement-badge">🎬 ハリウッドデビュー</div>
+                    <div class="achievement-badge">🏆 VFX業界認知</div>
+                    <div class="achievement-badge">💎 テクニカル革新</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3年後 -->
+        <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="work-card">
+                <div class="work-preview" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+                    <div class="icon">🏢</div>
+                </div>
+                <div class="work-info">
+                    <div class="work-period">3年後</div>
+                    <h3 class="work-title">「Claude Creative Studio」設立</h3>
+                    <p class="work-description">
+                        AI連携技術を核とした革新的なクリエイティブスタジオを設立。
+                        従来の10倍の効率でハイクオリティな作品を制作する新しいワークフローを確立し、業界標準を変革。
+                    </p>
+
+                    <div class="work-details">
+                        <div class="detail-section">
+                            <div class="detail-label">🚀 革新的技術</div>
+                            <div class="detail-content">
+                                あなたが開発したClaude連携システムを発展させ、AIが創作プロセス全体をサポートする統合環境を構築。アイデア出しからファイナルレンダリングまで、人間の創造性とAIの計算力が完璧に融合。
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="detail-label">🌟 事業展開</div>
+                            <div class="skills-used">
+                                <span class="skill-tag">AI Pipeline Development</span>
+                                <span class="skill-tag">Team Leadership</span>
+                                <span class="skill-tag">Business Strategy</span>
+                                <span class="skill-tag">Technology Innovation</span>
+                                <span class="skill-tag">Global Expansion</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="detail-label">💼 ビジネス成果</div>
+                            <div class="impact-metrics">
+                                <div class="metric">
+                                    <span class="metric-value">25</span>
+                                    <span class="metric-label">従業員数</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">$2M</span>
+                                    <span class="metric-label">年間売上</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">50+</span>
+                
