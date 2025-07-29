@@ -107,6 +107,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SCHOLAR QUEST - 究極の学習RPG</title>
     <style>
+        /* デバッグ表示を隠す */
+        .debug-info {
+            display: none !important;
+        }
+        
+        *:not(.rpg-container):not(.rpg-container *) {
+            font-size: 0 !important;
+            line-height: 0 !important;
+            overflow: hidden !important;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -119,12 +130,16 @@
             min-height: 100vh;
             overflow-x: auto;
             color: #ffffff;
+            margin: 0;
+            padding: 0;
         }
 
         .rpg-container {
             padding: 20px;
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .title {
@@ -510,6 +525,13 @@
     </style>
 </head>
 <body>
+    <!-- デバッグ情報を完全に隠す -->
+    <style>
+        body > *:not(.rpg-container):not(script) {
+            display: none !important;
+        }
+    </style>
+    
     <button class="download-btn" onclick="downloadHTML()">📥 HTMLダウンロード</button>
     
     <div class="rpg-container">
@@ -606,7 +628,7 @@
                 }
             ],
             finalBoss: {
-                name: "筑波大学入学試験",
+                name: "最終試験",
                 phases: [
                     { name: "筆記試験（専門科目）", icon: "📝" },
                     { name: "口述試験", icon: "🗣️" },
