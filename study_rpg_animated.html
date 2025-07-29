@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>筑波大学合格RPG - 81ステージマップ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: auto;
+        }
+
+        .rpg-container {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .title {
+            text-align: center;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 10px #ffff00; }
+            to { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 20px #ffff00, 0 0 30px #ffff00; }
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            height: 30px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 2px solid #fff;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A, #CDDC39);
+            width: 0%;
+            transition: width 0.8s ease;
+            border-radius: 18px;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .world-container {
+            margin: 30px 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+            animation: worldAppear 0.6s ease-out;
+        }
+
+        @keyframes worldAppear {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .world-title {
+            font-size: 24px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+
+        .stages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .stage {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stage.completed {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            animation: completed-pulse 2s infinite;
+        }
+
+        @keyframes completed-pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(76, 175, 80, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(76, 175, 80, 0.8); }
+        }
+
+        .stage.current {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            animation: current-glow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes current-glow {
+            from { box-shadow: 0 0 15px #FFD700; }
+            to { box-shadow: 0 0 25px #FFD700, 0 0 35px #FFA500; }
+        }
+
+        .stage.locked {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .stage:hover:not(.locked) {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .stage-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+
+        .stage-name {
+            font-size: 14px;
+            color: #fff;
+            margin: 5px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+
+        .stage-icon {
+            font-size: 30px;
+            margin: 10px 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .boss-stage {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6) !important;
+            border: 5px solid #f39c12 !important;
+            animation: boss-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes boss-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .final-boss {
+            background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
+            border: 5px solid #f1c40f !important;
+            font-size: 18px !important;
+            animation: final-boss-epic 3s ease-in-out infinite;
+        }
+
+        @keyframes final-boss-epic {
+            0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 0 20px #e74c3c; 
+            }
+            33% { 
+                transform: scale(1.1); 
+                box-shadow: 0 0 30px #e74c3c, 0 0 40px #f1c40f; 
+            }
+            66% { 
+                transform: scale(1.05); 
+                box-shadow: 0 0 25px #e74c3c, 0 0 35px #f1c40f; 
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 3px solid #fff;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            animation: modalSlideIn 0.4s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            color: #fff;
+            float: right;
+            font-size: 36px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #f39c12;
+            text-shadow: 0 0 10px #f39c12;
+        }
+
+        .modal h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .modal-section {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 5px solid #f39c12;
+        }
+
+        .modal-section h3 {
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+
+        .modal-section p, .modal-section li {
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .complete-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .stats-panel {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .stat-value {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .level-up-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: #fff;
+            padding: 30px 50px;
+            border-radius: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            z-index: 2000;
+            animation: levelUp 2s ease-in-out;
+            border: 5px solid #fff;
+            box-shadow: 0 0 30px rgba(243, 156, 18, 0.8);
+        }
+
+        @keyframes levelUp {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .world-icons {
+            display: inline-block;
+            margin-right: 10px;
+            font-size: 28px;
+        }
+
+        .download-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .stages-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 10px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 2% auto;
+                padding: 20px;
+            }
+            
+            .stage {
+                padding: 10px;
+            }
+            
+            .stage-icon {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="download-btn" onclick="downloadHTML()">📥 HTMLダウンロード</button>
+    
+    <div class="rpg-container">
+        <h1 class="title">🎮 筑波大学合格RPG - 81ステージマップ 🎯</h1>
+        
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span>🏆 総進捗率</span>
+                <span class="stat-value" id="overallProgress">0%</span>
+            </div>
+            <div class="stat-item">
+                <span>⭐ 現在レベル</span>
+                <span class="stat-value" id="currentLevel">1</span>
+            </div>
+            <div class="stat-item">
+                <span>🎯 完了ステージ</span>
+                <span class="stat-value" id="completedStages">0/81</span>
+            </div>
+            <div class="stat-item">
+                <span>👑 撃破ボス</span>
+                <span class="stat-value" id="defeatedBosses">0/12</span>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div id="worldsContainer"></div>
+    </div>
+
+    <!-- モーダル -->
+    <div id="stageModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // ゲームデータ
+        const gameData = {
+            worlds: [
+                {
+                    id: 1,
+                    name: "基礎力養成城",
+                    icon: "🏰",
+                    theme: "学習習慣とベース作り",
+                    stages: [
+                        { id: "1-1", name: "勇者の目覚め", icon: "⚔️", mission: "1日15分勉強継続", content: "タイマーを15分セット、筑波大学の募集要項を印刷して熟読、受験科目と配点を手書きでまとめる、勉強ログシートを作成し記入開始", clearCondition: "上記4項目を3日連続実行" },
+                        { id: "1-2", name: "時間の魔法使い", icon: "⏰", mission: "勉強時間を30分に延長×3日", content: "ポモドーロタイマー（25分勉強+5分休憩）を導入、休憩時間のルール設定、30分間の集中度を10段階で記録、集中が切れたタイミングと原因をメモ、最適な勉強開始時間を3パターン試行", clearCondition: "30分×3日連続達成、集中度平均7以上維持" },
+                        { id: "1-3", name: "集中の守護者", icon: "🛡️", mission: "スマホを別部屋に置いて勉強", content: "勉強部屋からスマホ・タブレット完全除去、集中阻害要因リスト10項目作成、各阻害要因への対処法を具体化、集中度測定、「集中儀式」の確立", clearCondition: "スマホ分離勉強を5日連続実行、気が散る回数を50%以下に削減" },
+                        { id: "1-4", name: "計画立案師", icon: "📋", mission: "1週間の学習計画を立てる", content: "筑波大学の試験日から逆算したスケジュール表作成、週間計画テンプレートをA4用紙にデザイン、各科目の優先度を5段階評価で設定", clearCondition: "1週間計画の完全実行（達成率80%以上）" },
+                        { id: "1-5", name: "習慣の錬金術師", icon: "🧪", mission: "毎日同じ時間に勉強開始×5日", content: "最適勉強開始時刻を分単位で固定、開始前30分のルーティンを5ステップで設計、勉強開始の「トリガー」を環境に設置", clearCondition: "設定時刻の±5分以内で開始を5日連続" },
+                        { id: "1-6", name: "記録の史官", icon: "📝", mission: "学習内容を記録×7日", content: "学習ログフォーマットを作成、色ペンで理解度を視覚化、その日最も理解が進んだポイントを1つ記録、つまずいた箇所とその原因を具体的に記述", clearCondition: "7日間連続でログ記録完了、理解度の推移グラフを作成" },
+                        { id: "1-7", name: "復習の賢者", icon: "🔄", mission: "前日の内容を復習×3日", content: "エビングハウス忘却曲線に基づく復習スケジュール作成、前日学習内容の要点を3分で口頭説明、復習専用ノート作成", clearCondition: "3日連続で復習実行、口頭説明で70%以上の内容再現" },
+                        { id: "1-8", name: "継続の戦士", icon: "💪", mission: "2週間連続学習達成", content: "毎日の学習時間を累積グラフ化、モチベーション低下日の対処法を5つ準備、「やる気ゼロの日」でも実行できるミニマル課題設定", clearCondition: "14日間学習継続（1日最低15分以上）" },
+                        { id: "1-9", name: "基礎力の番人", icon: "👹", mission: "基礎学力診断テスト実施", content: "筑波大学の過去問から基礎問題を30問選定、制限時間内での実力測定テスト実行、分野別正答率を円グラフで視覚化", clearCondition: "診断テスト60%以上正答", isBoss: true }
+                    ]
+                },
+                {
+                    id: 2,
+                    name: "専門知識の森",
+                    icon: "🌲",
+                    theme: "専門科目の基礎固め",
+                    stages: [
+                        { id: "2-1", name: "教科書の探検家", icon: "📚", mission: "専門科目教科書の目次を把握", content: "筑波大学推奨参考書リストから主要3冊選定、各教科書の目次を手書きでマインドマップ化、章間の関連性を矢印と色分けで表示", clearCondition: "3冊の目次マップ完成" },
+                        { id: "2-2", name: "用語集の編纂者", icon: "📖", mission: "重要用語20個をカード化", content: "専門分野の基礎用語50個をリストアップ、その中から最重要20個を厳選、単語カード作成、関連用語同士を色分けでグループ化", clearCondition: "20枚の用語カード完成、ランダム出題で90%正答達成" },
+                        { id: "2-3", name: "図解の芸術家", icon: "🎨", mission: "複雑な概念を3つ図解化", content: "専門分野の複雑な理論3つを選定、各理論をA4用紙1枚に図解（色ペン4色以上使用）、図解には矢印・吹き出し・アイコンを活用", clearCondition: "3つの理論図解完成、各図解の白紙再現テスト80%以上再現" },
+                        { id: "2-4", name: "例題の解読者", icon: "🔍", mission: "基本例題を10問解く", content: "教科書から基本例題10問を厳選、各問題の解法プロセスを7ステップに分解、解法の「なぜそうするのか」を言語化", clearCondition: "10問すべて完全解答" },
+                        { id: "2-5", name: "質問の魔導師", icon: "❓", mission: "わからない点を5つ明確化", content: "学習中の疑問点を即座にメモする習慣確立、疑問を「概念・計算・応用」の3種類に分類、各疑問について「何がわからないのか」を文章化", clearCondition: "5つの明確な疑問文完成、疑問解決プロセス5回実行" },
+                        { id: "2-6", name: "要約の職人", icon: "✂️", mission: "1章分を1ページにまとめる", content: "専門書の1章（通常20-30ページ）を選定、重要ポイントを階層構造で整理、A4用紙1枚にビジュアル要約作成", clearCondition: "1ページ要約完成、再現テスト70%以上達成" },
+                        { id: "2-7", name: "関連付けの賢者", icon: "🔗", mission: "他分野との関連性を3つ発見", content: "現在学習中の専門分野と他分野の接点探索、具体的な関連事例を3つ以上発見、各関連性を図解で表現", clearCondition: "3つの関連性発見と図解化" },
+                        { id: "2-8", name: "演習の戦士", icon: "⚔️", mission: "章末問題を完全制覇", content: "選定した章の章末問題をすべて解答、間違えた問題の原因を分類、各間違いタイプの対策法を具体化", clearCondition: "章末問題正答率95%以上" },
+                        { id: "2-9", name: "専門知識の守護神", icon: "🐉", mission: "専門科目模擬試験60%以上", content: "筑波大学の過去問から専門科目50問選定、本番同様の時間制限で模擬試験実行、分野別正答率をレーダーチャートで視覚化", clearCondition: "模擬試験60%以上得点", isBoss: true }
+                    ]
+                },
+                {
+                    id: 3,
+                    name: "英語スキルの海",
+                    icon: "🌊",
+                    theme: "英語力強化",
+                    stages: [
+                        { id: "3-1", name: "単語帳の冒険者", icon: "📔", mission: "学術英単語100個暗記", content: "筑波大学頻出単語リストから100語選定、単語を分野別（20語×5分野）にグループ化、視覚的暗記法を活用", clearCondition: "100語のスペルテスト95%正答" },
+                        { id: "3-2", name: "文法の建築家", icon: "🏗️", mission: "学術英語の文法パターン習得", content: "論文でよく使われる文法構造20パターン選定、各パターンの例文を3つずつ作成、文法構造を視覚的に図解", clearCondition: "20パターンの文法習得確認テスト90%正答" },
+                        { id: "3-3", name: "読解の航海士", icon: "🧭", mission: "学術論文1本完読", content: "あなたの専門分野の英語論文（10ページ以上）を1本選定、段落ごとの要旨を日本語で1文にまとめ、不明単語をすべて調べて専用ノートに記録", clearCondition: "論文1本完全読破、内容要約テスト80%正答" },
+                        { id: "3-4", name: "翻訳の錬金術師", icon: "⚗️", mission: "専門用語の英日対訳表作成", content: "専門分野の重要用語50個を英日両方で整理、各用語の使用例文を英語で3つずつ作成、類義語・対義語も含めた関連語彙マップ作成", clearCondition: "50語の対訳表完成、瞬間翻訳テスト85%正答" },
+                        { id: "3-5", name: "聞き取りの魔法使い", icon: "👂", mission: "学術講義動画1本理解", content: "YouTube等で英語の学術講義動画（30分以上）を選定、字幕なしで内容理解度テスト実行、シャドーイング練習", clearCondition: "講義内容理解度70%以上" },
+                        { id: "3-6", name: "要約の詩人", icon: "📜", mission: "英語論文を日本語で要約", content: "英語論文（5-10ページ）を選定、論文の構造を把握、各セクションのキーポイントを英語で抜き出し、全体を日本語A4用紙1枚に要約", clearCondition: "要約完成（1000字以内）、再現テスト70%以上" },
+                        { id: "3-7", name: "議論の騎士", icon: "🏇", mission: "英語で専門的議論を理解", content: "2022年度以降の英語論文を5本選定、各論文の参考文献から専門文献を2本ずつ選択、各論文のアーギュメント構造を図解化", clearCondition: "15本の文献読破完了、アーギュメント図解5枚完成" },
+                        { id: "3-8", name: "表現の芸術家", icon: "🎭", mission: "英語で専門知識を説明", content: "専門分野の基本概念を5つ選定、各概念を英語で3分間スピーチできるよう準備、説明用の視覚資料も英語で作成", clearCondition: "5概念×3分スピーチ完遂、発音明瞭度80%以上" },
+                        { id: "3-9", name: "英語マスター", icon: "👑", mission: "英語模擬試験70%以上", content: "筑波大学の英語過去問3年分を時間制限で実行、長文読解・英作文・リスニングの総合テスト、分野別正答率をグラフ化", clearCondition: "模擬試験70%以上得点", isBoss: true }
+                    ]
+                }
+            ],
+            finalBoss: {
+                name: "筑波大学入学試験",
+                phases: [
+                    { name: "筆記試験（専門科目）", icon: "📝" },
+                    { name: "口述試験", icon: "🗣️" },
+                    { name: "筆記試験（英語）", icon: "🌍" }
+                ]
+            }
+        };
+
+        // ゲーム状態
+        let gameState = {
+            completedStages: new Set(),
+            currentStage: "1-1",
+            level: 1,
+            defeatedBosses: 0
+        };
+
+        // ローカルストレージからデータを読み込み
+        function loadGameState() {
+            const saved = localStorage.getItem('tsukubaRPGState');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                gameState.completedStages = new Set(parsed.completedStages || []);
+                gameState.currentStage = parsed.currentStage || "1-1";
+                gameState.level = parsed.level || 1;
+                gameState.defeatedBosses = parsed.defeatedBosses || 0;
+            }
+        }
+
+        // ゲーム状態を保存
+        function saveGameState() {
+            const toSave = {
+                completedStages: Array.from(gameState.completedStages),
+                currentStage: gameState.currentStage,
+                level: gameState.level,
+                defeatedBosses: gameState.defeatedBosses
+            };
+            localStorage.setItem('tsukubaRPGState', JSON.stringify(toSave));
+        }
+
+        // 統計を更新
+        function updateStats() {
+            const totalStages = gameData.worlds.reduce((sum, world) => sum + world.stages.length, 0);
+            const completed = gameState.completedStages.size;
+            const progressPercent = Math.round((completed / totalStages) * 100);
+            
+            document.getElementById('overallProgress').textContent = `${progressPercent}%`;
+            document.getElementById('currentLevel').textContent = gameState.level;
+            document.getElementById('completedStages').textContent = `${completed}/${totalStages}`;
+            document.getElementById('defeatedBosses').textContent = `${gameState.defeatedBosses}/12`;
+            
+            // プログレスバー更新
+            document.getElementById('progressFill').style.width = `${progressPercent}%`;
+        }
+
+        // ワールドを生成
+        function createWorlds() {
+            const container = document.getElementById('worldsContainer');
+            
+            gameData.worlds.forEach(world => {
+                const worldDiv = document.createElement('div');
+                worldDiv.className = 'world-container';
+                worldDiv.style.animationDelay = `${world.id * 0.2}s`;
+                
+                const stagesGrid = document.createElement('div');
+                stagesGrid.className = 'stages-grid';
+                
+                world.stages.forEach(stage => {
+                    const stageDiv = document.createElement('div');
+                    stageDiv.className = 'stage';
+                    stageDiv.setAttribute('data-stage-id', stage.id);
+                    
+                    // ステージの状態を判定
+                    if (gameState.completedStages.has(stage.id)) {
+                        stageDiv.classList.add('completed');
+                    } else if (stage.id === gameState.currentStage || isStageUnlocked(stage.id)) {
+                        if (stage.id === gameState.currentStage) {
+                            stageDiv.classList.add('current');
+                        }
+                    } else {
+                        stageDiv.classList.add('locked');
+                    }
+                    
+                    if (stage.isBoss) {
+                        stageDiv.classList.add('boss-stage');
+                    }
+                    
+                    stageDiv.innerHTML = `
+                        <div class="stage-icon">${stage.icon}</div>
+                        <div class="stage-number">${stage.id}</div>
+                        <div class="stage-name">${stage.name}</div>
+                    `;
+                    
+                    stageDiv.addEventListener('click', () => openStageModal(stage));
+                    stagesGrid.appendChild(stageDiv);
+                });
+                
+                worldDiv.innerHTML = `
+                    <h2 class="world-title">
+                        <span class="world-icons">${world.icon}</span>
+                        WORLD ${world.id}: ${world.name}
+                    </h2>
+                    <p style="text-align: center; color: #fff; margin-bottom: 20px; font-style: italic;">
+                        ${world.theme}
+                    </p>
+                `;
+                worldDiv.appendChild(stagesGrid);
+                container.appendChild(worldDiv);
+            });
+            
+            // ファイナルボス追加
+            const finalBossDiv = document.createElement('div');
+            finalBossDiv.className = 'world-container';
+            finalBossDiv.innerHTML = `
+                <h2 class="world-title">
+                    <span class="world-icons">👑</span>
+                    FINAL BOSS: ${gameData.finalBoss.name}
+                </h2>
+                <div class="stages-grid">
+                    ${gameData.finalBoss.phases.map((phase, index) => `
+                        <div class="stage final-boss" data-stage-id="final-${index + 1}">
+                            <div class="stage-icon">${phase.icon}</div>
+                            <div class="stage-number">Phase ${index + 1}</div>
+                            <div class="stage-name">${phase.name}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            container.appendChild(finalBossDiv);
+        }
+
+        // ステージがアンロックされているか判定
+        function isStageUnlocked(stageId) {
+            const [world, stage] = stageId.split('-').map(Number);
+            
+            // 1-1は常にアンロック
+            if (stageId === "1-1") return true;
+            
+            // 同じワールドの前のステージが完了している
+            if (stage > 1) {
+                const prevStage = `${world}-${stage - 1}`;
+                return gameState.completedStages.has(prevStage);
+            }
+            
+            // 前のワールドの最後のステージ（ボス）が完了している
+            if (world > 1) {
+                const prevWorldBoss = `${world - 1}-9`;
+                return gameState.completedStages.has(prevWorldBoss);
+            }
+            
+            return false;
+        }
+
+        // ステージモーダルを開く
+        function openStageModal(stage) {
+            if (!isStageUnlocked(stage.id) && !gameState.completedStages.has(stage.id)) {
+                return;
+            }
+            
+            const modal = document.getElementById('stageModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            const isCompleted = gameState.completedStages.has(stage.id);
+            const completeBtnText = isCompleted ? '✅ 完了済み' : '🎯 ステージクリア！';
+            const completeBtnClass = isCompleted ? 'completed' : '';
+            
+            modalContent.innerHTML = `
+                <h2>${stage.icon} ${stage.id}: ${stage.name}</h2>
+                
+                <div class="modal-section">
+                    <h3>🎯 ミッション</h3>
+                    <p>${stage.mission}</p>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>📋 具体的内容</h3>
+                    <p>${stage.content}</p>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>✅ クリア条件</h3>
+                    <p>${stage.clearCondition}</p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="complete-btn ${completeBtnClass}" onclick="completeStage('${stage.id}')" ${isCompleted ? 'disabled' : ''}>
+                        ${completeBtnText}
+                    </button>
+                    ${!isCompleted ? `<button class="complete-btn" onclick="resetStage('${stage.id}')" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">🔄 リセット</button>` : ''}
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        // ステージを完了
+        function completeStage(stageId) {
+            if (gameState.completedStages.has(stageId)) return;
+            
+            gameState.completedStages.add(stageId);
+            
+            // ボスステージの場合
+            if (stageId.endsWith('-9')) {
+                gameState.defeatedBosses++;
+                showLevelUpAnimation(`🏆 ボス撃破！\nWORLD ${stageId.split('-')[0]} クリア！`);
+            } else {
+                showLevelUpAnimation(`✨ ステージクリア！\n${stageId} 完了！`);
+            }
+            
+            // レベルアップ判定
+            const newLevel = Math.floor(gameState.completedStages.size / 9) + 1;
+            if (newLevel > gameState.level) {
+                gameState.level = newLevel;
+                setTimeout(() => {
+                    showLevelUpAnimation(`🎉 LEVEL UP!\nレベル ${gameState.level} に到達！`);
+                }, 1000);
+            }
+            
+            // 次のステージを設定
+            updateCurrentStage(stageId);
+            
+            saveGameState();
+            updateStats();
+            refreshDisplay();
+            closeModal();
+        }
+
+        // 現在のステージを更新
+        function updateCurrentStage(completedStageId) {
+            const [world, stage] = completedStageId.split('-').map(Number);
+            
+            // 同じワールドの次のステージ
+            if (stage < 9) {
+                gameState.currentStage = `${world}-${stage + 1}`;
+            } else {
+                // 次のワールドの最初のステージ
+                const nextWorld = world + 1;
+                if (nextWorld <= gameData.worlds.length) {
+                    gameState.currentStage = `${nextWorld}-1`;
+                } else {
+                    gameState.currentStage = "final-1";
+                }
+            }
+        }
+
+        // ステージをリセット
+        function resetStage(stageId) {
+            gameState.completedStages.delete(stageId);
+            gameState.currentStage = stageId;
+            
+            // ボス撃破数も調整
+            if (stageId.endsWith('-9')) {
+                gameState.defeatedBosses = Math.max(0, gameState.defeatedBosses - 1);
+            }
+            
+            saveGameState();
+            updateStats();
+            refreshDisplay();
+            closeModal();
+        }
+
+        // レベルアップアニメーションを表示
+        function showLevelUpAnimation(text) {
+            const animation = document.createElement('div');
+            animation.className = 'level-up-animation';
+            animation.innerHTML = text.replace('\n', '<br>');
+            document.body.appendChild(animation);
+            
+            setTimeout(() => {
+                document.body.removeChild(animation);
+            }, 2000);
+        }
+
+        // 表示を更新
+        function refreshDisplay() {
+            const container = document.getElementById('worldsContainer');
+            container.innerHTML = '';
+            createWorlds();
+        }
+
+        // モーダルを閉じる
+        function closeModal() {
+            document.getElementById('stageModal').style.display = 'none';
+        }
+
+        // HTMLをダウンロード
+        function downloadHTML() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '筑波大学合格RPG_81ステージマップ.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGameState();
+            createWorlds();
+            updateStats();
+            
+            // モーダルのクローズイベント
+            document.querySelector('.close').addEventListener('click', closeModal);
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('stageModal');
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
