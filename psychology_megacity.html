@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心理学メガシティ 3D - Psychology Megacity</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #001122, #003366, #004488);
+            font-family: 'Roboto', 'Arial', sans-serif;
+            overflow: hidden;
+            cursor: none;
+        }
+        
+        #container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(30, 30, 60, 0.9));
+            color: #00ffff;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 14px;
+            max-width: 350px;
+            z-index: 100;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        
+        #controls {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(30, 30, 60, 0.9));
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 15px;
+            z-index: 100;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        
+        .district-button {
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #667eea);
+            color: #ffffff;
+            border: 2px solid #00ffff;
+            padding: 12px 18px;
+            margin: 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 255, 255, 0.3);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        
+        .district-button:hover {
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 255, 255, 0.6);
+            background: linear-gradient(135deg, #667eea, #764ba2, #a8e6cf);
+            border-color: #ffffff;
+        }
+        
+        #download-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24, #ff3838);
+            color: white;
+            border: 2px solid #ffffff;
+            padding: 15px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            z-index: 100;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 12px rgba(255, 107, 107, 0.4);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        
+        #download-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 16px rgba(255, 107, 107, 0.6);
+        }
+        
+        #legend {
+            position: absolute;
+            top: 80px;
+            right: 10px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(30, 30, 60, 0.9));
+            color: #ffff00;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 12px;
+            max-width: 220px;
+            z-index: 100;
+            border: 2px solid #ffff00;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        
+        #camera-controls {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(30, 30, 60, 0.9));
+            color: #ff69b4;
+            padding: 20px;
+            border-radius: 15px;
+            z-index: 100;
+            border: 2px solid #ff69b4;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        
+        .camera-button {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            color: white;
+            border: 1px solid #ffffff;
+            padding: 8px 12px;
+            margin: 2px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.2s ease;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        
+        .camera-button:hover {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            transform: scale(1.05);
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <button id="download-btn" onclick="downloadHTML()">📥 HTMLダウンロード</button>
+        
+        <div id="info">
+            <h3>🌆 心理学メガシティ</h3>
+            <div id="district-info">
+                <strong>統計区 (中国風)</strong><br>
+                記述統計、推測統計、多変量解析の中心地<br>
+                <em>マウスで回転、ホイールでズーム</em>
+            </div>
+        </div>
+        
+        <div id="camera-controls">
+            <h4>🎥 カメラ制御</h4>
+            <button class="camera-button" onclick="setViewMode('orbit')">🌍 軌道カメラ</button>
+            <button class="camera-button" onclick="setViewMode('fly')">🚁 フライカメラ</button>
+            <button class="camera-button" onclick="setViewMode('fps')">👤 FPSカメラ</button><br>
+            <button class="camera-button" onclick="resetCamera()">🎯 リセット</button>
+            <button class="camera-button" onclick="toggleWireframe()">📐 ワイヤー</button>
+            <button class="camera-button" onclick="toggleFullscreen()">🖥️ 全画面</button>
+        </div>
+        
+        <div id="legend">
+            <h4>🏘️ 区域凡例</h4>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ff69b4;"></div>
+                <span>📊 統計区</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #87ceeb;"></div>
+                <span>🧠 認知区</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #98fb98;"></div>
+                <span>👶 発達区</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ffd700;"></div>
+                <span>🏥 臨床区</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ffa500;"></div>
+                <span>📚 学習区</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #da70d6;"></div>
+                <span>👥 社会区</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #40e0d0;"></div>
+                <span>💭 人格区</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ee82ee;"></div>
+                <span>👁️ 知覚区</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #20b2aa;"></div>
+                <span>⚡ 神経区</span>
+            </div>
+        </div>
+        
+        <div id="controls">
+            <h4>🎮 区域選択</h4>
+            <button class="district-button" onclick="focusDistrict('statistics')">📊 統計区</button>
+            <button class="district-button" onclick="focusDistrict('cognitive')">🧠 認知区</button>
+            <button class="district-button" onclick="focusDistrict('development')">👶 発達区</button>
+            <button class="district-button" onclick="focusDistrict('clinical')">🏥 臨床区</button><br>
+            <button class="district-button" onclick="focusDistrict('learning')">📚 学習区</button>
+            <button class="district-button" onclick="focusDistrict('social')">👥 社会区</button>
+            <button class="district-button" onclick="focusDistrict('personality')">💭 人格区</button>
+            <button class="district-button" onclick="focusDistrict('perception')">👁️ 知覚区</button><br>
+            <button class="district-button" onclick="focusDistrict('neural')">⚡ 神経区</button>
+            <button class="district-button" onclick="focusDistrict('overview')">🌆 全体表示</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // シーン、カメラ、レンダラーの初期化
+        let scene, camera, renderer;
+        let districts = {};
+        let currentDistrict = null;
+        
+        // 3DCG拡張変数
+        let viewMode = 'orbit';
+        let keys = {};
+        let wireframeMode = false;
+        let isFullscreen = false;
+        let velocity = new THREE.Vector3();
+        let moveSpeed = 0.5;
+        let flySpeed = 1.0;
+        
+        // 区域情報
+        const districtData = {
+            statistics: {
+                name: "📊 統計区 (中国風)",
+                description: "記述統計、推測統計、多変量解析の研究中心地。上海の金融街のような高層ビル群で数値データを扱う。",
+                color: 0xff69b4,
+                position: [-40, 0, -40]
+            },
+            cognitive: {
+                name: "🧠 認知区 (日本風)",
+                description: "記憶、注意、処理システムの研究エリア。東京の電子回路のような道路網で認知プロセスを表現。",
+                color: 0x87ceeb,
+                position: [0, 0, -40]
+            },
+            development: {
+                name: "👶 発達区 (韓国風)",
+                description: "認知発達、愛着、アイデンティティの研究地区。ソウルの段階的発展を模した建築群。",
+                color: 0x98fb98,
+                position: [40, 0, -40]
+            },
+            clinical: {
+                name: "🏥 臨床区 (シンガポール風)",
+                description: "精神疾患、心理療法、アセスメントの医療地区。清潔で多文化な治療環境。",
+                color: 0xffd700,
+                position: [-40, 0, 0]
+            },
+            learning: {
+                name: "📚 学習区 (タイ風)",
+                description: "条件づけ、強化、社会学習の研究寺院群。バンコクの黄金寺院をモチーフにした学習の聖地。",
+                color: 0xffa500,
+                position: [0, 0, 0]
+            },
+            social: {
+                name: "👥 社会区 (インド風)",
+                description: "対人認知、集団心理、態度変化の多様性地区。ムンバイのカラフルで多文化な社会実験場。",
+                color: 0xda70d6,
+                position: [40, 0, 0]
+            },
+            personality: {
+                name: "💭 人格区 (香港風)",
+                description: "特性論、防衛機制、測定技術の国際金融都市。精密で多様な人格特性を測定。",
+                color: 0x40e0d0,
+                position: [-40, 0, 40]
+            },
+            perception: {
+                name: "👁️ 知覚区 (台湾風)",
+                description: "視覚、聴覚、感覚認知の精密技術都市。台北のネオン街のような視覚刺激に満ちた研究地。",
+                color: 0xee82ee,
+                position: [0, 0, 40]
+            },
+            neural: {
+                name: "⚡ 神経区 (ベトナム風)",
+                description: "脳機能、神経科学、生理心理学の最前線研究基地。ホーチミンの活発な脳科学研究所。",
+                color: 0x20b2aa,
+                position: [40, 0, 40]
+            }
+        };
+
+        function init() {
+            // シーンの作成
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x001122, 0.001);
+
+            // カメラの作成
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+            camera.position.set(0, 80, 120);
+            camera.lookAt(0, 0, 0);
+
+            // レンダラーの作成
+            renderer = new THREE.WebGLRenderer({ 
+                antialias: true, 
+                alpha: true,
+                powerPreference: "high-performance"
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setClearColor(0x001122, 1);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.physicallyCorrectLights = true;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.2;
+            document.getElementById('container').appendChild(renderer.domElement);
+
+            // 高品質ライティングシステム
+            setupAdvancedLighting();
+
+            // 高品質地面の作成
+            createAdvancedGround();
+
+            // 空の作成
+            createSkybox();
+
+            // 中央市庁舎の作成
+            createCityHall();
+
+            // 各区域の作成
+            createDistricts();
+
+            // 道路の作成
+            createRoads();
+
+            // キーボード制御の追加
+            addKeyboardControls();
+            
+            // 高度なマウスコントロール
+            addAdvancedMouseControls();
+
+            // アニメーション開始
+            animate();
+        }
+
+        function setupAdvancedLighting() {
+            // 環境光（全体的な明るさ）
+            const ambientLight = new THREE.AmbientLight(0x404080, 0.3);
+            scene.add(ambientLight);
+
+            // 半球光（空から地面への自然な光）
+            const hemisphereLight = new THREE.HemisphereLight(0x87ceeb, 0x362204, 0.4);
+            scene.add(hemisphereLight);
+
+            // メインの太陽光
+            const sunLight = new THREE.DirectionalLight(0xffffff, 1.2);
+            sunLight.position.set(100, 200, 50);
+            sunLight.castShadow = true;
+            sunLight.shadow.mapSize.width = 4096;
+            sunLight.shadow.mapSize.height = 4096;
+            sunLight.shadow.camera.near = 0.5;
+            sunLight.shadow.camera.far = 500;
+            sunLight.shadow.camera.left = -200;
+            sunLight.shadow.camera.right = 200;
+            sunLight.shadow.camera.top = 200;
+            sunLight.shadow.camera.bottom = -200;
+            sunLight.shadow.bias = -0.0001;
+            scene.add(sunLight);
+
+            // 補助光（建物の陰を和らげる）
+            const fillLight = new THREE.DirectionalLight(0x87ceeb, 0.3);
+            fillLight.position.set(-50, 50, -50);
+            scene.add(fillLight);
+
+            // ポイントライト（各区域に色付きライト）
+            const lightColors = [0xff69b4, 0x87ceeb, 0x98fb98, 0xffd700, 0xffa500, 0xda70d6, 0x40e0d0, 0xee82ee, 0x20b2aa];
+            Object.keys(districtData).forEach((key, index) => {
+                const district = districtData[key];
+                const pointLight = new THREE.PointLight(lightColors[index] || 0xffffff, 0.6, 100);
+                pointLight.position.set(district.position[0], 30, district.position[2]);
+                pointLight.castShadow = true;
+                pointLight.shadow.mapSize.width = 1024;
+                pointLight.shadow.mapSize.height = 1024;
+                scene.add(pointLight);
+            });
+        }
+
+        function createAdvancedGround() {
+            // 高品質地面
+            const groundGeometry = new THREE.PlaneGeometry(400, 400, 100, 100);
+            
+            // 地面用のマテリアル（物理ベースレンダリング）
+            const groundMaterial = new THREE.MeshStandardMaterial({
+                color: 0x2d5016,
+                roughness: 0.8,
+                metalness: 0.1,
+            });
+
+            // 高さマップで起伏を作成
+            const vertices = groundGeometry.attributes.position.array;
+            for (let i = 0; i < vertices.length; i += 3) {
+                const x = vertices[i];
+                const z = vertices[i + 2];
+                vertices[i + 1] = Math.sin(x * 0.01) * Math.cos(z * 0.01) * 2;
+            }
+            groundGeometry.attributes.position.needsUpdate = true;
+            groundGeometry.computeVertexNormals();
+
+            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            ground.rotation.x = -Math.PI / 2;
+            ground.receiveShadow = true;
+            scene.add(ground);
+
+            // 水面の追加
+            const waterGeometry = new THREE.PlaneGeometry(300, 300);
+            const waterMaterial = new THREE.MeshStandardMaterial({
+                color: 0x006994,
+                transparent: true,
+                opacity: 0.6,
+                roughness: 0.1,
+                metalness: 0.9,
+            });
+            const water = new THREE.Mesh(waterGeometry, waterMaterial);
+            water.rotation.x = -Math.PI / 2;
+            water.position.y = -2;
+            scene.add(water);
+        }
+
+        function createSkybox() {
+            // 空のグラデーション
+            const skyGeometry = new THREE.SphereGeometry(1000, 32, 32);
+            const skyMaterial = new THREE.ShaderMaterial({
+                uniforms: {
+                    topColor: { value: new THREE.Color(0x0077be) },
+                    bottomColor: { value: new THREE.Color(0x89b2eb) },
+                    offset: { value: 33 },
+                    exponent: { value: 0.6 }
+                },
+                vertexShader: `
+                    varying vec3 vWorldPosition;
+                    void main() {
+                        vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+                        vWorldPosition = worldPosition.xyz;
+                        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                    }
+                `,
+                fragmentShader: `
+                    uniform vec3 topColor;
+                    uniform vec3 bottomColor;
+                    uniform float offset;
+                    uniform float exponent;
+                    varying vec3 vWorldPosition;
+                    void main() {
+                        float h = normalize(vWorldPosition + offset).y;
+                        gl_FragColor = vec4(mix(bottomColor, topColor, max(pow(max(h, 0.0), exponent), 0.0)), 1.0);
+                    }
+                `,
+                side: THREE.BackSide
+            });
+            const sky = new THREE.Mesh(skyGeometry, skyMaterial);
+            scene.add(sky);
+
+            // 雲の追加
+            for (let i = 0; i < 20; i++) {
+                const cloudGeometry = new THREE.SphereGeometry(
+                    10 + Math.random() * 20, 
+                    8, 
+                    8
+                );
+                const cloudMaterial = new THREE.MeshLambertMaterial({
+                    color: 0xffffff,
+                    transparent: true,
+                    opacity: 0.6
+                });
+                const cloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
+                cloud.position.set(
+                    (Math.random() - 0.5) * 800,
+                    100 + Math.random() * 100,
+                    (Math.random() - 0.5) * 800
+                );
+                cloud.scale.x = 2;
+                cloud.scale.z = 0.5;
+                scene.add(cloud);
+            }
+        }
+
+        function createCityHall() {
+            // 超高品質市庁舎（複雑な形状）
+            const group = new THREE.Group();
+            
+            // メインタワー
+            const mainGeometry = new THREE.CylinderGeometry(8, 12, 30, 16);
+            const mainMaterial = new THREE.MeshStandardMaterial({
+                color: 0xffd700,
+                roughness: 0.3,
+                metalness: 0.7,
+                emissive: 0x221100,
+                emissiveIntensity: 0.1
+            });
+            const mainTower = new THREE.Mesh(mainGeometry, mainMaterial);
+            mainTower.position.y = 15;
+            mainTower.castShadow = true;
+            mainTower.receiveShadow = true;
+            group.add(mainTower);
+
+            // 複数の副タワー
+            for (let i = 0; i < 6; i++) {
+                const subGeometry = new THREE.CylinderGeometry(3, 5, 15 + Math.random() * 10, 8);
+                const subMaterial = new THREE.MeshStandardMaterial({
+                    color: 0xffaa00,
+                    roughness: 0.4,
+                    metalness: 0.6
+                });
+                const subTower = new THREE.Mesh(subGeometry, subMaterial);
+                const angle = (i / 6) * Math.PI * 2;
+                const radius = 15;
+                subTower.position.set(
+                    Math.cos(angle) * radius,
+                    10,
+                    Math.sin(angle) * radius
+                );
+                subTower.castShadow = true;
+                subTower.receiveShadow = true;
+                group.add(subTower);
+            }
+
+            // 屋根（複雑な形状）
+            const roofGeometry = new THREE.ConeGeometry(10, 12, 16);
+            const roofMaterial = new THREE.MeshStandardMaterial({
+                color: 0xff6600,
+                roughness: 0.2,
+                metalness: 0.8
+            });
+            const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+            roof.position.y = 36;
+            roof.castShadow = true;
+            group.add(roof);
+
+            // 装飾的な要素
+            for (let i = 0; i < 12; i++) {
+                const ornamentGeometry = new THREE.TetrahedronGeometry(1);
+                const ornamentMaterial = new THREE.MeshStandardMaterial({
+                    color: 0xffff00,
+                    emissive: 0x444400,
+                    emissiveIntensity: 0.3
+                });
+                const ornament = new THREE.Mesh(ornamentGeometry, ornamentMaterial);
+                const angle = (i / 12) * Math.PI * 2;
+                ornament.position.set(
+                    Math.cos(angle) * 8,
+                    25 + Math.sin(i) * 2,
+                    Math.sin(angle) * 8
+                );
+                ornament.castShadow = true;
+                group.add(ornament);
+            }
+
+            scene.add(group);
+            createLabel("🏛️ 心理学中央政府", 0, 45, 0);
+        }
+
+        function createDistricts() {
+            Object.keys(districtData).forEach(key => {
+                const district = districtData[key];
+                const group = new THREE.Group();
+                
+                // 超高品質メインビルディング
+                const mainBuilding = createHighQualityBuilding(district.color, 25, 8, 8, 'main');
+                mainBuilding.position.set(0, 12.5, 0);
+                group.add(mainBuilding);
+
+                // 複数の高品質サブビルディング
+                const buildingStyles = ['tower', 'pyramid', 'dome', 'crystal', 'spiral', 'modern'];
+                
+                for (let i = 0; i < 8; i++) {
+                    const height = 8 + Math.random() * 15;
+                    const style = buildingStyles[i % buildingStyles.length];
+                    const building = createHighQualityBuilding(district.color, height, 4, 4, style);
+                    const angle = (i / 8) * Math.PI * 2;
+                    const radius = 12 + Math.random() * 8;
+                    building.position.set(
+                        Math.cos(angle) * radius,
+                        height / 2,
+                        Math.sin(angle) * radius
+                    );
+                    building.rotation.y = Math.random() * Math.PI;
+                    group.add(building);
+                }
+
+                // 特殊建築物
+                const specialBuilding = createSpecialArchitecture(key, district.color);
+                specialBuilding.position.set(0, 0, -15);
+                group.add(specialBuilding);
+
+                // 環境装飾
+                createEnvironmentDetails(group, district.color);
+
+                group.position.set(district.position[0], district.position[1], district.position[2]);
+                scene.add(group);
+                districts[key] = group;
+
+                createLabel(district.name, district.position[0], 35, district.position[2]);
+            });
+        }
+
+        function createHighQualityBuilding(color, height, width, depth, style = 'basic') {
+            let geometry;
+            
+            switch(style) {
+                case 'tower':
+                    geometry = new THREE.CylinderGeometry(width * 0.7, width, height, 12);
+                    break;
+                case 'pyramid':
+                    geometry = new THREE.ConeGeometry(width, height, 8);
+                    break;
+                case 'dome':
+                    geometry = new THREE.SphereGeometry(width * 0.8, 16, 16);
+                    break;
+                case 'crystal':
+                    geometry = new THREE.OctahedronGeometry(width);
+                    break;
+                case 'spiral':
+                    geometry = new THREE.CylinderGeometry(width * 0.5, width, height, 16);
+                    break;
+                case 'modern':
+                    geometry = new THREE.BoxGeometry(width, height, depth);
+                    break;
+                default:
+                    geometry = new THREE.CylinderGeometry(width * 0.8, width, height, 8);
+            }
+            
+            const material = new THREE.MeshStandardMaterial({
+                color: color,
+                roughness: 0.3 + Math.random() * 0.4,
+                metalness: 0.2 + Math.random() * 0.6,
+                emissive: new THREE.Color(color).multiplyScalar(0.05),
+                emissiveIntensity: 0.1
+            });
+            
+            const building = new THREE.Mesh(geometry, material);
+            building.castShadow = true;
+            building.receiveShadow = true;
+            
+            // ウィンドウの追加
+            if (style !== 'crystal' && style !== 'dome') {
+                addWindows(building, color, height, style);
+            }
+            
+            return building;
+        }
+
+        function addWindows(building, color, height, style) {
+            const windowMaterial = new THREE.MeshStandardMaterial({
+                color: 0x87ceeb,
+                emissive: 0x001122,
+                emissiveIntensity: 0.3,
+                transparent: true,
+                opacity: 0.8,
+                roughness: 0.1,
+                metalness: 0.9
+            });
+
+            const rows = Math.floor(height / 3);
+            const cols = style === 'tower' ? 8 : 4;
+
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const windowGeometry = new THREE.PlaneGeometry(0.8, 1.2);
+                    const window = new THREE.Mesh(windowGeometry, windowMaterial);
+                    
+                    const angle = (col / cols) * Math.PI * 2;
+                    const radius = style === 'tower' ? 3.5 : 2.5;
+                    
+                    window.position.set(
+                        Math.cos(angle) * radius,
+                        (row - rows / 2) * 3,
+                        Math.sin(angle) * radius
+                    );
+                    window.lookAt(0, window.position.y, 0);
+                    building.add(window);
+                }
+            }
+        }
+
+        function createSpecialArchitecture(districtType, color) {
+            const group = new THREE.Group();
+            
+            switch(districtType) {
+                case 'statistics':
+                    // 中国風パゴダ（複雑な多層構造）
+                    for (let i = 0; i < 5; i++) {
+                        const level = new THREE.CylinderGeometry(6 - i, 7 - i, 3, 8);
+                        const material = new THREE.MeshStandardMaterial({
+                            color: new THREE.Color(color).multiplyScalar(0.8 + i * 0.1),
+                            roughness: 0.4,
+                            metalness: 0.3
+                        });
+                        const mesh = new THREE.Mesh(level, material);
+                        mesh.position.y = i * 3.5;
+                        mesh.castShadow = true;
+                        group.add(mesh);
+                    }
+                    break;
+                    
+                case 'cognitive':
+                    // 日本風の複雑な塔
+                    const brainGeometry = new THREE.SphereGeometry(4, 16, 16);
+                    const brainMaterial = new THREE.MeshStandardMaterial({
+                        color: color,
+                        roughness: 0.6,
+                        metalness: 0.2,
+                        bumpScale: 0.1
+                    });
+                    const brain = new THREE.Mesh(brainGeometry, brainMaterial);
+                    brain.position.y = 8;
+                    brain.castShadow = true;
+                    group.add(brain);
+                    
+                    // 神経ネットワーク風の装飾
+                    for (let i = 0; i < 20; i++) {
+                        const neuronGeometry = new THREE.SphereGeometry(0.3, 8, 8);
+                        const neuronMaterial = new THREE.MeshStandardMaterial({
+                            color: 0xffff00,
+                            emissive: 0x444400,
+                            emissiveIntensity: 0.5
+                        });
+                        const neuron = new THREE.Mesh(neuronGeometry, neuronMaterial);
+                        neuron.position.set(
+                            (Math.random() - 0.5) * 8,
+                            4 + Math.random() * 8,
+                            (Math.random() - 0.5) * 8
+                        );
+                        group.add(neuron);
+                    }
+                    break;
+                    
+                case 'development':
+                    // 韓国風の段階建築
+                    for (let i = 0; i < 4; i++) {
+                        const stageGeometry = new THREE.BoxGeometry(8 - i * 1.5, 4, 8 - i * 1.5);
+                        const stageMaterial = new THREE.MeshStandardMaterial({
+                            color: new THREE.Color(color).multiplyScalar(0.7 + i * 0.1),
+                            roughness: 0.5,
+                            metalness: 0.4
+                        });
+                        const stage = new THREE.Mesh(stageGeometry, stageMaterial);
+                        stage.position.y = i * 4 + 2;
+                        stage.castShadow = true;
+                        group.add(stage);
+                    }
+                    break;
+                    
+                case 'clinical':
+                    // シンガポール風のクリーンな医療建築
+                    const clinicalGeometry = new THREE.CylinderGeometry(5, 6, 16, 12);
+                    const clinicalMaterial = new THREE.MeshStandardMaterial({
+                        color: color,
+                        roughness: 0.2,
+                        metalness: 0.8,
+                        transparent: true,
+                        opacity: 0.9
+                    });
+                    const clinical = new THREE.Mesh(clinicalGeometry, clinicalMaterial);
+                    clinical.position.y = 8;
+                    clinical.castShadow = true;
+                    group.add(clinical);
+                    
+                    // 医療十字マーク
+                    const crossMaterial = new THREE.MeshStandardMaterial({
+                        color: 0xff0000,
+                        emissive: 0x440000,
+                        emissiveIntensity: 0.3
+                    });
+                    const crossH = new THREE.BoxGeometry(4, 0.5, 0.5);
+                    const crossV = new THREE.BoxGeometry(0.5, 4, 0.5);
+                    const cross1 = new THREE.Mesh(crossH, crossMaterial);
+                    const cross2 = new THREE.Mesh(crossV, crossMaterial);
+                    cross1.position.set(0, 16, 0);
+                    cross2.position.set(0, 16, 0);
+                    group.add(cross1);
+                    group.add(cross2);
+                    break;
+                    
+                case 'learning':
+                    // タイ風の黄金寺院
+                    const templeGeometry = new THREE.ConeGeometry(6, 20, 8);
+                    const templeMaterial = new THREE.MeshStandardMaterial({
+                        color: 0xffd700,
+                        roughness: 0.1,
+                        metalness: 0.9,
+                        emissive: 0x332200,
+                        emissiveIntensity: 0.2
+                    });
+                    const temple = new THREE.Mesh(templeGeometry, templeMaterial);
+                    temple.position.y = 10;
+                    temple.castShadow = true;
+                    group.add(temple);
+                    
+                    // 黄金の装飾
+                    for (let i = 0; i < 8; i++) {
+                        const ornamentGeometry = new THREE.SphereGeometry(0.8, 8, 8);
+                        const ornamentMaterial = new THREE.MeshStandardMaterial({
+                            color: 0xffff00,
+                            emissive: 0x444400,
+                            emissiveIntensity: 0.4
+                        });
+                        const ornament = new THREE.Mesh(ornamentGeometry, ornamentMaterial);
+                        const angle = (i / 8) * Math.PI * 2;
+                        ornament.position.set(
+                            Math.cos(angle) * 7,
+                            5 + Math.sin(i) * 2,
+                            Math.sin(angle) * 7
+                        );
+                        group.add(ornament);
+                    }
+                    break;
+                    
+                case 'social':
+                    // インド風の多文化建築
+                    const socialGeometry = new THREE.OctahedronGeometry(5);
+                    const socialMaterial = new THREE.MeshStandardMaterial({
+                        color: color,
+                        roughness: 0.4,
+                        metalness: 0.5
+                    });
+                    const social = new THREE.Mesh(socialGeometry, socialMaterial);
+                    social.position.y = 8;
+                    social.castShadow = true;
+                    group.add(social);
+                    
+                    // カラフルな多様性の表現
+                    const diversityColors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff];
+                    for (let i = 0; i < 6; i++) {
+                        const diversityGeometry = new THREE.BoxGeometry(1, 6, 1);
+                        const diversityMaterial = new THREE.MeshStandardMaterial({
+                            color: diversityColors[i],
+                            emissive: diversityColors[i],
+                            emissiveIntensity: 0.1
+                        });
+                        const diversity = new THREE.Mesh(diversityGeometry, diversityMaterial);
+                        const angle = (i / 6) * Math.PI * 2;
+                        diversity.position.set(
+                            Math.cos(angle) * 8,
+                            3,
+                            Math.sin(angle) * 8
+                        );
+                        group.add(diversity);
+                    }
+                    break;
+                    
+                case 'personality':
+                    // 香港風のスタイリッシュタワー
+                    const personalityGeometry = new THREE.CylinderGeometry(3, 4, 18, 6);
+                    const personalityMaterial = new THREE.MeshStandardMaterial({
+                        color: color,
+                        roughness: 0.2,
+                        metalness: 0.8,
+                        transparent: true,
+                        opacity: 0.8
+                    });
+                    const personality = new THREE.Mesh(personalityGeometry, personalityMaterial);
+                    personality.position.y = 9;
+                    personality.castShadow = true;
+                    group.add(personality);
+                    
+                    // 性格特性の5つの柱（ビッグファイブ）
+                    const traits = ['O', 'C', 'E', 'A', 'N'];
+                    for (let i = 0; i < 5; i++) {
+                        const traitGeometry = new THREE.CylinderGeometry(0.5, 0.5, 12, 8);
+                        const traitMaterial = new THREE.MeshStandardMaterial({
+                            color: new THREE.Color().setHSL(i * 0.2, 0.8, 0.6),
+                            emissive: new THREE.Color().setHSL(i * 0.2, 0.8, 0.2),
+                            emissiveIntensity: 0.2
+                        });
+                        const trait = new THREE.Mesh(traitGeometry, traitMaterial);
+                        const angle = (i / 5) * Math.PI * 2;
+                        trait.position.set(
+                            Math.cos(angle) * 6,
+                            6,
+                            Math.sin(angle) * 6
+                        );
+                        group.add(trait);
+                    }
+                    break;
+                    
+                case 'perception':
+                    // 台湾風の技術建築
+                    const perceptionGeometry = new THREE.TetrahedronGeometry(5);
+                    const perceptionMaterial = new THREE.MeshStandardMaterial({
+                        color: color,
+                        roughness: 0.3,
+                        metalness: 0.7,
+                        transparent: true,
+                        opacity: 0.7
+                    });
+                    const perception = new THREE.Mesh(perceptionGeometry, perceptionMaterial);
+                    perception.position.y = 8;
+                    perception.castShadow = true;
+                    group.add(perception);
+                    
+                    // 知覚の錯視効果
+                    for (let i = 0; i < 12; i++) {
+                        const illusionGeometry = new THREE.SphereGeometry(0.5, 8, 8);
+                        const illusionMaterial = new THREE.MeshStandardMaterial({
+                            color: i % 2 === 0 ? 0xffffff : 0x000000,
+                            emissive: i % 2 === 0 ? 0x444444 : 0x000000,
+                            emissiveIntensity: 0.3
+                        });
+                        const illusion = new THREE.Mesh(illusionGeometry, illusionMaterial);
+                        const angle = (i / 12) * Math.PI * 2;
+                        illusion.position.set(
+                            Math.cos(angle) * 8,
+                            4 + Math.sin(i * 2) * 2,
+                            Math.sin(angle) * 8
+                        );
+                        group.add(illusion);
+                    }
+                    break;
+                    
+                case 'neural':
+                    // ベトナム風の神経科学研究所
+                    const neuralGeometry = new THREE.SphereGeometry(4, 16, 16);
+                    const neuralMaterial = new THREE.MeshStandardMaterial({
+                        color: color,
+                        roughness: 0.5,
+                        metalness: 0.3,
+                        transparent: true,
+                        opacity: 0.8
+                    });
+                    const neural = new THREE.Mesh(neuralGeometry, neuralMaterial);
+                    neural.position.y = 8;
+                    neural.castShadow = true;
+                    group.add(neural);
+                    
+                    // 脳波パターンの表現
+                    for (let i = 0; i < 24; i++) {
+                        const waveGeometry = new THREE.CylinderGeometry(0.1, 0.1, 2 + Math.sin(i) * 2, 4);
+                        const waveMaterial = new THREE.MeshStandardMaterial({
+                            color: 0x00ffff,
+                            emissive: 0x004444,
+                            emissiveIntensity: 0.5
+                        });
+                        const wave = new THREE.Mesh(waveGeometry, waveMaterial);
+                        const angle = (i / 24) * Math.PI * 2;
+                        wave.position.set(
+                            Math.cos(angle) * 6,
+                            4 + Math.sin(i * 0.5) * 2,
+                            Math.sin(angle) * 6
+                        );
+                        group.add(wave);
+                    }
+                    break;
+                    
+                default:
+                    const defaultGeometry = new THREE.ConeGeometry(4, 12, 8);
+                    const defaultMaterial = new THREE.MeshStandardMaterial({
+                        color: color,
+                        roughness: 0.3,
+                        metalness: 0.5
+                    });
+                    const defaultBuilding = new THREE.Mesh(defaultGeometry, defaultMaterial);
+                    defaultBuilding.position.y = 6;
+                    defaultBuilding.castShadow = true;
+                    group.add(defaultBuilding);
+            }
+            
+            return group;
+        }
+
+        function createEnvironmentDetails(group, color) {
+            // 高品質な装飾要素
+            for (let i = 0; i < 6; i++) {
+                // 街灯
+                const lampGroup = new THREE.Group();
+                
+                const poleGeometry = new THREE.CylinderGeometry(0.2, 0.3, 8);
+                const poleMaterial = new THREE.MeshStandardMaterial({
+                    color: 0x333333,
+                    roughness: 0.8,
+                    metalness: 0.9
+                });
+                const pole = new THREE.Mesh(poleGeometry, poleMaterial);
+                pole.position.y = 4;
+                pole.castShadow = true;
+                lampGroup.add(pole);
+                
+                const lightGeometry = new THREE.SphereGeometry(1, 12, 12);
+                const lightMaterial = new THREE.MeshStandardMaterial({
+                    color: 0xffffff,
+                    emissive: 0xffff88,
+                    emissiveIntensity: 0.8,
+                    transparent: true,
+                    opacity: 0.9
+                });
+                const light = new THREE.Mesh(lightGeometry, lightMaterial);
+                light.position.y = 8.5;
+                lampGroup.add(light);
+                
+                const angle = (i / 6) * Math.PI * 2;
+                const radius = 20 + Math.random() * 10;
+                lampGroup.position.set(
+                    Math.cos(angle) * radius,
+                    0,
+                    Math.sin(angle) * radius
+                );
+                
+                group.add(lampGroup);
+            }
+            
+            // 植物や装飾オブジェクト
+            for (let i = 0; i < 12; i++) {
+                const decorGeometry = new THREE.ConeGeometry(0.5, 4, 6);
+                const decorMaterial = new THREE.MeshStandardMaterial({
+                    color: 0x228b22,
+                    roughness: 0.9,
+                    metalness: 0.1
+                });
+                const decoration = new THREE.Mesh(decorGeometry, decorMaterial);
+                decoration.position.set(
+                    (Math.random() - 0.5) * 40,
+                    2,
+                    (Math.random() - 0.5) * 40
+                );
+                decoration.castShadow = true;
+                group.add(decoration);
+            }
+        }
+
+        function createRoads() {
+            // 美しい道路システム
+            const roadMaterial = new THREE.MeshStandardMaterial({
+                color: 0x444444,
+                roughness: 0.8,
+                metalness: 0.2
+            });
+
+            // メイン環状道路
+            const ringGeometry = new THREE.RingGeometry(60, 64, 64);
+            const ring = new THREE.Mesh(ringGeometry, roadMaterial);
+            ring.rotation.x = -Math.PI / 2;
+            ring.position.y = 0.1;
+            ring.receiveShadow = true;
+            scene.add(ring);
+
+            // 放射状の道路（各区域を繋ぐ）
+            const roadColors = [0xff69b4, 0x87ceeb, 0x98fb98, 0xffd700, 0xffa500, 0xda70d6, 0x40e0d0, 0xee82ee, 0x20b2aa];
+            Object.keys(districtData).forEach((key, index) => {
+                const district = districtData[key];
+                const roadGeometry = new THREE.PlaneGeometry(4, 80);
+                const coloredRoadMaterial = new THREE.MeshStandardMaterial({
+                    color: roadColors[index] || 0x666666,
+                    roughness: 0.6,
+                    metalness: 0.3,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                const road = new THREE.Mesh(roadGeometry, coloredRoadMaterial);
+                road.rotation.x = -Math.PI / 2;
+                road.position.set(district.position[0] / 2, 0.2, district.position[2] / 2);
+                road.lookAt(0, 0.2, 0);
+                road.receiveShadow = true;
+                scene.add(road);
+            });
+
+            // 交差点
+            const intersectionGeometry = new THREE.CylinderGeometry(8, 8, 0.5, 16);
+            const intersectionMaterial = new THREE.MeshStandardMaterial({
+                color: 0x555555,
+                roughness: 0.7,
+                metalness: 0.4
+            });
+            const intersection = new THREE.Mesh(intersectionGeometry, intersectionMaterial);
+            intersection.position.y = 0.25;
+            intersection.receiveShadow = true;
+            scene.add(intersection);
+        }
+
+        function createLabel(text, x, y, z) {
+            // 区域マーカー
+            const markerGeometry = new THREE.ConeGeometry(1.5, 3, 8);
+            const markerMaterial = new THREE.MeshStandardMaterial({
+                color: 0xffff00,
+                emissive: 0x444400,
+                emissiveIntensity: 0.3,
+                transparent: true,
+                opacity: 0.9
+            });
+            const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+            marker.position.set(x, y, z);
+            marker.castShadow = true;
+            scene.add(marker);
+
+            // パルス効果のためのアニメーション用マーカー保存
+            marker.userData = { originalScale: marker.scale.clone(), pulseTime: Math.random() * Math.PI * 2 };
+            if (!scene.userData.markers) scene.userData.markers = [];
+            scene.userData.markers.push(marker);
+        }
+
+        function addAdvancedMouseControls() {
+            let mouseDown = false;
+            let mouseButton = 0;
+            let mouseX = 0;
+            let mouseY = 0;
+            let mouseSensitivity = 0.002;
+
+            renderer.domElement.addEventListener('mousedown', (event) => {
+                mouseDown = true;
+                mouseButton = event.button;
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+                event.preventDefault();
+            });
+
+            renderer.domElement.addEventListener('mouseup', () => {
+                mouseDown = false;
+            });
+
+            renderer.domElement.addEventListener('mousemove', (event) => {
+                if (!mouseDown) return;
+
+                const deltaX = event.clientX - mouseX;
+                const deltaY = event.clientY - mouseY;
+
+                if (viewMode === 'orbit') {
+                    // 軌道カメラ（従来の動作）
+                    const spherical = new THREE.Spherical();
+                    spherical.setFromVector3(camera.position);
+                    spherical.theta -= deltaX * mouseSensitivity;
+                    spherical.phi += deltaY * mouseSensitivity;
+                    spherical.phi = Math.max(0.1, Math.min(Math.PI - 0.1, spherical.phi));
+                    camera.position.setFromSpherical(spherical);
+                    camera.lookAt(0, 0, 0);
+                } else if (viewMode === 'fly' || viewMode === 'fps') {
+                    // フライ/FPSカメラ
+                    camera.rotation.y -= deltaX * mouseSensitivity;
+                    camera.rotation.x -= deltaY * mouseSensitivity;
+                    camera.rotation.x = Math.max(-Math.PI/2, Math.min(Math.PI/2, camera.rotation.x));
+                }
+
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+            });
+
+            renderer.domElement.addEventListener('wheel', (event) => {
+                if (viewMode === 'orbit') {
+                    const distance = camera.position.length();
+                    const newDistance = distance + event.deltaY * 0.01;
+                    const clampedDistance = Math.max(10, Math.min(200, newDistance));
+                    
+                    camera.position.normalize().multiplyScalar(clampedDistance);
+                    camera.lookAt(0, 0, 0);
+                } else {
+                    // フライ/FPSモードではズームでスピード調整
+                    flySpeed = Math.max(0.1, Math.min(5.0, flySpeed + event.deltaY * 0.001));
+                }
+                event.preventDefault();
+            });
+
+            // ポインターロック（FPSモード用）
+            renderer.domElement.addEventListener('click', () => {
+                if (viewMode === 'fps') {
+                    renderer.domElement.requestPointerLock();
+                }
+            });
+        }
+
+        function addKeyboardControls() {
+            document.addEventListener('keydown', (event) => {
+                keys[event.code] = true;
+                
+                // ショートカットキー
+                switch(event.code) {
+                    case 'Digit1': setViewMode('orbit'); break;
+                    case 'Digit2': setViewMode('fly'); break;
+                    case 'Digit3': setViewMode('fps'); break;
+                    case 'KeyR': resetCamera(); break;
+                    case 'KeyW': toggleWireframe(); break;
+                    case 'KeyF': toggleFullscreen(); break;
+                    case 'Escape': exitPointerLock(); break;
+                }
+            });
+
+            document.addEventListener('keyup', (event) => {
+                keys[event.code] = false;
+            });
+        }
+
+        function updateCameraMovement() {
+            if (viewMode === 'fly' || viewMode === 'fps') {
+                const forward = new THREE.Vector3(0, 0, -1);
+                const right = new THREE.Vector3(1, 0, 0);
+                const up = new THREE.Vector3(0, 1, 0);
+                
+                forward.applyQuaternion(camera.quaternion);
+                right.applyQuaternion(camera.quaternion);
+                
+                velocity.set(0, 0, 0);
+                
+                if (keys['KeyW']) velocity.add(forward.multiplyScalar(flySpeed));
+                if (keys['KeyS']) velocity.add(forward.multiplyScalar(-flySpeed));
+                if (keys['KeyA']) velocity.add(right.multiplyScalar(-flySpeed));
+                if (keys['KeyD']) velocity.add(right.multiplyScalar(flySpeed));
+                if (keys['Space']) velocity.add(up.multiplyScalar(flySpeed));
+                if (keys['ShiftLeft']) velocity.add(up.multiplyScalar(-flySpeed));
+                
+                camera.position.add(velocity);
+                
+                // 境界制限
+                camera.position.x = Math.max(-150, Math.min(150, camera.position.x));
+                camera.position.z = Math.max(-150, Math.min(150, camera.position.z));
+                camera.position.y = Math.max(1, Math.min(150, camera.position.y));
+            }
+        }
+
+        function setViewMode(mode) {
+            viewMode = mode;
+            updateInfo(`🎥 ${mode.toUpperCase()}モード`, `カメラモードが${mode}に変更されました。`);
+            
+            if (mode === 'fps') {
+                updateInfo(`👤 FPSモード`, `WASD:移動 スペース:上昇 Shift:下降 マウス:視点変更 クリックでポインターロック`);
+            } else if (mode === 'fly') {
+                updateInfo(`🚁 フライモード`, `WASD:移動 スペース:上昇 Shift:下降 マウス:視点変更 ホイール:スピード調整`);
+            } else {
+                updateInfo(`🌍 軌道モード`, `マウスドラッグ:回転 ホイール:ズーム 自動で中心を注視`);
+            }
+        }
+
+        function resetCamera() {
+            camera.position.set(0, 80, 120);
+            camera.rotation.set(0, 0, 0);
+            camera.lookAt(0, 0, 0);
+            viewMode = 'orbit';
+            updateInfo("🎯 カメラリセット", "カメラ位置を初期状態に戻しました。");
+        }
+
+        function toggleWireframe() {
+            wireframeMode = !wireframeMode;
+            
+            scene.traverse((child) => {
+                if (child.isMesh && child.material) {
+                    if (Array.isArray(child.material)) {
+                        child.material.forEach(mat => mat.wireframe = wireframeMode);
+                    } else {
+                        child.material.wireframe = wireframeMode;
+                    }
+                }
+            });
+            
+            updateInfo("📐 ワイヤーフレーム", `ワイヤーフレーム表示: ${wireframeMode ? 'ON' : 'OFF'}`);
+        }
+
+        function toggleFullscreen() {
+            if (!isFullscreen) {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                }
+                isFullscreen = true;
+                updateInfo("🖥️ 全画面モード", "全画面表示を開始しました。ESCキーで終了できます。");
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+                isFullscreen = false;
+                updateInfo("🪟 ウィンドウモード", "ウィンドウ表示に戻りました。");
+            }
+        }
+
+        function exitPointerLock() {
+            if (document.exitPointerLock) {
+                document.exitPointerLock();
+            }
+        }
+
+        function focusDistrict(districtKey) {
+            if (districtKey === 'overview') {
+                camera.position.set(0, 100, 150);
+                camera.lookAt(0, 0, 0);
+                updateInfo("🌆 全体表示", "心理学メガシティ全体を俯瞰表示。各区域が有機的に連携している様子を確認できます。9つの心理学分野が美しく配置されています。");
+                return;
+            }
+
+            const district = districtData[districtKey];
+            if (district) {
+                camera.position.set(
+                    district.position[0] + 30,
+                    40,
+                    district.position[2] + 30
+                );
+                camera.lookAt(district.position[0], 0, district.position[2]);
+                updateInfo(district.name, district.description);
+            }
+        }
+
+        function updateInfo(title, description) {
+            const infoDiv = document.getElementById('district-info');
+            infoDiv.innerHTML = `<strong>${title}</strong><br>${description}<br><em>マウスで回転、ホイールでズーム</em>`;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // カメラ移動の更新
+            updateCameraMovement();
+
+            // 時間ベースのアニメーション
+            const time = Date.now() * 0.001;
+
+            // 建物の軽いアニメーション（呼吸するような動き）
+            Object.keys(districts).forEach((key, index) => {
+                const district = districts[key];
+                if (district) {
+                    district.children.forEach((building, buildingIndex) => {
+                        if (buildingIndex > 0) { // メインビルディング以外
+                            const originalY = building.userData.originalY || building.position.y;
+                            building.userData.originalY = originalY;
+                            building.position.y = originalY + Math.sin(time * 2 + index + buildingIndex) * 0.3;
+                        }
+                        
+                        // 建物の回転アニメーション（特殊建築物）
+                        if (buildingIndex === 0 && building.children.length > 0) {
+                            building.rotation.y += 0.005;
+                        }
+                    });
+                }
+            });
+
+            // マーカーのパルス効果
+            if (scene.userData.markers) {
+                scene.userData.markers.forEach((marker, index) => {
+                    const pulseTime = marker.userData.pulseTime + time;
+                    const scale = 1 + Math.sin(pulseTime * 3) * 0.2;
+                    marker.scale.setScalar(scale);
+                    marker.rotation.y += 0.02;
+                });
+            }
+
+            // 雲の移動
+            scene.traverse((child) => {
+                if (child.isMesh && child.position.y > 50 && child.material.opacity < 1) {
+                    child.position.x += Math.sin(time * 0.1 + child.position.z * 0.01) * 0.1;
+                    child.position.z += Math.cos(time * 0.1 + child.position.x * 0.01) * 0.1;
+                    child.rotation.y += 0.001;
+                }
+            });
+
+            // 水面の波紋効果
+            scene.traverse((child) => {
+                if (child.isMesh && child.position.y < 0 && child.material.opacity < 1) {
+                    const vertices = child.geometry.attributes.position.array;
+                    for (let i = 0; i < vertices.length; i += 3) {
+                        const x = vertices[i];
+                        const z = vertices[i + 2];
+                        vertices[i + 1] = Math.sin(time * 2 + x * 0.1) * Math.cos(time * 2 + z * 0.1) * 0.5;
+                    }
+                    child.geometry.attributes.position.needsUpdate = true;
+                }
+            });
+
+            // パーティクル効果（光の粒子）
+            createParticleEffects(time);
+
+            renderer.render(scene, camera);
+        }
+
+        function createParticleEffects(time) {
+            // 既存のパーティクルを削除
+            if (scene.userData.particles) {
+                scene.userData.particles.forEach(particle => {
+                    scene.remove(particle);
+                });
+                scene.userData.particles = [];
+            } else {
+                scene.userData.particles = [];
+            }
+
+            // 新しいパーティクルを作成
+            for (let i = 0; i < 50; i++) {
+                const particleGeometry = new THREE.SphereGeometry(0.1, 4, 4);
+                const particleMaterial = new THREE.MeshBasicMaterial({
+                    color: Math.random() * 0xffffff,
+                    transparent: true,
+                    opacity: 0.6
+                });
+                const particle = new THREE.Mesh(particleGeometry, particleMaterial);
+                
+                particle.position.set(
+                    (Math.random() - 0.5) * 200,
+                    Math.random() * 100 + 20,
+                    (Math.random() - 0.5) * 200
+                );
+                
+                particle.userData.velocity = new THREE.Vector3(
+                    (Math.random() - 0.5) * 0.2,
+                    Math.random() * 0.1,
+                    (Math.random() - 0.5) * 0.2
+                );
+                
+                scene.add(particle);
+                scene.userData.particles.push(particle);
+            }
+
+            // パーティクルの移動
+            scene.userData.particles.forEach((particle, index) => {
+                particle.position.add(particle.userData.velocity);
+                particle.rotation.x += 0.01;
+                particle.rotation.y += 0.01;
+                
+                // 境界を超えたら再配置
+                if (particle.position.length() > 150) {
+                    particle.position.set(
+                        (Math.random() - 0.5) * 50,
+                        Math.random() * 50 + 20,
+                        (Math.random() - 0.5) * 50
+                    );
+                }
+            });
+        }
+
+        function downloadHTML() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html; charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '心理学メガシティ3D.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            updateInfo("📥 ダウンロード完了", "心理学メガシティ3DのHTMLファイルがダウンロードされました！");
+        }
+
+        // ウィンドウリサイズ対応
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // フルスクリーン変更の検出
+        document.addEventListener('fullscreenchange', () => {
+            isFullscreen = !!document.fullscreenElement;
+        });
+
+        // ポインターロック変更の検出
+        document.addEventListener('pointerlockchange', () => {
+            if (document.pointerLockElement === renderer.domElement) {
+                updateInfo("🔒 ポインターロック", "FPSモードでマウスがロックされました。ESCで解除できます。");
+            } else {
+                updateInfo("🔓 ポインターロック解除", "マウスロックが解除されました。");
+            }
+        });
+
+        // 初期化実行
+        init();
+
+        // 初期メッセージ
+        setTimeout(() => {
+            updateInfo("🌟 心理学メガシティへようこそ！", "9つの心理学分野が美しい3D都市として表現されています。各区域をクリックして探索しましょう！");
+        }, 1000);
+    </script>
+</body>
+</html>
