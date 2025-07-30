@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>統計学模擬試験 第6回 概念理解重視版</title>
+    <style>
+        @media print {
+            body { margin: 0; font-size: 12pt; }
+            .page-break { page-break-before: always; }
+            .no-print { display: none; }
+        }
+        body {
+            font-family: 'MS Gothic', monospace;
+            line-height: 1.4;
+            margin: 20px;
+            background: white;
+        }
+        .header {
+            text-align: center;
+            border: 2px solid black;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .university-name {
+            font-size: 16pt;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .exam-info {
+            font-size: 12pt;
+            margin-bottom: 5px;
+        }
+        .exam-number {
+            text-align: right;
+            margin: 10px 0;
+            border: 1px solid black;
+            padding: 5px;
+        }
+        .problem {
+            margin: 20px 0;
+            border: 1px solid black;
+            padding: 15px;
+        }
+        .problem-title {
+            font-weight: bold;
+            font-size: 14pt;
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            padding: 5px;
+        }
+        .sub-problem {
+            margin: 15px 0;
+        }
+        .answer-space {
+            border: 1px solid #ccc;
+            min-height: 100px;
+            margin: 10px 0;
+            padding: 5px;
+        }
+        .large-answer-space {
+            min-height: 150px;
+        }
+        .xl-answer-space {
+            min-height: 200px;
+        }
+        .points {
+            float: right;
+            font-weight: bold;
+            color: #666;
+        }
+        .case-study {
+            background-color: #f8f8ff;
+            border: 2px solid #4169e1;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .concept-map {
+            background-color: #f0fff0;
+            border: 2px solid #32cd32;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .keywords {
+            background-color: #fff8dc;
+            border: 1px solid #daa520;
+            padding: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .instructions {
+            background-color: #ffffcc;
+            border: 2px solid #ffcc00;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .no-print {
+            background-color: #e6ffe6;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print">
+        <p><strong>印刷設定:</strong> A4サイズ、余白は普通に設定してください。概念理解重視の問題形式です。</p>
+        <button onclick="window.print()" style="padding: 10px 20px; font-size: 14px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">印刷する</button>
+    </div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">大学院入学試験 模擬問題</div>
+        <div class="exam-info">心理学学位プログラム（心理基礎科学・心理臨床学）サブプログラム</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+        <div class="exam-info">統計学 模擬試験問題 第6回【概念理解重視版】</div>
+        <div class="exam-info"><strong>試験時間：90分　　満点：100点</strong></div>
+    </div>
+
+    <div class="instructions">
+        <h3>解答上の注意</h3>
+        <ul>
+            <li><strong>概念的理解</strong>を重視して解答すること</li>
+            <li>手法の選択理由と背景理論を明確に説明すること</li>
+            <li>統計手法間の関係性や使い分けについて論述すること</li>
+            <li>実際の研究場面での応用を意識して答えること</li>
+            <li>数値計算よりも概念の説明に重点を置くこと</li>
+        </ul>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第5問　統計的モデリングの哲学 <span class="points">(10点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>心理学研究において「すべてのモデルは間違っているが、いくつかは有用である」（Box, 1976）という格言がある。この観点から統計的モデリングについて考察しなさい。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) モデルの単純化と現実の複雑性について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 統計モデルが現実の単純化されたバージョンである理由と、そのことが研究にとって持つ意味について説明しなさい。(5点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) モデル選択の基準について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 「良いモデル」とは何か、予測精度と解釈可能性のトレードオフを含めて論述しなさい。(5点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; font-weight: bold;">
+        以上で試験終了です。概念理解の深さを重視して解答の見直しを行ってください。
+    </div>
+
+</body>
+</html>">第1問　多変量解析の概念体系 <span class="points">(25点)</span></div>
+        
+        <div class="concept-map">
+            <strong>【概念マップ問題】</strong>
+            <p>多変量解析における以下の手法の関係性と使い分けを体系的に整理しなさい。</p>
+        </div>
+
+        <div class="keywords">
+            キーワード：因子分析、主成分分析、判別分析、クラスター分析、MANOVA、正準相関分析
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 探索的手法と確認的手法の違いについて：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 探索的因子分析と確認的因子分析の概念的違いと、それぞれが適用される研究段階について説明しなさい。(8点)</p>
+                <div class="answer-space"></div>
+                
+                <p>・ 主成分分析と因子分析の目的と解釈の違いについて論述しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 分類・予測のための多変量解析について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 判別分析とクラスター分析の目的と手法の違い、および現代的な機械学習手法との関係について説明しなさい。(10点)</p>
+                <div class="answer-space large-answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第6回　2枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第2問　構造方程式モデリング（SEM）の概念 <span class="points">(25点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>学習動機が学習方略を媒介して学業成績に影響するという理論モデルを検証したい。観測変数には学習動機尺度の3下位尺度、学習方略尺度の4下位尺度、学業成績（GPA、テスト得点）がある。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) SEMの基本概念について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 観測変数と潜在変数、測定モデルと構造モデルの概念について、このケースを例に説明しなさい。(8点)</p>
+                <div class="answer-space"></div>
+                
+                <p>・ SEMと重回帰分析やパス解析の違いについて、同時推定の利点を含めて論述しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) モデル適合度と修正について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ CFI、RMSEA、SRMRなどの適合度指標の意味と解釈基準について説明し、モデル修正の際の注意点を論述しなさい。(10点)</p>
+                <div class="answer-space large-answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第6回　3枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第3問　縦断データ分析の概念 <span class="points">(25点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>児童の認知発達を3年間にわたって追跡調査する研究を計画している。毎年同じ認知課題を実施し、発達軌跡を描きたい。しかし、転校や欠席により一部のデータが欠損することが予想される。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 縦断データの特徴と分析上の課題について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 横断研究と縦断研究の概念的違いと、縦断研究特有の利点（因果推論、個人内変化の検討など）について説明しなさい。(8点)</p>
+                <div class="answer-space"></div>
+                
+                <p>・ 繰り返し測定による自己相関の問題と、それが統計分析に与える影響について論述しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 縦断データ分析手法について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 成長曲線モデル（growth curve model）や多レベルモデル（hierarchical linear model）の基本概念と、従来の分散分析との違いについて説明しなさい。(10点)</p>
+                <div class="answer-space large-answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第6回　4枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第4問　ベイズ統計の基本概念 <span class="points">(15点)</span></div>
+
+        <div class="concept-map">
+            <strong>【概念マップ問題】</strong>
+            <p>ベイズ統計と頻度主義統計の根本的な違いについて整理しなさい。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) ベイズ推論の基本要素について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 事前分布、尤度、事後分布の概念と、ベイズの定理における役割について説明しなさい。(8点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 信頼区間と確信区間の違いについて：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 頻度主義の信頼区間とベイズ主義の確信区間の解釈の違いと、それぞれの利点・欠点について論述しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第6回　5枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title
