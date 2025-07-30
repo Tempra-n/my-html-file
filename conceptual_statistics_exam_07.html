@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>統計学模擬試験 第7回 概念理解重視版</title>
+    <style>
+        @media print {
+            body { margin: 0; font-size: 12pt; }
+            .page-break { page-break-before: always; }
+            .no-print { display: none; }
+        }
+        body {
+            font-family: 'MS Gothic', monospace;
+            line-height: 1.4;
+            margin: 20px;
+            background: white;
+        }
+        .header {
+            text-align: center;
+            border: 2px solid black;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .university-name {
+            font-size: 16pt;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .exam-info {
+            font-size: 12pt;
+            margin-bottom: 5px;
+        }
+        .exam-number {
+            text-align: right;
+            margin: 10px 0;
+            border: 1px solid black;
+            padding: 5px;
+        }
+        .problem {
+            margin: 20px 0;
+            border: 1px solid black;
+            padding: 15px;
+        }
+        .problem-title {
+            font-weight: bold;
+            font-size: 14pt;
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            padding: 5px;
+        }
+        .sub-problem {
+            margin: 15px 0;
+        }
+        .answer-space {
+            border: 1px solid #ccc;
+            min-height: 100px;
+            margin: 10px 0;
+            padding: 5px;
+        }
+        .large-answer-space {
+            min-height: 150px;
+        }
+        .xl-answer-space {
+            min-height: 200px;
+        }
+        .points {
+            float: right;
+            font-weight: bold;
+            color: #666;
+        }
+        .case-study {
+            background-color: #f8f8ff;
+            border: 2px solid #4169e1;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .concept-map {
+            background-color: #f0fff0;
+            border: 2px solid #32cd32;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .keywords {
+            background-color: #fff8dc;
+            border: 1px solid #daa520;
+            padding: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .instructions {
+            background-color: #ffffcc;
+            border: 2px solid #ffcc00;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .no-print {
+            background-color: #e6ffe6;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print">
+        <p><strong>印刷設定:</strong> A4サイズ、余白は普通に設定してください。概念理解重視の問題形式です。</p>
+        <button onclick="window.print()" style="padding: 10px 20px; font-size: 14px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">印刷する</button>
+    </div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">大学院入学試験 模擬問題</div>
+        <div class="exam-info">心理学学位プログラム（心理基礎科学・心理臨床学）サブプログラム</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+        <div class="exam-info">統計学 模擬試験問題 第7回【概念理解重視版】</div>
+        <div class="exam-info"><strong>試験時間：90分　　満点：100点</strong></div>
+    </div>
+
+    <div class="instructions">
+        <h3>解答上の注意</h3>
+        <ul>
+            <li><strong>概念的理解</strong>を重視して解答すること</li>
+            <li>手法の選択理由と背景理論を明確に説明すること</li>
+            <li>統計手法間の関係性や使い分けについて論述すること</li>
+            <li>実際の研究場面での応用を意識して答えること</li>
+            <li>数値計算よりも概念の説明に重点を置くこと</li>
+        </ul>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第1問　実験計画法の概念体系 <span class="points">(25点)</span></div>
+        
+        <div class="concept-map">
+            <strong>【概念マップ問題】</strong>
+            <p>実験計画における以下の概念の関係性を整理し、適切な実験デザインの選択基準を体系化しなさい。</p>
+        </div>
+
+        <div class="keywords">
+            キーワード：完全無作為化計画、乱塊法、要因計画、交互作用、主効果、単純効果、ネスト計画
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 基本的な実験計画の特徴について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 完全無作為化計画、乱塊法、ラテン方格法の概念的違いと、それぞれが制御する誤差要因について説明しなさい。(10点)</p>
+                <div class="answer-space large-answer-space"></div>
+                
+                <p>・ ブロック化の概念と利点について、統計的効率性の観点から論述しなさい。(6点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 要因計画と交互作用について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 2要因計画における主効果と交互作用の概念的違いと、交互作用が有意な場合の解釈方法について説明しなさい。(9点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第7回　2枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第2問　共分散分析（ANCOVA）の概念 <span class="points">(25点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>3つの学習方法（A、B、C）の効果を比較する実験で、参加者の事前学力に差があることが判明した。この事前学力の影響を統制して、学習方法の効果を正確に評価したい。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) ANCOVAの基本概念について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ ANCOVAとANOVAの概念的違いと、共変量（covariate）を投入する目的について説明しなさい。(8点)</p>
+                <div class="answer-space"></div>
+                
+                <p>・ 統計的統制の概念について、実験的統制との違いを含めて論述しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) ANCOVAの前提条件について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 回帰係数の等質性（homogeneity of regression slopes）の概念と、この前提が破られた場合の問題について説明しなさい。(10点)</p>
+                <div class="answer-space large-answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第7回　3枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第3問　測定理論と項目反応理論 <span class="points">(25点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>新しい性格検査を開発している。古典的テスト理論（CTT）に基づく分析では限界があり、項目反応理論（IRT）の導入を検討している。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 古典的テスト理論と項目反応理論の違いについて：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ CTTにおける真値、測定誤差の概念と、IRTにおける特性値、項目パラメータの概念的違いについて説明しなさい。(10点)</p>
+                <div class="answer-space large-answer-space"></div>
+                
+                <p>・ 標本依存性と項目依存性の問題について、CTTとIRTの違いを含めて論述しなさい。(8点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) IRT の応用と利点について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 項目特性曲線（ICC）の概念と、困難度、識別力パラメータの解釈について説明しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第7回　4枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第4問　ロジスティック回帰の概念 <span class="points">(15点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>うつ病の診断（あり/なし）を予測するため、年齢、性別、ストレス度、社会的支援を説明変数とした予測モデルを構築したい。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) ロジスティック回帰の基本概念について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ なぜ二項変数の予測に線形回帰ではなくロジスティック回帰を用いるのか、ロジット変換の意味を含めて説明しなさい。(8点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) オッズ比の解釈について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ オッズ比の概念と解釈方法について、回帰係数との関係を含めて説明しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第7回　5枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第5問　統計的学習理論の基礎 <span class="points">(10点)</span></div>
+
+        <div class="concept-map">
+            <strong>【概念マップ問題】</strong>
+            <p>機械学習と統計学の関係について、予測と推論の観点から整理しなさい。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) バイアス・バリアンス分解について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 予測誤差がバイアス、バリアンス、ノイズに分解される概念と、オーバーフィッティングとの関係について説明しなさい。(6点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) クロスバリデーションの概念について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ k-fold クロスバリデーションの目的と、モデル選択における役割について説明しなさい。(4点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; font-weight: bold;">
+        以上で試験終了です。概念理解の深さを重視して解答の見直しを行ってください。
+    </div>
+
+</body>
+</html>
