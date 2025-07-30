@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心理学大学院入試完全網羅模擬試験シリーズ</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+        
+        body {
+            font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: white;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .exam-header {
+            text-align: center;
+            border-bottom: 2px solid #333;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            page-break-after: avoid;
+        }
+        
+        .exam-header h1 {
+            font-size: 20px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .exam-header h2 {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        
+        .series-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+        
+        .section-title {
+            background: #333;
+            color: white;
+            padding: 15px 20px;
+            margin: 40px 0 25px 0;
+            font-weight: bold;
+            font-size: 18px;
+            page-break-after: avoid;
+        }
+        
+        .subsection-title {
+            background: #f8f9fa;
+            border-left: 5px solid #007bff;
+            padding: 10px 15px;
+            margin: 25px 0 15px 0;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .question-header {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        
+        .question-number {
+            font-weight: bold;
+            font-size: 16px;
+            color: #1976d2;
+        }
+        
+        .question-category {
+            font-size: 12px;
+            color: #666;
+            margin-left: 10px;
+        }
+        
+        .question-points {
+            float: right;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+        
+        .difficulty-stars {
+            float: right;
+            color: #ff9800;
+            margin-left: 10px;
+        }
+        
+        .question-text {
+            font-size: 14px;
+            margin: 15px 0;
+            line-height: 1.8;
+        }
+        
+        .answer-area {
+            border: 2px solid #ddd;
+            min-height: 150px;
+            padding: 10px;
+            margin: 20px 0;
+            background: #fafafa;
+        }
+        
+        .answer-area.large {
+            min-height: 250px;
+        }
+        
+        .answer-area.medium {
+            min-height: 200px;
+        }
+        
+        .answer-area.small {
+            min-height: 120px;
+        }
+        
+        .answer-lines {
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 24px,
+                #e0e0e0 24px,
+                #e0e0e0 26px
+            );
+            min-height: inherit;
+        }
+        
+        .instructions {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #e65100;
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+        
+        .toc {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .toc h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .toc-item {
+            margin: 10px 0;
+            padding: 5px 0;
+            border-bottom: 1px dotted #ccc;
+        }
+        
+        .emphasis-box {
+            background: #e8f5e8;
+            border-left: 5px solid #4caf50;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .case-info {
+            background: #f3e5f5;
+            border: 1px solid #9c27b0;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .task-list {
+            background: #e1f5fe;
+            border: 1px solid #03a9f4;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        
+        li {
+            margin: 5px 0;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+            
+            .page-break {
+                page-break-before: always;
+            }
+            
+            .question-header {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 表紙 -->
+    <div class="exam-header">
+        <h1>心理学大学院入試</h1>
+        <h1>完全網羅模擬試験シリーズ</h1>
+        <div style="margin: 30px 0;">
+            <p style="font-size: 18px; color: #666;">～ 認知心理学・発達心理学・統合型問題 ～</p>
+        </div>
+        <h2>心理学学位プログラム対応</h2>
+        <h2>（心理基礎科学・心理臨床学）</h2>
+        <p style="margin-top: 30px; font-size: 14px; color: #666;">
+            本シリーズは大学院入試に必要な全分野を網羅的にカバーした<br>
+            実践的な模擬試験問題集です
+        </p>
+    </div>
+
+    <!-- 目次 -->
+    <div class="toc">
+        <h2>📚 シリーズ構成</h2>
+        <div class="toc-item"><strong>第1巻：認知心理学 完全網羅編</strong> - 記憶・注意・知覚・学習現象</div>
+        <div class="toc-item"><strong>第2巻：発達心理学 完全版</strong> - 理論・実験・現象・応用</div>
+        <div class="toc-item"><strong>第3巻：統合型・ケーススタディ編</strong> - 実践的応用力養成</div>
+        <div class="toc-item"><strong>第4巻：総合実力確認テスト</strong> - 最終仕上げ</div>
+    </div>
+
+    <!-- 使用方法 -->
+    <div class="instructions">
+        <h3>📖 本シリーズの使用方法</h3>
+        <ul>
+            <li><strong>段階的学習：</strong>第1巻→第2巻→第3巻→第4巻の順序で進める</li>
+            <li><strong>反復練習：</strong>各巻を最低2回は解答する</li>
+            <li><strong>時間管理：</strong>実際の試験時間を設定して取り組む</li>
+            <li><strong>論述力向上：</strong>解答は必ず文章で記述する</li>
+            <li><strong>弱点克服：</strong>間違えた問題は理論を再学習する</li>
+        </ul>
+    </div>
+
+    <!-- 第1巻：認知心理学編 -->
+    <div class="series-title">第1巻：認知心理学 完全網羅編</div>
+
+    <div class="section-title">【第1回】記憶システム基礎編（120分）</div>
+
+    <div class="question-header">
+        <span class="question-number">問題1-1：記憶システムの階層構造</span>
+        <span class="question-points">(15点)</span>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="question-text">
+        アトキンソン＝シフリンの記憶モデルからバドリーのワーキングメモリモデルへの発展について説明しなさい。
+        <ul>
+            <li>従来モデルの限界</li>
+            <li>新モデルの革新性</li>
+            <li>実験的証拠の変遷</li>
+            <li>現在の評価と課題</li>
+        </ul>
+    </div>
+    <div class="answer-area large">
+        <div class="answer-lines"></div>
+    </div>
+
+    <div class="question-header">
+        <span class="question-number">問題1-2：ワーキングメモリの詳細分析</span>
+        <span class="question-points">(20点)</span>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="question-text">
+        バドリーのワーキングメモリの4構成要素について、以下を含めて詳述しなさい。
+        <ol>
+            <li><strong>中央実行系</strong>：注意制御機能、容量限界、実験的証拠</li>
+            <li><strong>音韻ループ</strong>：構造、音韻類似性効果、語長効果</li>
+            <li><strong>視空間スケッチパッド</strong>：機能、心的回転との関係</li>
+            <li><strong>エピソード的バッファ</strong>：追加された背景、他システムとの統合</li>
+        </ol>
+    </div>
+    <div class="answer-area large">
+        <div class="answer-lines"></div>
+    </div>
+
+    <div class="question-header">
+        <span class="question-number">問題1-3：二重課題パラダイムの応用</span>
+        <span class="question-points">(15点)</span>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="question-text">
+        二重課題実験について、以下の実験を設計し、予想結果を説明しなさい。
+        <ul>
+            <li><strong>実験目的</strong>：音韻ループと視空間スケッチパッドの独立性検証</li>
+            <li><strong>実験条件</strong>：主課題・副課題の組み合わせ</li>
+            <li><strong>測定指標</strong>：パフォーマンス低下の程度</li>
+            <li><strong>予想結果</strong>：理論的根拠とともに</li>
+        </ul>
+    </div>
+    <div class="answer-area large">
+        <div class="answer-lines"></div>
+    </div>
+
+    <div class="question-header">
+        <span class="question-number">問題1-4：系列位置効果の多面的理解</span>
+        <span class="question-points">(15点)</span>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="question-text">
+        系列位置効果について、以下を統合的に説明しなさい。
+        <ul>
+            <li><strong>初頭効果</strong>と<strong>新近効果</strong>のメカニズム</li>
+            <li><strong>遅延再生</strong>による新近効果の消失</li>
+            <li><strong>干渉課題</strong>の影響</li>
+            <li>ワーキングメモリとの関係</li>
+        </ul>
+    </div>
+    <div class="answer-area large">
+        <div class="answer-lines"></div>
+    </div>
+
+    <!-- 第2回 -->
+    <div class="page-break">
+        <div class="section-title">【第2回】長期記憶システム編（120分）</div>
+
+        <div class="question-header">
+            <span class="question-number">問題2-1：宣言的記憶の二重構造</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            <strong>エピソード記憶</strong>と<strong>意味記憶</strong>について、以下の観点から比較分析しなさい。
+            <ol>
+                <li><strong>定義と特徴</strong>：タルヴィングの提唱内容</li>
+                <li><strong>発達的観点</strong>：幼児期からの発達過程</li>
+                <li><strong>神経基盤</strong>：海馬・側頭葉の役割分担</li>
+                <li><strong>病理学的解離</strong>：認知症・健忘症での症状差</li>
+                <li><strong>実験的検証</strong>：remember/know判断の実験パラダイム</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="question-header">
+            <span class="question-number">問題2-2：手続き的記憶の特性</span>
+            <span class="question-points">(15点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            手続き的記憶について、以下を含めて説明しなさい。
+            <ul>
+                <li><strong>定義と特徴</strong>：意識性、言語化可能性</li>
+                <li><strong>神経基盤</strong>：大脳基底核の役割</li>
+                <li><strong>学習特性</strong>：習得過程、忘却抵抗性</li>
+                <li><strong>日常例</strong>：運動技能、認知技能</li>
+                <li><strong>障害例</strong>：パーキンソン病、ハンチントン病</li>
+            </ul>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- 第3回 -->
+    <div class="page-break">
+        <div class="section-title">【第3回】注意メカニズム編（120分）</div>
+
+        <div class="question-header">
+            <span class="question-number">問題3-1：選択的注意の理論発展</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            選択的注意理論の発展について、以下の流れで説明しなさい。
+            <ol>
+                <li><strong>ブロードベントのフィルター理論</strong>：初期選択説</li>
+                <li><strong>トライズマンの減衰理論</strong>：閾値概念の導入</li>
+                <li><strong>ドイッチェ＝ノーマンの後期選択説</strong>：意味分析の重要性</li>
+                <li><strong>現代の統合的理解</strong>：柔軟な注意配分</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="question-header">
+            <span class="question-number">問題3-2：注意の瞬きとその応用</span>
+            <span class="question-points">(15点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            注意の瞬き（attentional blink）について説明し、以下の応用場面を分析しなさい。
+            <ul>
+                <li><strong>実験パラダイム</strong>：RSVP課題</li>
+                <li><strong>時間特性</strong>：200-500msの盲点</li>
+                <li><strong>理論的解釈</strong>：注意資源の枯渇</li>
+                <li><strong>応用場面</strong>：運転時の見落とし、医療現場での見逃し</li>
+            </ul>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- 第2巻：発達心理学編 -->
+    <div class="page-break">
+        <div class="series-title">第2巻：発達心理学 完全版</div>
+
+        <div class="section-title">【第1回】基礎理論統合問題</div>
+
+        <div class="question-header">
+            <span class="question-number">問題1-1</span>
+            <span class="difficulty-stars">★★★★★</span>
+            <span class="question-points">(25点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            ピアジェの認知発達理論における「具体的操作期（7～11歳）」の特徴を、以下の3つの観点から説明しなさい。
+            <ol>
+                <li>前操作期との主要な違い（2つ挙げること）</li>
+                <li>形式的操作期との主要な違い（2つ挙げること）</li>
+                <li>この時期に可能になる代表的な認知操作を3つ、具体例とともに説明すること</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="question-header">
+            <span class="question-number">問題1-2</span>
+            <span class="difficulty-stars">★★★★☆</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            ヴィゴツキーの「発達の最近接領域（ZPD）」について、以下を説明しなさい。
+            <ol>
+                <li>概念の定義と、ピアジェの発達観との根本的違い</li>
+                <li>「足場かけ（スキャフォールディング）」との関係</li>
+                <li>現代の教育場面での具体的応用例を2つ挙げること</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="question-header">
+            <span class="question-number">問題1-3</span>
+            <span class="difficulty-stars">★★★★★</span>
+            <span class="question-points">(30点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            ボウルビーの愛着理論について、包括的に説明しなさい。
+            <ol>
+                <li>愛着行動システムが進化的に獲得された理由</li>
+                <li>愛着の発達段階（4段階）とそれぞれの特徴</li>
+                <li>内的作業モデルの概念と、成人期への影響メカニズム</li>
+                <li>エインズワースの貢献との関連</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- 第3巻：統合型・ケーススタディ編 -->
+    <div class="page-break">
+        <div class="series-title">第3巻：統合型・ケーススタディ編</div>
+
+        <div class="section-title">第1部：統合型問題</div>
+
+        <div class="question-header">
+            <span class="question-number">【問題1】臨床心理学・異常心理学統合問題</span>
+            <span class="question-points">(25点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        
+        <div class="case-info">
+            <strong>状況：</strong> 25歳の会社員Aさんが「最近2ヶ月間、気分が沈み、何をしても楽しくない。夜中に何度も目が覚め、朝は特に調子が悪い。仕事でのミスが増え、上司から注意されることが多くなった」と相談に来ました。
+        </div>
+
+        <div class="task-list">
+            <strong>課題：</strong>
+            <ol>
+                <li>DSM-5の診断基準に基づき、最も考えられる診断名とその根拠を示しなさい（6点）</li>
+                <li>初回面接で実施すべきアセスメント手法を3つ挙げ、それぞれの目的を説明しなさい（9点）</li>
+                <li>認知療法を適用する場合の治療構造と主要技法を説明しなさい（10点）</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="question-header">
+            <span class="question-number">【問題2】学習心理学・教育心理学統合問題</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        
+        <div class="case-info">
+            <strong>状況：</strong> 中学校の英語教師が「生徒たちが宿題をやってこない。注意しても一時的にしか改善されない」と相談しています。
+        </div>
+
+        <div class="task-list">
+            <strong>課題：</strong>
+            <ol>
+                <li>この問題をオペラント条件づけの三項随伴性で分析しなさい（5点）</li>
+                <li>プレマックの原理を応用した具体的な介入方法を提案しなさい（5点）</li>
+                <li>自己決定理論の3つの基本的欲求の観点から問題を分析し、改善策を提示しなさい（5点）</li>
+                <li>学習性無力感を防ぐための教師の関わり方を説明しなさい（5点）</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- ケーススタディ問題 -->
+    <div class="page-break">
+        <div class="section-title">第2部：ケーススタディ問題</div>
+
+        <div class="question-header">
+            <span class="question-number">【ケース1】うつ病の心理療法</span>
+            <span class="question-points">(25点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        
+        <div class="case-info">
+            <strong>クライエント情報：</strong><br>
+            ・30歳女性、会社員<br>
+            ・主訴：「何をしても楽しくない、自分は価値のない人間だ」<br>
+            ・症状：抑うつ気分、興味・喜びの著しい減退、不眠、食欲低下、集中困難<br>
+            ・持続期間：3ヶ月<br>
+            ・生活史：完璧主義的性格、最近昇進したが責任の重さにプレッシャーを感じている
+        </div>
+
+        <div class="task-list">
+            <strong>問い：</strong>
+            <ol>
+                <li>このクライエントに対するケースフォーミュレーションを作成しなさい。生物学的・心理学的・社会的要因を含めること（10点）</li>
+                <li>TAT（主題統覚検査）を実施する意義と、予想される反応パターンを説明しなさい（7点）</li>
+                <li>認知療法の共同実証主義に基づいて、クライエントの自動思考「自分は価値のない人間だ」をどう扱うか、具体的なセッションの進め方を示しなさい（8点）</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="question-header">
+            <span class="question-number">【ケース2】発達障害児の包括的支援</span>
+            <span class="question-points">(30点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        
+        <div class="case-info">
+            <strong>事例：</strong><br>
+            8歳男児、小学2年生。「授業に集中できない、友達とのトラブルが多い」と担任から相談。<br><br>
+            <strong>詳細情報：</strong><br>
+            ・症状：注意集中困難、多動性、衝動性<br>
+            ・学習面：読み書きの困難、計算はできる<br>
+            ・社会面：友達への攻撃行動、ルールの理解困難<br>
+            ・家庭：両親は困惑、しつけに悩んでいる<br>
+            ・発達歴：言語発達の遅れ、運動発達は正常
+        </div>
+
+        <div class="task-list">
+            <strong>課題：</strong>
+            <ol>
+                <li>考えられる診断と鑑別診断のポイントを説明しなさい（10点）</li>
+                <li>包括的アセスメントの計画を立てなさい（10点）</li>
+                <li>学校・家庭・医療機関の連携による総合的支援計画を提案しなさい（10点）</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- 比較対照型問題 -->
+    <div class="page-break">
+        <div class="section-title">第3部：比較対照型問題</div>
+
+        <div class="question-header">
+            <span class="question-number">【比較問題1】心理療法の比較</span>
+            <span class="question-points">(35点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        
+        <div class="question-text">
+            以下の心理療法について、指定された観点から比較・対照しなさい。<br><br>
+            <strong>対象療法：</strong><br>
+            A) 精神分析的心理療法<br>
+            B) 認知行動療法<br>
+            C) 人間中心療法
+        </div>
+
+        <table class="comparison-table">
+            <tr>
+                <th>比較観点</th>
+                <th>配点</th>
+                <th>解答欄</th>
+            </tr
