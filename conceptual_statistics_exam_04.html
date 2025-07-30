@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>統計学模擬試験 第4回 概念理解重視版</title>
+    <style>
+        @media print {
+            body { margin: 0; font-size: 12pt; }
+            .page-break { page-break-before: always; }
+            .no-print { display: none; }
+        }
+        body {
+            font-family: 'MS Gothic', monospace;
+            line-height: 1.4;
+            margin: 20px;
+            background: white;
+        }
+        .header {
+            text-align: center;
+            border: 2px solid black;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .university-name {
+            font-size: 16pt;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .exam-info {
+            font-size: 12pt;
+            margin-bottom: 5px;
+        }
+        .exam-number {
+            text-align: right;
+            margin: 10px 0;
+            border: 1px solid black;
+            padding: 5px;
+        }
+        .problem {
+            margin: 20px 0;
+            border: 1px solid black;
+            padding: 15px;
+        }
+        .problem-title {
+            font-weight: bold;
+            font-size: 14pt;
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            padding: 5px;
+        }
+        .sub-problem {
+            margin: 15px 0;
+        }
+        .answer-space {
+            border: 1px solid #ccc;
+            min-height: 100px;
+            margin: 10px 0;
+            padding: 5px;
+        }
+        .large-answer-space {
+            min-height: 150px;
+        }
+        .xl-answer-space {
+            min-height: 200px;
+        }
+        .points {
+            float: right;
+            font-weight: bold;
+            color: #666;
+        }
+        .case-study {
+            background-color: #f8f8ff;
+            border: 2px solid #4169e1;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .concept-map {
+            background-color: #f0fff0;
+            border: 2px solid #32cd32;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .keywords {
+            background-color: #fff8dc;
+            border: 1px solid #daa520;
+            padding: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .instructions {
+            background-color: #ffffcc;
+            border: 2px solid #ffcc00;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .no-print {
+            background-color: #e6ffe6;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print">
+        <p><strong>印刷設定:</strong> A4サイズ、余白は普通に設定してください。概念理解重視の問題形式です。</p>
+        <button onclick="window.print()" style="padding: 10px 20px; font-size: 14px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">印刷する</button>
+    </div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">大学院入学試験 模擬問題</div>
+        <div class="exam-info">心理学学位プログラム（心理基礎科学・心理臨床学）サブプログラム</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+        <div class="exam-info">統計学 模擬試験問題 第4回【概念理解重視版】</div>
+        <div class="exam-info"><strong>試験時間：90分　　満点：100点</strong></div>
+    </div>
+
+    <div class="instructions">
+        <h3>解答上の注意</h3>
+        <ul>
+            <li><strong>概念的理解</strong>を重視して解答すること</li>
+            <li>手法の選択理由と背景理論を明確に説明すること</li>
+            <li>統計手法間の関係性や使い分けについて論述すること</li>
+            <li>実際の研究場面での応用を意識して答えること</li>
+            <li>数値計算よりも概念の説明に重点を置くこと</li>
+        </ul>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第1問　標本抽出と一般化可能性 <span class="points">(25点)</span></div>
+        
+        <div class="concept-map">
+            <strong>【概念マップ問題】</strong>
+            <p>標本から母集団への推論における以下の概念の関係性を体系化しなさい。</p>
+        </div>
+
+        <div class="keywords">
+            キーワード：母集団、標本、代表性、抽出バイアス、外的妥当性、一般化可能性、標本誤差、系統誤差
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 各種抽出方法の特徴と使い分けについて：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 単純無作為抽出、層化抽出、クラスター抽出、系統抽出の概念的違いと適用場面を説明しなさい。(10点)</p>
+                <div class="answer-space large-answer-space"></div>
+                
+                <p>・ 便宜的標本（convenience sample）の限界と、その結果の一般化における注意点を述べなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 標本サイズと推定精度の関係について、中心極限定理の観点から説明しなさい。(8点)</strong>
+            <div class="answer-space"></div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第4回　2枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第2問　実験統制と交絡変数 <span class="points">(25点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>新しい学習法の効果を検証する実験で、実験群と統制群を設定した。しかし、実験群の参加者の方が全体的に学習意欲が高いことが判明した。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 交絡変数の概念について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ この事例における交絡変数を特定し、なぜそれが問題となるのかを因果推論の観点から説明しなさい。(8点)</p>
+                <div class="answer-space"></div>
+                
+                <p>・ 交絡変数と媒介変数、調整変数の概念的違いを具体例とともに説明しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 交絡の統制方法について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ デザイン段階での統制（ランダム化、マッチング、ブロック化）と分析段階での統制（共分散分析、回帰調整）の違いと使い分けを説明しなさい。(10点)</p>
+                <div class="answer-space large-answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第4回　3枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第3問　検定力分析と研究計画 <span class="points">(25点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>認知行動療法の効果を検証する研究を計画している。先行研究では中程度の効果量（Cohen's d = 0.5）が報告されている。十分な検定力を持つ研究をデザインしたい。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 検定力分析の4要素について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ α水準、効果量、標本サイズ、検定力の相互関係を説明し、研究者がどの要素を制御できるかを述べなさい。(10点)</p>
+                <div class="answer-space large-answer-space"></div>
+                
+                <p>・ 事前検定力分析と事後検定力分析の違いと、それぞれの意義について説明しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 効果量の概念と解釈について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ Cohen's d, η², r²などの効果量指標の特徴と、統計的有意性との関係を論述しなさい。(8点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第4回　4枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第4問　多重比較と多重検定問題 <span class="points">(15点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>5つの治療法の効果を比較する研究で、すべての対比較（ペアワイズ比較）を行いたい。また、複数の従属変数（抑うつ、不安、生活の質）について分析を予定している。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 多重比較問題が生じる理由と、第1種の誤りの確率がどのように増加するかを説明しなさい。(7点)</strong>
+            <div class="answer-space"></div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) Bonferroni法、Tukey法、FDR（False Discovery Rate）制御法の特徴と使い分けについて論述しなさい。(8点)</strong>
+            <div class="answer-space"></div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第4回　5枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第5問　欠損データの概念と対処 <span class="points">(10点)</span></div>
+
+        <div class="concept-map">
+            <strong>【概念マップ問題】</strong>
+            <p>研究データにおける欠損の種類とその対処法について整理しなさい。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) MCAR、MAR、MNARの概念的違いと、それぞれが分析結果に与える影響について説明しなさい。(6点)</strong>
+            <div class="answer-space"></div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) リストワイズ削除、多重代入法、最尤推定法の特徴と適用条件を比較しなさい。(4点)</strong>
+            <div class="answer-space"></div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; font-weight: bold;">
+        以上で試験終了です。概念理解の深さを重視して解答の見直しを行ってください。
+    </div>
+
+</body>
+</html>
