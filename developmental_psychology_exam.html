@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>発達心理学 模擬試験問題集（完全版）</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+        
+        body {
+            font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: white;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .exam-header {
+            text-align: center;
+            border-bottom: 3px solid #4caf50;
+            padding-bottom: 25px;
+            margin-bottom: 35px;
+            page-break-after: avoid;
+        }
+        
+        .exam-header h1 {
+            font-size: 28px;
+            margin: 15px 0;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+        
+        .exam-header h2 {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #424242;
+        }
+        
+        .series-title {
+            background: linear-gradient(135deg, #66bb6a 0%, #2e7d32 100%);
+            color: white;
+            padding: 25px;
+            margin: 40px 0;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(46,125,50,0.3);
+        }
+        
+        .section-title {
+            background: #333;
+            color: white;
+            padding: 18px 25px;
+            margin: 45px 0 30px 0;
+            font-weight: bold;
+            font-size: 20px;
+            page-break-after: avoid;
+            border-radius: 8px;
+        }
+        
+        .question-header {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            padding: 18px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(76,175,80,0.15);
+        }
+        
+        .question-number {
+            font-weight: bold;
+            font-size: 18px;
+            color: #2e7d32;
+        }
+        
+        .difficulty-stars {
+            float: right;
+            color: #ff9800;
+            margin-left: 15px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .question-points {
+            float: right;
+            font-weight: bold;
+            color: #d32f2f;
+            background: #ffebee;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        
+        .question-text {
+            font-size: 15px;
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+        
+        .answer-area {
+            border: 2px solid #ddd;
+            min-height: 180px;
+            padding: 15px;
+            margin: 25px 0;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+        
+        .answer-area.large {
+            min-height: 300px;
+        }
+        
+        .answer-area.medium {
+            min-height: 240px;
+        }
+        
+        .answer-area.small {
+            min-height: 150px;
+        }
+        
+        .answer-lines {
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 26px,
+                #e0e0e0 26px,
+                #e0e0e0 28px
+            );
+            min-height: inherit;
+        }
+        
+        .instructions {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 10px;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #e65100;
+            font-size: 18px;
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+        
+        .toc {
+            background: #f1f8e9;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .toc h2 {
+            margin-top: 0;
+            color: #2e7d32;
+            border-bottom: 2px solid #4caf50;
+            padding-bottom: 12px;
+        }
+        
+        .toc-item {
+            margin: 15px 0;
+            padding: 10px 0;
+            border-bottom: 1px dotted #81c784;
+            font-size: 15px;
+        }
+        
+        .exam-time {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        .emphasis-box {
+            background: #e8f5e9;
+            border-left: 6px solid #4caf50;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 6px solid #ffc107;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .case-study {
+            background: #f3e5f5;
+            border: 2px solid #9c27b0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .case-study h4 {
+            color: #7b1fa2;
+            margin-top: 0;
+        }
+        
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        strong {
+            color: #2e7d32;
+        }
+        
+        .importance-high {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 10px 15px;
+            margin: 10px 0;
+        }
+        
+        .importance-medium {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 10px 15px;
+            margin: 10px 0;
+        }
+        
+        .importance-standard {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 10px 15px;
+            margin: 10px 0;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+            
+            .page-break {
+                page-break-before: always;
+            }
+            
+            .question-header {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 表紙 -->
+    <div class="exam-header">
+        <h1>👶 発達心理学</h1>
+        <h1>模擬試験問題集（完全版）</h1>
+        <div style="margin: 35px 0;">
+            <p style="font-size: 18px; color: #666;">～ 理論・実験・現象・応用の完全理解 ～</p>
+        </div>
+        <h2>心理学大学院入試対応</h2>
+        <p style="margin-top: 35px; font-size: 14px; color: #666;">
+            発達心理学の全領域を体系的に網羅した実践的模擬試験問題集
+        </p>
+    </div>
+
+    <!-- 目次 -->
+    <div class="toc">
+        <h2>📚 完全シリーズ構成</h2>
+        <div class="toc-item"><strong>第1回：基礎理論統合問題</strong> - ピアジェ、ヴィゴツキー、ボウルビーの愛着理論</div>
+        <div class="toc-item"><strong>第2回：実験・研究法理解問題</strong> - 選好注視法、心の理論、視覚的断崖実験</div>
+        <div class="toc-item"><strong>第3回：発達段階・特徴統合問題</strong> - エリクソン、コールバーグ、言語発達</div>
+        <div class="toc-item"><strong>第4回：現象・メカニズム理解問題</strong> - 共同注意、人見知り、ホスピタリズム</div>
+        <div class="toc-item"><strong>第5回：応用・批判的思考問題</strong> - 研究法、フリン効果、生涯発達</div>
+        <div class="toc-item"><strong>第6回：統合・応用問題</strong> - ケース分析、現代社会、発達障害</div>
+        <div class="toc-item"><strong>第7回：総合問題</strong> - 歴史的変遷、愛着理論の影響、方法論的課題</div>
+        
+        <div style="margin-top: 25px; padding: 18px; background: #e8f5e9; border-radius: 8px;">
+            <strong>📊 シリーズ概要：</strong><br>
+            <strong>⏱️ 総学習時間：</strong> 約120時間<br>
+            <strong>📝 問題数：</strong> 35問（基礎～総合）<br>
+            <strong>🎯 対応レベル：</strong> 大学院入試完全対応<br>
+            <strong>⭐ 難易度表示：</strong> ★～★★★★★の5段階評価
+        </div>
+    </div>
+
+    <!-- 学習指針 -->
+    <div class="instructions">
+        <h3>📖 効果的な学習方法</h3>
+        <ul>
+            <li><strong>段階的習得：</strong>第1回から順番に取り組み、基礎理論を確実に定着</li>
+            <li><strong>★評価活用：</strong>★★★★★問題を最優先で完全習得</li>
+            <li><strong>理論統合：</strong>異なる理論家の見解を比較・対照して理解</li>
+            <li><strong>実験重視：</strong>各理論の実験的根拠と研究法を詳細に把握</li>
+            <li><strong>現代的視点：</strong>古典理論の現代的意義と限界を批判的に評価</li>
+            <li><strong>応用思考：</strong>教育・保育・臨床場面での実践的応用を意識</li>
+        </ul>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #f1f8e9; border-radius: 8px;">
+            <strong>🎯 目標設定：</strong><br>
+            ★★★★★問題：90%以上正答<br>
+            ★★★★☆問題：80%以上正答<br>
+            ★★★☆☆問題：70%以上正答
+        </div>
+    </div>
+
+    <!-- ===== 第1回：基礎理論統合問題 ===== -->
+    <div class="series-title">第1回：基礎理論統合問題</div>
+    <div class="exam-time">⏰ 試験時間：120分</div>
+
+    <div class="section-title">問題1-1：ピアジェの認知発達理論（25点）</div>
+
+    <div class="question-header">
+        <span class="question-number">具体的操作期の詳細分析</span>
+        <span class="difficulty-stars">★★★★★</span>
+        <span class="question-points">(25点)</span>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="question-text">
+        ピアジェの認知発達理論における「具体的操作期（7～11歳）」の特徴を、以下の3つの観点から説明しなさい。
+        <ol>
+            <li><strong>前操作期との主要な違い</strong>（2つ挙げること）</li>
+            <li><strong>形式的操作期との主要な違い</strong>（2つ挙げること）</li>
+            <li><strong>この時期に可能になる代表的な認知操作</strong>を3つ、具体例とともに説明すること</li>
+        </ol>
+        
+        <div class="importance-high">
+            <strong>★★★★★ 最重要問題：</strong>ピアジェ理論は発達心理学の基盤。具体的操作期の特徴を他の段階と比較して正確に理解することが必須。
+        </div>
+    </div>
+    <div class="answer-area large">
+        <div class="answer-lines"></div>
+    </div>
+
+    <div class="section-title">問題1-2：ヴィゴツキーの社会文化的発達理論（20点）</div>
+
+    <div class="question-header">
+        <span class="question-number">発達の最近接領域（ZPD）</span>
+        <span class="difficulty-stars">★★★★☆</span>
+        <span class="question-points">(20点)</span>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="question-text">
+        ヴィゴツキーの「発達の最近接領域（ZPD）」について、以下を説明しなさい。
+        <ol>
+            <li><strong>概念の定義</strong>と、ピアジェの発達観との根本的違い</li>
+            <li><strong>「足場かけ（スキャフォールディング）」</strong>との関係</li>
+            <li><strong>現代の教育場面での具体的応用例</strong>を2つ挙げること</li>
+        </ol>
+        
+        <div class="importance-medium">
+            <strong>★★★★☆ 重要問題：</strong>現代教育心理学の基礎概念。ピアジェとの比較により理解を深める。
+        </div>
+    </div>
+    <div class="answer-area large">
+        <div class="answer-lines"></div>
+    </div>
+
+    <div class="section-title">問題1-3：ボウルビーの愛着理論（30点）</div>
+
+    <div class="question-header">
+        <span class="question-number">愛着システムの包括的理解</span>
+        <span class="difficulty-stars">★★★★★</span>
+        <span class="question-points">(30点)</span>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="question-text">
+        ボウルビーの愛着理論について、包括的に説明しなさい。
+        <ol>
+            <li><strong>愛着行動システムが進化的に獲得された理由</strong></li>
+            <li><strong>愛着の発達段階（4段階）</strong>とそれぞれの特徴</li>
+            <li><strong>内的作業モデルの概念</strong>と、成人期への影響メカニズム</li>
+            <li><strong>エインズワースの貢献</strong>との関連</li>
+        </ol>
+        
+        <div class="importance-high">
+            <strong>★★★★★ 最重要問題：</strong>現代発達心理学・臨床心理学の根幹理論。愛着理論の全体像を体系的に理解することが不可欠。
+        </div>
+    </div>
+    <div class="answer-area large">
+        <div class="answer-lines"></div>
+    </div>
+
+    <!-- ===== 第2回：実験・研究法理解問題 ===== -->
+    <div class="page-break">
+        <div class="series-title">第2回：実験・研究法理解問題</div>
+        <div class="exam-time">⏰ 試験時間：120分</div>
+
+        <div class="section-title">問題2-1：乳幼児研究法（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">選好注視法・馴化脱馴化法</span>
+            <span class="difficulty-stars">★★★★☆</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            乳幼児の認知発達研究で用いられる以下の研究法について説明しなさい。
+            <ol>
+                <li><strong>選好注視法</strong>：原理、手順、得られる情報、限界点</li>
+                <li><strong>馴化・脱馴化法</strong>：原理、手順、得られる情報、限界点</li>
+                <li><strong>両手法の使い分けの基準</strong>と、それぞれが適している研究領域</li>
+            </ol>
+            
+            <div class="importance-medium">
+                <strong>★★★★☆ 重要問題：</strong>乳幼児研究の基本的手法。実験の原理と限界を正確に理解する。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題2-2：心の理論の発達（25点）</div>
+
+        <div class="question-header">
+            <span class="question-number">サリーとアン課題の詳細分析</span>
+            <span class="difficulty-stars">★★★★★</span>
+            <span class="question-points">(25点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            「心の理論」の発達について、以下を詳述しなさい。
+            <ol>
+                <li><strong>概念定義</strong>と発達心理学における重要性</li>
+                <li><strong>サリーとアン課題</strong>の具体的手順と、何を測定しているか</li>
+                <li><strong>3歳と5歳の子どもの典型的反応の違い</strong>とその解釈</li>
+                <li><strong>自閉スペクトラム症との関連</strong>で注目される理由</li>
+            </ol>
+            
+            <div class="importance-high">
+                <strong>★★★★★ 最重要問題：</strong>社会認知発達の中核概念。実験手法と理論的意義を詳細に理解する。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題2-3：視覚的断崖実験（15点）</div>
+
+        <div class="question-header">
+            <span class="question-number">ギブソンとウォークの古典研究</span>
+            <span class="difficulty-stars">★★★☆☆</span>
+            <span class="question-points">(15点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            ギブソンとウォークの「視覚的断崖実験」について説明しなさい。
+            <ol>
+                <li><strong>実験の具体的方法</strong>と測定内容</li>
+                <li><strong>主要な発見</strong>（月齢別の行動パターン）</li>
+                <li><strong>この実験が発達心理学に与えた理論的インパクト</strong></li>
+                <li><strong>現代の乳児認知研究への影響</strong></li>
+            </ol>
+            
+            <div class="importance-standard">
+                <strong>★★★☆☆ 標準問題：</strong>古典的実験の現代的意義を理解する。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- ===== 第3回：発達段階・特徴統合問題 ===== -->
+    <div class="page-break">
+        <div class="series-title">第3回：発達段階・特徴統合問題</div>
+        <div class="exam-time">⏰ 試験時間：120分</div>
+
+        <div class="section-title">問題3-1：エリクソンの心理社会的発達理論（25点）</div>
+
+        <div class="question-header">
+            <span class="question-number">8段階発達課題と親密性対孤立</span>
+            <span class="difficulty-stars">★★★★★</span>
+            <span class="question-points">(25点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            エリクソンの心理社会的発達理論について、以下を説明しなさい。
+            <ol>
+                <li><strong>基本的な理論枠組み</strong>（8段階、発達課題の概念）</li>
+                <li><strong>「親密性対孤立」（青年後期）</strong>の発達課題の詳細</li>
+                <li><strong>この段階での発達の成功・失敗</strong>が中年期以降に与える影響</li>
+                <li><strong>フロイトの心理性的発達理論</strong>との主要な違い</li>
+            </ol>
+            
+            <div class="importance-high">
+                <strong>★★★★★ 最重要問題：</strong>生涯発達の視点を提供した画期的理論。各段階の詳細と現代的意義を理解する。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題3-2：コールバーグの道徳性発達理論（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">道徳判断の発達段階</span>
+            <span class="difficulty-stars">★★★★☆</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            コールバーグの道徳性発達理論について、以下を詳述しなさい。
+            <ol>
+                <li><strong>3水準6段階の具体的内容</strong></li>
+                <li><strong>「ハインツのジレンマ」課題</strong>の意図と評価基準</li>
+                <li><strong>ギリガンによる批判の要点</strong>と、その後の理論修正</li>
+                <li><strong>文化差に関する研究知見</strong></li>
+            </ol>
+            
+            <div class="importance-medium">
+                <strong>★★★★☆ 重要問題：</strong>道徳発達の古典理論。批判的検討も含めて理解する。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題3-3：言語発達の語彙爆発現象（15点）</div>
+
+        <div class="question-header">
+            <span class="question-number">語彙習得の急激な変化</span>
+            <span class="difficulty-stars">★★★☆☆</span>
+            <span class="question-points">(15点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            言語発達における「語彙爆発」現象について説明しなさい。
+            <ol>
+                <li><strong>現象の具体的特徴</strong>（時期、語彙数の変化パターン）</li>
+                <li><strong>排他的推論</strong>の役割とメカニズム</li>
+                <li><strong>この時期の言語学習を支える認知的基盤</strong></li>
+                <li><strong>個人差の要因</strong></li>
+            </ol>
+            
+            <div class="importance-standard">
+                <strong>★★★☆☆ 標準問題：</strong>言語発達の重要な現象。認知発達との関連を理解する。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- ===== 第4回：現象・メカニズム理解問題 ===== -->
+    <div class="page-break">
+        <div class="series-title">第4回：現象・メカニズム理解問題</div>
+        <div class="exam-time">⏰ 試験時間：120分</div>
+
+        <div class="section-title">問題4-1：共同注意の発達（25点）</div>
+
+        <div class="question-header">
+            <span class="question-number">社会認知発達の基盤</span>
+            <span class="difficulty-stars">★★★★★</span>
+            <span class="question-points">(25点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            「共同注意」の発達について、包括的に説明しなさい。
+            <ol>
+                <li><strong>概念定義</strong>と発達心理学における意義</li>
+                <li><strong>発達段階</strong>（9ヶ月、12ヶ月、18ヶ月頃の変化）</li>
+                <li><strong>言語発達、心の理論発達</strong>との関連</li>
+                <li><strong>自閉スペクトラム症での特徴的な困難</strong></li>
+            </ol>
+            
+            <div class="importance-high">
+                <strong>★★★★★ 最重要問題：</strong>社会認知発達の出発点。現代発達心理学の重要概念。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題4-2：人見知り現象（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">乳児期の社会的認知</span>
+            <span class="difficulty-stars">★★★★☆</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            乳児期の「人見知り」現象について説明しなさい。
+            <ol>
+                <li><strong>現象の特徴</strong>（出現時期、行動パターン）</li>
+                <li><strong>愛着形成との関連メカニズム</strong></li>
+                <li><strong>認知発達（顔認識、記憶発達）</strong>との関連</li>
+                <li><strong>個人差の要因と適応的意義</strong></li>
+            </ol>
+            
+            <div class="importance-medium">
+                <strong>★★★★☆ 重要問題：</strong>愛着形成と認知発達の相互作用を理解する。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題4-3：ホスピタリズム（15点）</div>
+
+        <div class="question-header">
+            <span class="question-number">スピッツの歴史的研究</span>
+            <span class="difficulty-stars">★★★☆☆</span>
+            <span class="question-points">(15点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            「ホスピタリズム」について説明しなさい。
+            <ol>
+                <li><strong>スピッツの観察内容</strong>と主要な発見</li>
+                <li><strong>発症の原因メカニズム</strong>（愛着理論の観点から）</li>
+                <li><strong>現代の養育環境への示唆</strong></li>
+                <li><strong>その後の愛着研究への影響</strong></li>
+            </ol>
+            
+            <div class="importance-standard">
+                <strong>★★★☆☆ 標準問題：</strong>愛着理論の歴史的基盤となった重要な観察研究。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- ===== 第5回：応用・批判的思考問題 ===== -->
+    <div class="page-break">
+        <div class="series-title">第5回：応用・批判的思考問題</div>
+        <div class="exam-time">⏰ 試験時間：120分</div>
+
+        <div class="section-title">問題5-1：発達研究の方法論（25点）</div>
+
+        <div class="question-header">
+            <span class="question-number">縦断研究法と横断研究法</span>
+            <span class="difficulty-stars">★★★★★</span>
+            <span class="question-points">(25点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            発達研究における「縦断研究法」と「横断研究法」について、以下を論じなさい。
+            <ol>
+                <li><strong>それぞれの方法論的特徴</strong>と適用場面</li>
+                <li><strong>各手法の利点と限界</strong>（コホート効果、脱落問題等を含む）</li>
+                <li><strong>発達心理学の重要な知見</strong>で、どちらの手法が不可欠だった具体例</li>
+                <li><strong>両手法を組み合わせた研究デザイン</strong>の価値</li>
+            </ol>
+            
+            <div class="importance-high">
+                <strong>★★★★★ 最重要問題：</strong>発達研究の基盤となる方法論。研究の質を評価する能力が必要。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題5-2：フリン効果（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">知能の世代間変化</span>
+            <span class="difficulty-stars">★★★★☆</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            「フリン効果」について説明し、その意義を論じなさい。
+            <ol>
+                <li><strong>現象の具体的内容</strong>（IQスコアの世代間変化）</li>
+                <li><strong>考えられる原因仮説</strong>（環境要因、教育要因等）</li>
+                <li><strong>知能の本質や測定に関する理論的問題提起</strong></li>
+                <li><strong>現代社会での新たな傾向</strong>（逆フリン効果等）</li>
+            </ol>
+            
+            <div class="importance-medium">
+                <strong>★★★★☆ 重要問題：</strong>知能研究の現代的課題。環境と遺伝の相互作用を考察する。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題5-3：生涯発達の視点（15点）</div>
+
+        <div class="question-header">
+            <span class="question-number">発達概念の拡張</span>
+            <span class="difficulty-stars">★★★★☆</span>
+            <span class="question-points">(15点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            現代の発達心理学における「生涯発達」の視点について論じなさい。
+            <ol>
+                <li><strong>従来の児童中心的発達観</strong>からの転換点</li>
+                <li><strong>中年期、高齢期の発達課題</strong>の特徴</li>
+                <li><strong>「発達」概念の再定義</strong>（可塑性、多方向性等）</li>
+                <li><strong>高齢社会での発達心理学の役割</strong></li>
+            </ol>
+            
+            <div class="importance-medium">
+                <strong>★★★★☆ 重要問題：</strong>現代社会の要請に応じた発達心理学の発展を理解する。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- ===== 第6回：統合・応用問題 ===== -->
+    <div class="page-break">
+        <div class="series-title">第6回：統合・応用問題</div>
+        <div class="exam-time">⏰ 試験時間：120分</div>
+
+        <div class="section-title">問題6-1：ケース分析（30点）</div>
+
+        <div class="question-header">
+            <span class="question-number">心の理論発達の個人差</span>
+            <span class="difficulty-stars">★★★★★</span>
+            <span class="question-points">(30点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            以下のケースを読み、発達心理学の知見を用いて分析しなさい。
+            
+            <div class="case-study">
+                <h4>📋 ケース</h4>
+                <p>3歳のA君は、母親が「お菓子はここに隠したから、お父さんには内緒よ」と言った後、父親が帰宅すると真っ先に隠し場所を教えてしまいます。一方、5歳のB君は同じ状況で秘密を守ることができます。</p>
+            </div>
+            
+            <ol>
+                <li><strong>この行動差を「心の理論」の発達</strong>から説明しなさい</li>
+                <li><strong>ピアジェの認知発達理論</strong>の観点からの解釈</li>
+                <li><strong>この能力の発達が社会性</strong>に与える影響</li>
+                <li><strong>個人差に影響する要因</strong></li>
+            </ol>
+            
+            <div class="importance-high">
+                <strong>★★★★★ 最重要問題：</strong>理論的知識の実践的応用。複数の理論を統合した分析能力が必要。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題6-2：現代社会と発達環境（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">発達環境の変化と影響</span>
+            <span class="difficulty-stars">★★★★★</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            現代社会における子どもの発達環境の変化について、発達心理学の観点から論じなさい。
+            <ol>
+                <li><strong>デジタルメディア接触</strong>が認知発達に与える影響（正負両面）</li>
+                <li><strong>少子化が社会性発達</strong>に与える影響</li>
+                <li><strong>多様な家族形態が愛着形成</strong>に与える影響</li>
+                <li><strong>これらの変化に対する発達支援</strong>のあり方</li>
+            </ol>
+            
+            <div class="importance-high">
+                <strong>★★★★★ 最重要問題：</strong>現代的課題への理論的アプローチ。社会変化と発達の関係を分析する。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題6-3：発達障害の理解（10点）</div>
+
+        <div class="question-header">
+            <span class="question-number">多様性としての発達</span>
+            <span class="difficulty-stars">★★★★☆</span>
+            <span class="question-points">(10点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            「発達障害」の理解における発達心理学の貢献について論じなさい。
+            <ol>
+                <li><strong>定型発達との比較研究</strong>がもたらした知見</li>
+                <li><strong>早期発見・早期支援</strong>における発達理論の応用</li>
+                <li><strong>「多様性としての発達」</strong>という視点の意義</li>
+                <li><strong>インクルーシブ教育</strong>への発達心理学の貢献</li>
+            </ol>
+            
+            <div class="importance-medium">
+                <strong>★★★★☆ 重要問題：</strong>現代の特別支援教育に不可欠な視点。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- ===== 第7回：総合問題 ===== -->
+    <div class="page-break">
+        <div class="series-title">第7回：総合問題</div>
+        <div class="exam-time">⏰ 試験時間：120分</div>
+
+        <div class="section-title">問題7-1：発達心理学の歴史的変遷（25点）</div>
+
+        <div class="question-header">
+            <span class="question-number">理論発展の系譜</span>
+            <span class="difficulty-stars">★★★★★</span>
+            <span class="question-points">(25点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            発達心理学の歴史的変遷について、以下の観点から論じなさい。
+            <ol>
+                <li><strong>20世紀前半の主要理論</strong>（フロイト、ピアジェ等）の特徴</li>
+                <li><strong>1960年代以降の認知革命</strong>の発達心理学への影響</li>
+                <li><strong>近年の発達認知神経科学の台頭</strong>とその意義</li>
+                <li><strong>今後の発達心理学研究の展望</strong></li>
+            </ol>
+            
+            <div class="importance-high">
+                <strong>★★★★★ 最重要問題：</strong>学問の全体的流れを理解し、未来を展望する総合的な思考力が必要。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題7-2：愛着理論の現代的影響（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">理論から実践への展開</span>
+            <span class="difficulty-stars">★★★★★</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            「愛着理論」が現代社会に与えた影響について、以下を論じなさい。
+            <ol>
+                <li><strong>保育・教育実践への応用</strong>と成果</li>
+                <li><strong>虐待・トラウマ理解</strong>への貢献</li>
+                <li><strong>成人の精神健康理解</strong>への拡張</li>
+                <li><strong>愛着理論への批判</strong>と今後の課題</li>
+            </ol>
+            
+            <div class="importance-high">
+                <strong>★★★★★ 最重要問題：</strong>理論の社会的インパクトを多角的に評価する能力が求められる。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題7-3：方法論的課題（15点）</div>
+
+        <div class="question-header">
+            <span class="question-number">研究の限界と可能性</span>
+            <span class="difficulty-stars">★★★★★</span>
+            <span class="question-points">(15点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            発達心理学研究の方法論的課題について論じなさい。
+            <ol>
+                <li><strong>発達研究特有の方法論的困難</strong></li>
+                <li><strong>文化・社会要因の統制問題</strong></li>
+                <li><strong>倫理的配慮の重要性</strong>と研究への制約</li>
+                <li><strong>新技術</strong>（脳画像、アイトラッキング等）の可能性と限界</li>
+            </ol>
+            
+            <div class="importance-high">
+                <strong>★★★★★ 最重要問題：</strong>研究者としての批判的思考力と倫理観が問われる。
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- 学習指針と解答のポイント -->
+    <div class="page-break">
+        <div class="instructions">
+            <h3>🎯 学習指針と解答のポイント</h3>
+            
+            <div style="margin: 20px 0;">
+                <h4 style="color: #2e7d32;">★★★★★ 最重要問題への取り組み方</h4>
+                <ul>
+                    <li><strong>理論の体系的理解：</strong>単なる暗記ではなく、理論の背景・発展・現代的意義を関連付けて理解する</li>
+                    <li><strong>比較・対照分析：</strong>異なる理論家の見解を比較し、それぞれの特徴と限界を明確に説明できる</li>
+                    <li><strong>実験的根拠：</strong>各理論を支える主要な実験や観察研究の内容と意義を詳述できる</li>
+                    <li><strong>現代的応用：</strong>古典理論が現代の教育・臨床場面でどう活用されているかを具体的に説明できる</li>
+                </ul>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <h4 style="color: #ff9800;">★★★★☆ 重要問題への取り組み方</h4>
+                <ul>
+                    <li><strong>概念の正確な定義：</strong>専門用語を正確に定義し、類似概念との違いを明確にする</li>
+                    <li><strong>発達的変化の理解：</strong>各現象がどの時期にどのように現れ、変化するかを詳述する</li>
+                    <li><strong>メカニズムの説明：</strong>なぜその現象が起こるのか、背景にある認知的・社会的メカニズムを説明する</li>
+                </ul>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <h4 style="color: #2196f3;">★★★☆☆ 標準問題への取り組み方</h4>
+                <ul>
+                    <li><strong>基本知識の確実な習得：</strong>教科書レベルの基本事項を正確に記述できる</li>
+                    <li><strong>具体例の活用：</strong>抽象的な概念を具体例で説明し、理解の深さを示す</li>
+                    <li><strong>関連分野への言及：</strong>当該トピックが他の発達領域とどう関連するかを述べる</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="emphasis-box">
+            <h3 style="margin-top: 0;">📝 解答作成の基本原則</h3>
+            <ol>
+                <li><strong>構造化された記述：</strong>序論・本論・結論の構成で論理的に展開する</li>
+                <li><strong>専門用語の適切な使用：</strong>発達心理学の専門用語を正確に使用する</li>
+                <li><strong>実証的根拠の提示：</strong>主張には必ず実験や観察研究の根拠を示す</li>
+                <li><strong>批判的思考の展開：</strong>理論の限界や問題点についても言及する</li>
+                <li><strong>現代的視点の統合：</strong>古典理論と現代研究の知見を統合して論じる</li>
+            </ol>
+        </div>
+
+        <div class="warning-box">
+            <h3 style="margin-top: 0;">⚠️ よくある失敗パターンと対策</h3>
+            <ul>
+                <li><strong>理論の混同：</strong>ピアジェとヴィゴツキーなど、異なる理論家の見解を混同しない</li>
+                <li><strong>発達段階の曖昧な記述：</strong>各段階の年齢と特徴を正確に記述する</li>
+                <li><strong>実験手法の理解不足：</strong>研究方法の原理と限界を正確に理解する</li>
+                <li><strong>現代的意義の軽視：</strong>古典理論の現代的意義を必ず言及する</li>
+                <li><strong>個人差への配慮不足：</strong>発達の個人差や文化差についても考慮する</li>
+            </ul>
+        </div>
+
+        <div style="background: #f1f8e9; padding: 25px; margin: 25px 0; border-radius: 12px; text-align: center;">
+            <h3 style="color: #2e7d32; margin-top: 0;">🏆 合格への道筋</h3>
+            <p style="font-size: 16px; margin: 15px 0;">
+                <strong>第1段階：</strong>★★★★★問題で90%以上の理解度を達成<br>
+                <strong>第2段階：</strong>★★★★☆問題で80%以上の理解度を達成<br>
+                <strong>第3段階：</strong>★★★☆☆問題で70%以上の理解度を達成<br>
+                <strong>最終段階：</strong>全問題を通して論理的で構造化された記述能力を完成
+            </p>
+            <p style="font-size: 18px; font-weight: bold; color: #2e7d32; margin-top: 25px;">
+                この問題集を完全に習得できれば、<br>
+                発達心理学分野で合格に必要な実力は確実に身につきます！
+            </p>
+        </div>
+    </div>
+</body>
+</html>
