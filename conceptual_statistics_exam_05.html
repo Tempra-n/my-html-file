@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>統計学模擬試験 第5回 概念理解重視版</title>
+    <style>
+        @media print {
+            body { margin: 0; font-size: 12pt; }
+            .page-break { page-break-before: always; }
+            .no-print { display: none; }
+        }
+        body {
+            font-family: 'MS Gothic', monospace;
+            line-height: 1.4;
+            margin: 20px;
+            background: white;
+        }
+        .header {
+            text-align: center;
+            border: 2px solid black;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .university-name {
+            font-size: 16pt;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .exam-info {
+            font-size: 12pt;
+            margin-bottom: 5px;
+        }
+        .exam-number {
+            text-align: right;
+            margin: 10px 0;
+            border: 1px solid black;
+            padding: 5px;
+        }
+        .problem {
+            margin: 20px 0;
+            border: 1px solid black;
+            padding: 15px;
+        }
+        .problem-title {
+            font-weight: bold;
+            font-size: 14pt;
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            padding: 5px;
+        }
+        .sub-problem {
+            margin: 15px 0;
+        }
+        .answer-space {
+            border: 1px solid #ccc;
+            min-height: 100px;
+            margin: 10px 0;
+            padding: 5px;
+        }
+        .large-answer-space {
+            min-height: 150px;
+        }
+        .xl-answer-space {
+            min-height: 200px;
+        }
+        .points {
+            float: right;
+            font-weight: bold;
+            color: #666;
+        }
+        .case-study {
+            background-color: #f8f8ff;
+            border: 2px solid #4169e1;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .concept-map {
+            background-color: #f0fff0;
+            border: 2px solid #32cd32;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .keywords {
+            background-color: #fff8dc;
+            border: 1px solid #daa520;
+            padding: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .instructions {
+            background-color: #ffffcc;
+            border: 2px solid #ffcc00;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .no-print {
+            background-color: #e6ffe6;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print">
+        <p><strong>印刷設定:</strong> A4サイズ、余白は普通に設定してください。概念理解重視の問題形式です。</p>
+        <button onclick="window.print()" style="padding: 10px 20px; font-size: 14px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">印刷する</button>
+    </div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">大学院入学試験 模擬問題</div>
+        <div class="exam-info">心理学学位プログラム（心理基礎科学・心理臨床学）サブプログラム</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+        <div class="exam-info">統計学 模擬試験問題 第5回【概念理解重視版】</div>
+        <div class="exam-info"><strong>試験時間：90分　　満点：100点</strong></div>
+    </div>
+
+    <div class="instructions">
+        <h3>解答上の注意</h3>
+        <ul>
+            <li><strong>概念的理解</strong>を重視して解答すること</li>
+            <li>手法の選択理由と背景理論を明確に説明すること</li>
+            <li>統計手法間の関係性や使い分けについて論述すること</li>
+            <li>実際の研究場面での応用を意識して答えること</li>
+            <li>数値計算よりも概念の説明に重点を置くこと</li>
+        </ul>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第1問　相関と因果の概念体系 <span class="points">(25点)</span></div>
+        
+        <div class="concept-map">
+            <strong>【概念マップ問題】</strong>
+            <p>相関関係と因果関係に関する以下の概念を整理し、因果推論における問題点を体系化しなさい。</p>
+        </div>
+
+        <div class="keywords">
+            キーワード：相関、因果、疑似相関、交絡、媒介、調整、第三変数、逆因果、共通原因
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 相関と因果の概念的違いについて：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 「相関は因果を意味しない」という原則の理由を、具体例を用いて説明しなさい。(8点)</p>
+                <div class="answer-space"></div>
+                
+                <p>・ 疑似相関が生じるメカニズムと、それを見抜く方法について論述しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 因果推論のための条件について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ Hill基準（Bradford Hill criteria）やルービン因果モデルの概念を参考に、因果関係を示すために必要な証拠について説明しなさい。(10点)</p>
+                <div class="answer-space large-answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第5回　2枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第2問　回帰分析の概念構造 <span class="points">(25点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>学習時間、睡眠時間、ストレス度が学業成績に与える影響を調べる研究で、重回帰分析を実施する予定である。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 回帰分析の基本概念について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 単回帰と重回帰の概念的違いと、重回帰分析を用いる利点について説明しなさい。(8点)</p>
+                <div class="answer-space"></div>
+                
+                <p>・ 偏回帰係数の意味と解釈について、「他の変数を一定にした時の効果」という概念を中心に説明しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 回帰分析の前提条件と診断について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 線形性、独立性、等分散性、正規性の各前提条件について、違反した場合の影響と診断方法を説明しなさい。(10点)</p>
+                <div class="answer-space large-answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第5回　3枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第3問　多重共線性と変数選択 <span class="points">(25点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>職場ストレスに関する研究で、多数の関連変数（仕事量、職場関係、労働時間、給与満足度など）を投入した重回帰分析を行った。しかし、いくつかの変数間に高い相関が観察された。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 多重共線性の概念と問題について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 多重共線性が回帰分析結果に与える影響（係数の不安定性、標準誤差の増大など）を説明しなさい。(8点)</p>
+                <div class="answer-space"></div>
+                
+                <p>・ VIF（分散拡大要因）やコンディション指数による多重共線性の診断方法について説明しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 変数選択の戦略について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ ステップワイズ法、前進法、後退法の特徴と問題点、およびそれらに代わる現代的なアプローチ（AIC、BIC、クロスバリデーション）について論述しなさい。(10点)</p>
+                <div class="answer-space large-answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第5回　4枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第4問　ノンパラメトリック検定の概念 <span class="points">(15点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>満足度を5段階で評価した順序データを分析する際、正規性の仮定が満たされず、パラメトリック検定の使用が困難である。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) ノンパラメトリック検定の概念と適用条件について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ パラメトリック検定とノンパラメトリック検定の根本的な違いと、ノンパラメトリック検定を選択する理由を説明しなさい。(8点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 代表的なノンパラメトリック検定について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ Mann-Whitney U検定、Wilcoxon符号順位検定、Kruskal-Wallis検定の特徴と対応するパラメトリック検定を説明しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第5回　5枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第5問　効果量の標準化と解釈 <span class="points">(10点)</span></div>
+
+        <div class="concept-map">
+            <strong>【概念マップ問題】</strong>
+            <p>異なる研究や条件間で効果の大きさを比較するための効果量の概念について整理しなさい。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 標準化効果量の意義について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ なぜ効果量の標準化が必要なのか、Cohenのベンチマーク（小・中・大効果）の意味と限界を含めて説明しなさい。(6点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 実用的意義の評価について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 統計的有意性、効果量、実用的有意性の関係について、研究結果の解釈における重要性を論述しなさい。(4点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; font-weight: bold;">
+        以上で試験終了です。概念理解の深さを重視して解答の見直しを行ってください。
+    </div>
+
+</body>
+</html>
