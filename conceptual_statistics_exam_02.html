@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>統計学模擬試験 第2回 概念理解重視版</title>
+    <style>
+        @media print {
+            body { margin: 0; font-size: 12pt; }
+            .page-break { page-break-before: always; }
+            .no-print { display: none; }
+        }
+        body {
+            font-family: 'MS Gothic', monospace;
+            line-height: 1.4;
+            margin: 20px;
+            background: white;
+        }
+        .header {
+            text-align: center;
+            border: 2px solid black;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .university-name {
+            font-size: 16pt;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .exam-info {
+            font-size: 12pt;
+            margin-bottom: 5px;
+        }
+        .exam-number {
+            text-align: right;
+            margin: 10px 0;
+            border: 1px solid black;
+            padding: 5px;
+        }
+        .problem {
+            margin: 20px 0;
+            border: 1px solid black;
+            padding: 15px;
+        }
+        .problem-title {
+            font-weight: bold;
+            font-size: 14pt;
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            padding: 5px;
+        }
+        .sub-problem {
+            margin: 15px 0;
+        }
+        .answer-space {
+            border: 1px solid #ccc;
+            min-height: 100px;
+            margin: 10px 0;
+            padding: 5px;
+        }
+        .large-answer-space {
+            min-height: 150px;
+        }
+        .xl-answer-space {
+            min-height: 200px;
+        }
+        .points {
+            float: right;
+            font-weight: bold;
+            color: #666;
+        }
+        .case-study {
+            background-color: #f8f8ff;
+            border: 2px solid #4169e1;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .concept-map {
+            background-color: #f0fff0;
+            border: 2px solid #32cd32;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .keywords {
+            background-color: #fff8dc;
+            border: 1px solid #daa520;
+            padding: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .instructions {
+            background-color: #ffffcc;
+            border: 2px solid #ffcc00;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .no-print {
+            background-color: #e6ffe6;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print">
+        <p><strong>印刷設定:</strong> A4サイズ、余白は普通に設定してください。概念理解重視の問題形式です。</p>
+        <button onclick="window.print()" style="padding: 10px 20px; font-size: 14px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">印刷する</button>
+    </div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">大学院入学試験 模擬問題</div>
+        <div class="exam-info">心理学学位プログラム（心理基礎科学・心理臨床学）サブプログラム</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+        <div class="exam-info">統計学 模擬試験問題 第2回【概念理解重視版】</div>
+        <div class="exam-info"><strong>試験時間：90分　　満点：100点</strong></div>
+    </div>
+
+    <div class="instructions">
+        <h3>解答上の注意</h3>
+        <ul>
+            <li><strong>概念的理解</strong>を重視して解答すること</li>
+            <li>手法の選択理由と背景理論を明確に説明すること</li>
+            <li>統計手法間の関係性や使い分けについて論述すること</li>
+            <li>実際の研究場面での応用を意識して答えること</li>
+            <li>数値計算よりも概念の説明に重点を置くこと</li>
+        </ul>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第1問　確率分布の概念体系 <span class="points">(20点)</span></div>
+        
+        <div class="concept-map">
+            <strong>【概念マップ問題】</strong>
+            <p>確率分布に関する以下の概念の関係性を整理し、心理学研究での応用例とともに説明しなさい。</p>
+        </div>
+
+        <div class="keywords">
+            キーワード：正規分布、二項分布、ポアソン分布、中心極限定理、標準化、Z変換
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 各確率分布の特徴と、心理学研究で想定される具体的な場面を対応させて説明しなさい。(10点)</strong>
+            <div class="answer-space large-answer-space"></div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 中心極限定理が統計的推測にとって重要な理由を、正規分布との関連で論述しなさい。(10点)</strong>
+            <div class="answer-space"></div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第2回　2枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第2問　信頼区間の概念と解釈 <span class="points">(25点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>新しい心理療法の効果を調べる研究で、治療前後の抑うつスコアの差の95%信頼区間が[2.1, 8.7]となった。この結果をどう解釈し、どのような結論を導くべきか考察しなさい。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 信頼区間の概念について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 95%信頼区間の正しい解釈と、よくある誤解を対比して説明しなさい。(8点)</p>
+                <div class="answer-space"></div>
+                
+                <p>・ 信頼区間と仮説検定の関係について、双対性の観点から説明しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) このケースでの解釈について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 信頼区間[2.1, 8.7]から読み取れる情報と、研究者が導くべき結論を述べなさい。(10点)</p>
+                <div class="answer-space large-answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第2回　3枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第3問　カテゴリカルデータの分析戦略 <span class="points">(25点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>性別（男性/女性）と学習スタイル（視覚型/聴覚型/体感型）の関連を調べたい。また、治療法の効果（改善/不変/悪化）を薬物療法群と心理療法群で比較したい。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) カテゴリカルデータの分析について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ カイ二乗検定の基本原理と、期待度数の概念について説明しなさい。(8点)</p>
+                <div class="answer-space"></div>
+                
+                <p>・ 独立性の検定と適合度検定の違いと使い分けを、具体例とともに説明しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 効果量とオッズ比について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ カテゴリカルデータでの効果量の意味と、Cramér's Vやオッズ比の解釈方法を説明しなさい。(10点)</p>
+                <div class="answer-space large-answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第2回　4枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第4問　分散分析の概念構造 <span class="points">(20点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>4つの教授方法（講義、討論、体験、オンライン）の学習効果を比較する実験を計画している。各方法で20名ずつ、計80名の学生が参加予定である。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 分散分析の基本概念について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ なぜ複数群の比較で多重t検定を行わず、ANOVAを用いるのか、第1種の誤りの観点から説明しなさい。(8点)</p>
+                <div class="answer-space"></div>
+                
+                <p>・ 群間分散と群内分散の概念的意味と、F統計量との関係を説明しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) ANOVAの前提条件とその確認方法について、違反した場合の対処法とともに説明しなさい。(5点)</strong>
+            <div class="answer-space"></div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第2回　5枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第5問　検定力と標本サイズ設計 <span class="points">(10点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>新しい認知訓練プログラムの効果を検証する研究を計画している。従来法と比較して中程度の効果量（Cohen's d = 0.5）を期待している。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 検定力の概念と、α、β、効果量、標本サイズとの関係を体系的に説明しなさい。(5点)</strong>
+            <div class="answer-space"></div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 十分な検定力を確保するための研究デザイン上の工夫について論述しなさい。(5点)</strong>
+            <div class="answer-space"></div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; font-weight: bold;">
+        以上で試験終了です。概念理解の深さを重視して解答の見直しを行ってください。
+    </div>
+
+</body>
+</html>
