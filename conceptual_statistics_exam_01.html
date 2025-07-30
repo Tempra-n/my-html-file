@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>統計学模擬試験 第1回 概念理解重視版</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+        @media print {
+            body { 
+                margin: 0; 
+                font-size: 11pt; 
+                line-height: 1.3;
+                color: black;
+            }
+            .page-break { 
+                page-break-before: always; 
+            }
+            .no-print { 
+                display: none; 
+            }
+            .header {
+                margin-bottom: 15mm;
+            }
+        }
+        body {
+            font-family: 'MS Gothic', 'Yu Gothic', sans-serif;
+            line-height: 1.4;
+            margin: 20px;
+            background: white;
+            color: black;
+        }
+        .header {
+            text-align: center;
+            border: 2px solid black;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .university-name {
+            font-size: 16pt;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .exam-info {
+            font-size: 12pt;
+            margin-bottom: 5px;
+        }
+        .exam-number {
+            text-align: right;
+            margin: 10px 0;
+            border: 1px solid black;
+            padding: 5px;
+        }
+        .problem {
+            margin: 20px 0;
+            border: 1px solid black;
+            padding: 15px;
+        }
+        .problem-title {
+            font-weight: bold;
+            font-size: 14pt;
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            padding: 5px;
+        }
+        .sub-problem {
+            margin: 15px 0;
+        }
+        .answer-space {
+            border: 1px solid #ccc;
+            min-height: 15mm;
+            margin: 5mm 0;
+            padding: 3mm;
+        }
+        .large-answer-space {
+            min-height: 25mm;
+        }
+        .xl-answer-space {
+            min-height: 35mm;
+        }
+        .points {
+            float: right;
+            font-weight: bold;
+            color: #666;
+        }
+        .case-study {
+            background-color: #f8f8ff;
+            border: 2px solid #4169e1;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .concept-map {
+            background-color: #f0fff0;
+            border: 2px solid #32cd32;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .keywords {
+            background-color: #fff8dc;
+            border: 1px solid #daa520;
+            padding: 8px;
+            margin: 8px 0;
+            font-weight: bold;
+        }
+        .instructions {
+            background-color: #ffffcc;
+            border: 2px solid #ffcc00;
+            padding: 10px;
+            margin: 15px 0;
+        }
+        .no-print {
+            background-color: #e6ffe6;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print">
+        <p><strong>印刷設定:</strong> A4サイズ、余白は普通に設定してください。概念理解重視の問題形式です。</p>
+        <button onclick="window.print()" style="padding: 10px 20px; font-size: 14px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">印刷する</button>
+    </div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">大学院入学試験 模擬問題</div>
+        <div class="exam-info">心理学学位プログラム（心理基礎科学・心理臨床学）サブプログラム</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+        <div class="exam-info">統計学 模擬試験問題 第1回【概念理解重視版】</div>
+        <div class="exam-info"><strong>試験時間：90分　　満点：100点</strong></div>
+    </div>
+
+    <div class="instructions">
+        <h3>解答上の注意</h3>
+        <ul>
+            <li><strong>概念的理解</strong>を重視して解答すること</li>
+            <li>手法の選択理由と背景理論を明確に説明すること</li>
+            <li>統計手法間の関係性や使い分けについて論述すること</li>
+            <li>実際の研究場面での応用を意識して答えること</li>
+            <li>数値計算よりも概念の説明に重点を置くこと</li>
+        </ul>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第1問　統計的推測の概念マップ <span class="points">(20点)</span></div>
+        
+        <div class="concept-map">
+            <strong>【概念マップ問題】</strong>
+            <p>以下の統計概念間の関係性を図式化し、それぞれの関連性を説明しなさい。</p>
+        </div>
+
+        <div class="keywords">
+            キーワード：母集団、標本、推定、検定、信頼区間、仮説、有意水準、検定力、効果量
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 上記9つの概念を用いて概念マップを作成し、概念間の関係を矢印と説明文で示しなさい。(12点)</strong>
+            <div class="answer-space xl-answer-space"></div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 「推定」と「検定」の根本的な違いについて、目的と解釈の観点から説明しなさい。(8点)</strong>
+            <div class="answer-space"></div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第1回　2枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第2問　正規性と等分散性の検定戦略 <span class="points">(25点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>心理学実験で、3つの学習方法（A, B, C）の効果を比較したい。各群n=15のデータを収集した。分析前に、データの性質を調べる必要がある。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 正規性検定について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ なぜ正規性の確認が重要なのか、パラメトリック検定との関連で説明しなさい。(6点)</p>
+                <div class="answer-space"></div>
+                
+                <p>・ Shapiro-Wilk検定とKolmogorov-Smirnov検定の使い分けと特徴を比較しなさい。(6点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 等分散性検定について：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ なぜ分散の等質性が重要なのか、ANOVAの前提条件との関連で説明しなさい。(6点)</p>
+                <div class="answer-space"></div>
+                
+                <p>・ Levene検定とBartlett検定の特徴と使い分けについて述べなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第1回　3枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第3問　検定手法の選択フローチャート <span class="points">(25点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>研究者として、様々な研究場面で適切な統計手法を選択する必要がある。以下の状況に応じた検定手法の選択プロセスを説明しなさい。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 2群比較の場面で：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ 対応あり vs 対応なしの判断基準と、それぞれに適用する検定手法を体系的に整理しなさい。(8点)</p>
+                <div class="answer-space large-answer-space"></div>
+                
+                <p>・ 正規性が満たされない場合の代替手法（ノンパラメトリック検定）とその選択理由を説明しなさい。(7点)</p>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 多群比較の場面で：</strong>
+            <div style="margin-left: 20px;">
+                <p>・ なぜ多重比較問題が生じるのか、第1種の誤りの観点から説明し、その対処法を述べなさい。(10点)</p>
+                <div class="answer-space large-answer-space"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第1回　4枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第4問　効果量と実用的有意性 <span class="points">(15点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】】</strong>
+            <p>大規模調査（n=10000）で、新しい治療法群と従来法群の平均差が統計的に有意（p<0.001）だったが、平均差は0.2点（100点満点中）であった。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 統計的有意性と実用的有意性の違いについて、このケースを例に説明しなさい。(8点)</strong>
+            <div class="answer-space"></div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) 効果量（Cohen's d, η², r²など）の概念と重要性について、統計的有意性との関係を含めて論述しなさい。(7点)</strong>
+            <div class="answer-space"></div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="header">
+        <div class="university-name">（○ ○ 大 学）</div>
+        <div class="exam-info">統計学 模擬試験問題 第1回　5枚目</div>
+        <div class="exam-number">受験番号　　　　　　　　番</div>
+    </div>
+
+    <div class="problem">
+        <div class="problem-title">第5問　研究デザインと統計的推論 <span class="points">(15点)</span></div>
+
+        <div class="case-study">
+            <strong>【ケーススタディ】</strong>
+            <p>認知行動療法の効果を検証する研究を計画している。参加者は治療前後で抑うつ尺度を測定される。どのような統計的アプローチが適切か検討しなさい。</p>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(1) 実験デザインの特徴（前後比較デザイン）を踏まえ、適切な分析手法とその理由を説明しなさい。(8点)</strong>
+            <div class="answer-space"></div>
+        </div>
+
+        <div class="sub-problem">
+            <strong>(2) このデザインの限界と、因果推論を強化するための改良案を統計的観点から提案しなさい。(7点)</strong>
+            <div class="answer-space"></div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; font-weight: bold;">
+        以上で試験終了です。概念理解の深さを重視して解答の見直しを行ってください。
+    </div>
+
+</body>
+</html>
