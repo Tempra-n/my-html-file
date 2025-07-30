@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>認知心理学 完全網羅模擬試験シリーズ</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+        
+        body {
+            font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: white;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .exam-header {
+            text-align: center;
+            border-bottom: 3px solid #1976d2;
+            padding-bottom: 25px;
+            margin-bottom: 35px;
+            page-break-after: avoid;
+        }
+        
+        .exam-header h1 {
+            font-size: 28px;
+            margin: 15px 0;
+            font-weight: bold;
+            color: #1976d2;
+        }
+        
+        .exam-header h2 {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #424242;
+        }
+        
+        .series-title {
+            background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
+            color: white;
+            padding: 25px;
+            margin: 40px 0;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(25,118,210,0.3);
+        }
+        
+        .section-title {
+            background: #333;
+            color: white;
+            padding: 18px 25px;
+            margin: 45px 0 30px 0;
+            font-weight: bold;
+            font-size: 20px;
+            page-break-after: avoid;
+            border-radius: 8px;
+        }
+        
+        .question-header {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            padding: 18px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(33,150,243,0.15);
+        }
+        
+        .question-number {
+            font-weight: bold;
+            font-size: 18px;
+            color: #1976d2;
+        }
+        
+        .question-points {
+            float: right;
+            font-weight: bold;
+            color: #d32f2f;
+            background: #ffebee;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .question-text {
+            font-size: 15px;
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+        
+        .answer-area {
+            border: 2px solid #ddd;
+            min-height: 180px;
+            padding: 15px;
+            margin: 25px 0;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+        
+        .answer-area.large {
+            min-height: 300px;
+        }
+        
+        .answer-area.medium {
+            min-height: 240px;
+        }
+        
+        .answer-area.small {
+            min-height: 150px;
+        }
+        
+        .answer-lines {
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 26px,
+                #e0e0e0 26px,
+                #e0e0e0 28px
+            );
+            min-height: inherit;
+        }
+        
+        .instructions {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 10px;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #e65100;
+            font-size: 18px;
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+        
+        .toc {
+            background: #f8f9fa;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .toc h2 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 12px;
+        }
+        
+        .toc-item {
+            margin: 15px 0;
+            padding: 10px 0;
+            border-bottom: 1px dotted #ccc;
+            font-size: 15px;
+        }
+        
+        .exam-time {
+            background: #ffecb3;
+            border: 2px solid #ffa000;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        .emphasis-box {
+            background: #e8f5e8;
+            border-left: 6px solid #4caf50;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 6px solid #ffc107;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        strong {
+            color: #1976d2;
+        }
+        
+        .case-study {
+            background: #f3e5f5;
+            border: 2px solid #9c27b0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .case-study h4 {
+            color: #7b1fa2;
+            margin-top: 0;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+            
+            .page-break {
+                page-break-before: always;
+            }
+            
+            .question-header {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 表紙 -->
+    <div class="exam-header">
+        <h1>🧠 認知心理学</h1>
+        <h1>完全網羅模擬試験シリーズ</h1>
+        <div style="margin: 35px 0;">
+            <p style="font-size: 18px; color: #666;">～ 記憶・注意・知覚・学習の完全理解 ～</p>
+        </div>
+        <h2>心理学大学院入試対応</h2>
+        <p style="margin-top: 35px; font-size: 14px; color: #666;">
+            認知心理学の全領域を体系的に網羅した実践的模擬試験問題集
+        </p>
+    </div>
+
+    <!-- 目次 -->
+    <div class="toc">
+        <h2>📚 完全シリーズ構成</h2>
+        <div class="toc-item"><strong>第1回：記憶システム基礎編</strong> - アトキンソン＝シフリン、バドリー、系列位置効果</div>
+        <div class="toc-item"><strong>第2回：長期記憶システム編</strong> - エピソード・意味・手続き記憶、符号化理論</div>
+        <div class="toc-item"><strong>第3回：注意メカニズム編</strong> - 選択的注意、カクテルパーティー効果、注意の瞬き</div>
+        <div class="toc-item"><strong>第4回：知覚・認知統合編</strong> - 特徴統合理論、自動化、メタ認知</div>
+        <div class="toc-item"><strong>第5回：学習・記憶現象編</strong> - 学習効果、プライミング、忘却理論</div>
+        <div class="toc-item"><strong>第6回：応用・統合編</strong> - 日常認知、認知的加齢、認知バイアス</div>
+        <div class="toc-item"><strong>総合実力確認テスト</strong> - 超統合問題、実社会応用、未来展望</div>
+        
+        <div style="margin-top: 25px; padding: 18px; background: #e8f5e8; border-radius: 8px;">
+            <strong>📊 シリーズ概要：</strong><br>
+            <strong>⏱️ 総学習時間：</strong> 約100時間<br>
+            <strong>📝 問題数：</strong> 30問（基礎）+ 統合問題<br>
+            <strong>🎯 対応レベル：</strong> 大学院入試完全対応
+        </div>
+    </div>
+
+    <!-- 学習指針 -->
+    <div class="instructions">
+        <h3>📖 効果的な学習方法</h3>
+        <ul>
+            <li><strong>段階的習得：</strong>第1回から順番に取り組み、基礎を固める</li>
+            <li><strong>理論理解：</strong>暗記ではなく、理論の背景と実験的根拠を重視</li>
+            <li><strong>実験設計：</strong>各理論の実験パラダイムを詳細に理解</li>
+            <li><strong>統合思考：</strong>複数の理論を関連付けて総合的に理解</li>
+            <li><strong>応用力：</strong>日常場面や臨床場面での応用を常に意識</li>
+            <li><strong>反復練習：</strong>各回を最低2回は解答し、理解を深める</li>
+        </ul>
+    </div>
+
+    <!-- ===== 第1回：記憶システム基礎編 ===== -->
+    <div class="series-title">第1回：記憶システム基礎編</div>
+    <div class="exam-time">⏰ 試験時間：120分</div>
+
+    <div class="section-title">問題1-1：記憶システムの階層構造（15点）</div>
+
+    <div class="question-header">
+        <span class="question-number">記憶モデルの発展史</span>
+        <span class="question-points">(15点)</span>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="question-text">
+        アトキンソン＝シフリンの記憶モデルからバドリーのワーキングメモリモデルへの発展について説明しなさい。
+        <ul>
+            <li><strong>従来モデルの限界</strong>：アトキンソン＝シフリンモデルの問題点</li>
+            <li><strong>新モデルの革新性</strong>：バドリーモデルの理論的革新</li>
+            <li><strong>実験的証拠の変遷</strong>：各モデルを支持する実験結果</li>
+            <li><strong>現在の評価と課題</strong>：現代認知心理学での位置づけ</li>
+        </ul>
+    </div>
+    <div class="answer-area large">
+        <div class="answer-lines"></div>
+    </div>
+
+    <div class="section-title">問題1-2：ワーキングメモリの詳細分析（20点）</div>
+
+    <div class="question-header">
+        <span class="question-number">バドリーの4構成要素モデル</span>
+        <span class="question-points">(20点)</span>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="question-text">
+        バドリーのワーキングメモリの4構成要素について、以下を含めて詳述しなさい。
+        <ol>
+            <li><strong>中央実行系</strong>：注意制御機能、容量限界、実験的証拠</li>
+            <li><strong>音韻ループ</strong>：構造、音韻類似性効果、語長効果</li>
+            <li><strong>視空間スケッチパッド</strong>：機能、心的回転との関係</li>
+            <li><strong>エピソード的バッファ</strong>：追加された背景、他システムとの統合</li>
+        </ol>
+    </div>
+    <div class="answer-area large">
+        <div class="answer-lines"></div>
+    </div>
+
+    <div class="section-title">問題1-3：二重課題パラダイムの応用（15点）</div>
+
+    <div class="question-header">
+        <span class="question-number">実験設計問題</span>
+        <span class="question-points">(15点)</span>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="question-text">
+        二重課題実験について、以下の実験を設計し、予想結果を説明しなさい。
+        <ul>
+            <li><strong>実験目的</strong>：音韻ループと視空間スケッチパッドの独立性検証</li>
+            <li><strong>実験条件</strong>：主課題・副課題の組み合わせ</li>
+            <li><strong>測定指標</strong>：パフォーマンス低下の程度</li>
+            <li><strong>予想結果</strong>：理論的根拠とともに</li>
+        </ul>
+    </div>
+    <div class="answer-area large">
+        <div class="answer-lines"></div>
+    </div>
+
+    <div class="section-title">問題1-4：系列位置効果の多面的理解（15点）</div>
+
+    <div class="question-header">
+        <span class="question-number">記憶現象の統合的理解</span>
+        <span class="question-points">(15点)</span>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="question-text">
+        系列位置効果について、以下を統合的に説明しなさい。
+        <ul>
+            <li><strong>初頭効果</strong>と<strong>新近効果</strong>のメカニズム</li>
+            <li><strong>遅延再生</strong>による新近効果の消失</li>
+            <li><strong>干渉課題</strong>の影響</li>
+            <li>ワーキングメモリとの関係</li>
+        </ul>
+    </div>
+    <div class="answer-area large">
+        <div class="answer-lines"></div>
+    </div>
+
+    <!-- ===== 第2回：長期記憶システム編 ===== -->
+    <div class="page-break">
+        <div class="series-title">第2回：長期記憶システム編</div>
+        <div class="exam-time">⏰ 試験時間：120分</div>
+
+        <div class="section-title">問題2-1：宣言的記憶の二重構造（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">エピソード記憶 vs 意味記憶</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            <strong>エピソード記憶</strong>と<strong>意味記憶</strong>について、以下の観点から比較分析しなさい。
+            <ol>
+                <li><strong>定義と特徴</strong>：タルヴィングの提唱内容</li>
+                <li><strong>発達的観点</strong>：幼児期からの発達過程</li>
+                <li><strong>神経基盤</strong>：海馬・側頭葉の役割分担</li>
+                <li><strong>病理学的解離</strong>：認知症・健忘症での症状差</li>
+                <li><strong>実験的検証</strong>：remember/know判断の実験パラダイム</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題4-4：メタ認知と学習制御（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">学習の学習</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            メタ認知について、以下の要素を関連付けて説明しなさい。
+            <ul>
+                <li><strong>メタ認知的知識</strong>：方略知識、課題知識、自己知識</li>
+                <li><strong>メタ認知的制御</strong>：計画、監視、評価</li>
+                <li><strong>学習への影響</strong>：効果的な学習方略の選択</li>
+                <li><strong>発達的変化</strong>：幼児期から成人期への発達</li>
+                <li><strong>教育応用</strong>：メタ認知訓練の効果</li>
+            </ul>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- ===== 第5回：学習・記憶現象編 ===== -->
+    <div class="page-break">
+        <div class="series-title">第5回：学習・記憶現象編</div>
+        <div class="exam-time">⏰ 試験時間：120分</div>
+
+        <div class="section-title">問題5-1：学習効果の比較分析（25点）</div>
+
+        <div class="question-header">
+            <span class="question-number">効果的学習の認知科学</span>
+            <span class="question-points">(25点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            以下の学習効果について、それぞれの特徴と教育応用を説明しなさい。
+            <ol>
+                <li><strong>分散学習vs集中学習</strong>：間隔効果のメカニズム</li>
+                <li><strong>検索練習効果</strong>：テスト効果の実験的証拠</li>
+                <li><strong>産出効果</strong>：能動的学習の利点</li>
+                <li><strong>精緻化効果</strong>：意味的処理の深化</li>
+                <li><strong>教育現場での統合的活用</strong>：効果的な学習設計</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題5-2：プライミング現象の多様性（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">潜在記憶の活性化</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            プライミング効果について、以下の類型を説明しなさい。
+            <ul>
+                <li><strong>意味的プライミング</strong>：語彙決定課題、意味ネットワーク</li>
+                <li><strong>知覚的プライミング</strong>：形態類似性、モダリティ効果</li>
+                <li><strong>概念的プライミング</strong>：抽象的概念の活性化</li>
+                <li><strong>潜在記憶との関係</strong>：意識性、神経基盤</li>
+                <li><strong>日常場面での観察例</strong></li>
+            </ul>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題5-3：忘却のメカニズム（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">記憶の消失理論</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            記憶の忘却について、以下の理論を比較説明しなさい。
+            <ol>
+                <li><strong>痕跡衰退説</strong>：時間経過による自然消失</li>
+                <li><strong>干渉説</strong>：順向・逆向干渉の影響</li>
+                <li><strong>検索失敗説</strong>：手がかりの重要性</li>
+                <li><strong>エビングハウスの忘却曲線</strong>：忘却の時間関数</li>
+                <li><strong>忘却の適応的意義</strong>：不要情報の削除</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題5-4：記憶術と記憶改善（15点）</div>
+
+        <div class="question-header">
+            <span class="question-number">記憶方略の実践</span>
+            <span class="question-points">(15点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            記憶術について、以下を含めて説明しなさい。
+            <ul>
+                <li><strong>古典的記憶術</strong>：場所法、語呂合わせ</li>
+                <li><strong>認知心理学的原理</strong>：精緻化、体制化、イメージ</li>
+                <li><strong>現代的応用</strong>：学習支援、高齢者支援</li>
+                <li><strong>限界と注意点</strong>：適用範囲、個人差</li>
+            </ul>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- ===== 第6回：応用・統合編 ===== -->
+    <div class="page-break">
+        <div class="series-title">第6回：応用・統合編</div>
+        <div class="exam-time">⏰ 試験時間：120分</div>
+
+        <div class="section-title">問題6-1：日常認知の理論的分析（30点）</div>
+
+        <div class="question-header">
+            <span class="question-number">実生活場面での認知プロセス</span>
+            <span class="question-points">(30点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            以下の日常場面について、関連する認知心理学的概念を3つ以上用いて分析しなさい。
+
+            <div class="case-study">
+                <h4>場面A：運転中の携帯電話使用</h4>
+                <ul>
+                    <li>注意の分散、選択的注意、自動化</li>
+                    <li>二重課題干渉、注意資源の限界</li>
+                    <li>安全への影響、対策の提案</li>
+                </ul>
+            </div>
+
+            <div class="case-study">
+                <h4>場面B：学習中の音楽聴取</h4>
+                <ul>
+                    <li>分散注意、認知負荷、音韻ループ</li>
+                    <li>気分一致効果、文脈効果</li>
+                    <li>学習効率への影響評価</li>
+                </ul>
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題6-2：認知的加齢の理論的理解（25点）</div>
+
+        <div class="question-header">
+            <span class="question-number">高齢者の認知機能変化</span>
+            <span class="question-points">(25点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            高齢者の認知機能について、以下を統合的に説明しなさい。
+            <ol>
+                <li><strong>ワーキングメモリの変化</strong>：処理速度、容量の低下</li>
+                <li><strong>長期記憶の変化</strong>：エピソード記憶vs意味記憶</li>
+                <li><strong>注意機能の変化</strong>：選択性、分散性への影響</li>
+                <li><strong>代償メカニズム</strong>：両側性活動、方略変更</li>
+                <li><strong>認知訓練の可能性</strong>：可塑性、転移効果</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題6-3：認知バイアスと判断・意思決定（25点）</div>
+
+        <div class="question-header">
+            <span class="question-number">合理性の限界</span>
+            <span class="question-points">(25点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            認知心理学の知見が判断・意思決定に与える示唆を論じなさい。
+            <ul>
+                <li><strong>利用可能性ヒューリスティック</strong>：想起の容易さ</li>
+                <li><strong>確証バイアス</strong>：選択的注意、記憶の歪み</li>
+                <li><strong>アンカリング効果</strong>：初期情報の影響</li>
+                <li><strong>フレーミング効果</strong>：情報提示の方法</li>
+                <li><strong>合理的意思決定への提言</strong></li>
+            </ul>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題6-4：技術と認知の相互作用（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">デジタル時代の認知変化</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            デジタル技術が人間の認知に与える影響について論じなさい。
+            <ol>
+                <li><strong>外部記憶の利用</strong>：検索エンジン、GPS</li>
+                <li><strong>注意の分散</strong>：マルチタスク、通知システム</li>
+                <li><strong>学習の変化</strong>：深い読み、浅い読み</li>
+                <li><strong>認知的適応</strong>：新技術への適応プロセス</li>
+                <li><strong>将来への示唆</strong>：AI時代の認知能力</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- ===== 総合実力確認テスト ===== -->
+    <div class="page-break">
+        <div class="series-title">総合実力確認テスト</div>
+        <div class="exam-time">⏰ 試験時間：180分</div>
+
+        <div class="section-title">超統合問題1：認知システムの協調（40点）</div>
+
+        <div class="question-header">
+            <span class="question-number">複合的認知活動の分析</span>
+            <span class="question-points">(40点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            以下のケースを認知心理学の複数理論で包括的に分析しなさい。
+
+            <div class="case-study">
+                <h4>ケース：「熟練ピアニストの演奏」</h4>
+                <strong>分析観点：</strong>
+                <ul>
+                    <li><strong>記憶システム</strong>：手続き記憶、作業記憶、長期記憶</li>
+                    <li><strong>注意メカニズム</strong>：分散注意、自動化、選択的注意</li>
+                    <li><strong>知覚プロセス</strong>：聴覚処理、視覚処理、感覚統合</li>
+                    <li><strong>学習プロセス</strong>：技能習得、記憶固定化、自動化</li>
+                </ul>
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">超統合問題2：認知心理学の実社会応用（40点）</div>
+
+        <div class="question-header">
+            <span class="question-number">高齢社会における認知支援</span>
+            <span class="question-points">(40点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            「高齢者向けのスマートフォンインターフェースデザイン」について、認知心理学の知見を基に具体的提案をしなさい。
+
+            <div class="case-study">
+                <h4>検討項目：</h4>
+                <ul>
+                    <li><strong>認知的制約</strong>：注意、記憶、知覚の加齢変化</li>
+                    <li><strong>デザイン原則</strong>：認知負荷軽減、エラー防止</li>
+                    <li><strong>学習支援</strong>：習得促進、記憶支援</li>
+                    <li><strong>個人差対応</strong>：認知能力、経験の多様性</li>
+                </ul>
+            </div>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">超統合問題3：未来の認知研究（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">認知心理学の展望</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            認知心理学の今後の発展方向について、現在の理論的課題と技術的可能性を踏まえて論じなさい。
+            <ul>
+                <li><strong>理論的統合</strong>：異分野との連携</li>
+                <li><strong>方法論の発展</strong>：新技術の活用</li>
+                <li><strong>応用領域の拡大</strong>：社会的課題への貢献</li>
+                <li><strong>倫理的考慮</strong>：認知増強、プライバシー</li>
+            </ul>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- ===== 完全理解のための学習指針 ===== -->
+    <div class="page-break">
+        <div class="section-title">📊 完全理解のための学習指針</div>
+
+        <div class="emphasis-box">
+            <h4><strong>基礎固めフェーズ（第1-2回）</strong></h4>
+            <ul>
+                <li><strong>記憶システムの完全理解</strong>：各モデルの詳細と実験的根拠</li>
+                <li><strong>研究者と理論の対応</strong>：主要な理論家の貢献を正確に把握</li>
+                <li><strong>実験パラダイムの習得</strong>：実験手法と結果の解釈</li>
+                <li><strong>神経基盤の理解</strong>：脳領域と認知機能の対応</li>
+            </ul>
+            <p><strong>目標：</strong>基礎理論の95%以上の正確な理解</p>
+        </div>
+
+        <div class="emphasis-box">
+            <h4><strong>応用展開フェーズ（第3-4回）</strong></h4>
+            <ul>
+                <li><strong>注意理論の実践的理解</strong>：日常場面での注意メカニズム</li>
+                <li><strong>知覚と認知の統合</strong>：複数プロセスの相互作用</li>
+                <li><strong>日常現象との結びつけ</strong>：理論の実世界での検証</li>
+                <li><strong>個人差要因の考慮</strong>：年齢、経験、能力による違い</li>
+            </ul>
+            <p><strong>目標：</strong>応用問題の85%以上の正答</p>
+        </div>
+
+        <div class="emphasis-box">
+            <h4><strong>統合深化フェーズ（第5-6回）</strong></h4>
+            <ul>
+                <li><strong>複数理論の関連付け</strong>：記憶・注意・知覚の統合理解</li>
+                <li><strong>応用場面での活用</strong>：教育・臨床・産業への応用</li>
+                <li><strong>批判的思考の育成</strong>：理論の限界と課題の認識</li>
+                <li><strong>未来志向の思考</strong>：新技術との融合可能性</li>
+            </ul>
+            <p><strong>目標：</strong>統合問題での論理的論述能力</p>
+        </div>
+
+        <div class="emphasis-box">
+            <h4><strong>総合完成フェーズ</strong></h4>
+            <ul>
+                <li><strong>全領域の統合的理解</strong>：認知心理学全体の体系的把握</li>
+                <li><strong>実社会への応用力</strong>：具体的問題解決への提案力</li>
+                <li><strong>未来への展望</strong>：学問の発展方向性の理解</li>
+                <li><strong>専門家レベルの思考</strong>：研究者として通用する洞察力</li>
+            </ul>
+            <p><strong>目標：</strong>大学院入試での確実な合格</p>
+        </div>
+
+        <div class="warning-box">
+            <h4><strong>🎯 最終到達目標</strong></h4>
+            <p><strong>この模擬試験シリーズを完遂すれば、認知心理学の全領域を網羅的に理解し、どのような出題形式にも対応できる実力が身につきます。</strong></p>
+            
+            <div style="margin-top: 20px;">
+                <h5><strong>合格に向けた最終チェックリスト：</strong></h5>
+                <ul>
+                    <li>□ 主要理論家（バドリー、トライズマン、タルヴィングなど）の理論を完全に説明できる</li>
+                    <li>□ 実験パラダイムの詳細な手順と理論的意義を理解している</li>
+                    <li>□ 記憶・注意・知覚の各領域を統合的に理解できる</li>
+                    <li>□ 日常場面や応用場面での認知プロセスを分析できる</li>
+                    <li>□ 理論の限界と今後の課題を批判的に評価できる</li>
+                    <li>□ 120分の制限時間内で論理的な論述ができる</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="margin-top: 50px; text-align: center; font-size: 14px; color: #666;">
+            <p><strong>認知心理学 完全網羅模擬試験シリーズ</strong></p>
+            <p>～ 記憶・注意・知覚・学習の深い理解から実践的応用まで ～</p>
+            <p style="margin-top: 20px; font-weight: bold; color: #1976d2;">
+                皆さんの大学院合格を心から応援しています！
+            </p>
+        </div>
+    </div>
+</body>
+</html> class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題2-2：手続き的記憶の特性（15点）</div>
+
+        <div class="question-header">
+            <span class="question-number">無意識的学習システム</span>
+            <span class="question-points">(15点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            手続き的記憶について、以下を含めて説明しなさい。
+            <ul>
+                <li><strong>定義と特徴</strong>：意識性、言語化可能性</li>
+                <li><strong>神経基盤</strong>：大脳基底核の役割</li>
+                <li><strong>学習特性</strong>：習得過程、忘却抵抗性</li>
+                <li><strong>日常例</strong>：運動技能、認知技能</li>
+                <li><strong>障害例</strong>：パーキンソン病、ハンチントン病</li>
+            </ul>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題2-3：記憶の符号化プロセス（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">効果的な記憶形成メカニズム</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            記憶の符号化について、以下の概念を関連付けて説明しなさい。
+            <ol>
+                <li><strong>精緻化（elaboration）</strong>：意味的処理の深さ</li>
+                <li><strong>体制化（organization）</strong>：構造化された記憶</li>
+                <li><strong>チャンキング</strong>：容量限界の克服</li>
+                <li><strong>符号化特異性</strong>：文脈効果、状態依存学習</li>
+                <li><strong>産出効果</strong>：能動的処理の利点</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題2-4：干渉理論の応用（15点）</div>
+
+        <div class="question-header">
+            <span class="question-number">記憶間の相互作用</span>
+            <span class="question-points">(15点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            記憶の干渉について、以下の実験を設計しなさい。
+            <ul>
+                <li><strong>順向干渉</strong>の実験デザイン</li>
+                <li><strong>逆向干渉</strong>の実験デザイン</li>
+                <li><strong>日常生活での干渉例</strong></li>
+                <li><strong>干渉軽減の方略</strong></li>
+            </ul>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- ===== 第3回：注意メカニズム編 ===== -->
+    <div class="page-break">
+        <div class="series-title">第3回：注意メカニズム編</div>
+        <div class="exam-time">⏰ 試験時間：120分</div>
+
+        <div class="section-title">問題3-1：選択的注意の理論発展（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">注意理論の歴史的変遷</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            選択的注意理論の発展について、以下の流れで説明しなさい。
+            <ol>
+                <li><strong>ブロードベントのフィルター理論</strong>：初期選択説</li>
+                <li><strong>トライズマンの減衰理論</strong>：閾値概念の導入</li>
+                <li><strong>ドイッチェ＝ノーマンの後期選択説</strong>：意味分析の重要性</li>
+                <li><strong>現代の統合的理解</strong>：柔軟な注意配分</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題3-2：カクテルパーティー効果の詳細分析（15点）</div>
+
+        <div class="question-header">
+            <span class="question-number">聴覚的選択的注意</span>
+            <span class="question-points">(15点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            カクテルパーティー効果について、以下を含めて説明しなさい。
+            <ul>
+                <li><strong>現象の詳細</strong>：チェリーの両耳分離聴実験</li>
+                <li><strong>理論的意義</strong>：注意の選択性</li>
+                <li><strong>影響要因</strong>：物理的特徴、意味的要因</li>
+                <li><strong>日常応用</strong>：現実場面での注意制御</li>
+            </ul>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題3-3：注意の瞬きとその応用（15点）</div>
+
+        <div class="question-header">
+            <span class="question-number">時間的注意制限</span>
+            <span class="question-points">(15点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            注意の瞬き（attentional blink）について説明し、以下の応用場面を分析しなさい。
+            <ul>
+                <li><strong>実験パラダイム</strong>：RSVP課題</li>
+                <li><strong>時間特性</strong>：200-500msの盲点</li>
+                <li><strong>理論的解釈</strong>：注意資源の枯渇</li>
+                <li><strong>応用場面</strong>：運転時の見落とし、医療現場での見逃し</li>
+            </ul>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題3-4：分散注意の限界と対策（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">マルチタスクの認知科学</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            分散注意について、以下の観点から論じなさい。
+            <ol>
+                <li><strong>理論的基盤</strong>：注意資源理論、多重資源理論</li>
+                <li><strong>パフォーマンスの制約</strong>：二重課題干渉</li>
+                <li><strong>個人差要因</strong>：年齢、熟練度、認知能力</li>
+                <li><strong>現代的課題</strong>：マルチタスク、デジタルデバイス使用</li>
+                <li><strong>対策</strong>：注意管理、環境設計</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+    </div>
+
+    <!-- ===== 第4回：知覚・認知統合編 ===== -->
+    <div class="page-break">
+        <div class="series-title">第4回：知覚・認知統合編</div>
+        <div class="exam-time">⏰ 試験時間：120分</div>
+
+        <div class="section-title">問題4-1：特徴統合理論の包括的理解（25点）</div>
+
+        <div class="question-header">
+            <span class="question-number">トライズマンの視覚探索理論</span>
+            <span class="question-points">(25点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            トライズマンの特徴統合理論について、以下を統合的に説明しなさい。
+            <ol>
+                <li><strong>理論の概要</strong>：前注意段階、注意段階</li>
+                <li><strong>特徴探索vs統合探索</strong>：反応時間パターンの違い</li>
+                <li><strong>実験的証拠</strong>：視覚探索実験、結合錯覚実験</li>
+                <li><strong>注意の役割</strong>：特徴結合のメカニズム</li>
+                <li><strong>日常応用</strong>：安全管理、デザイン、スポーツ</li>
+            </ol>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題4-2：トップダウン・ボトムアップ処理（15点）</div>
+
+        <div class="question-header">
+            <span class="question-number">情報処理の方向性</span>
+            <span class="question-points">(15点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            情報処理の方向性について、以下を含めて説明しなさい。
+            <ul>
+                <li><strong>トップダウン処理</strong>：概念駆動型、期待・予測の役割</li>
+                <li><strong>ボトムアップ処理</strong>：データ駆動型、刺激の物理的特性</li>
+                <li><strong>相互作用</strong>：知覚における両処理の協調</li>
+                <li><strong>実験例</strong>：語文脈効果、視覚的錯覚</li>
+            </ul>
+        </div>
+        <div class="answer-area large">
+            <div class="answer-lines"></div>
+        </div>
+
+        <div class="section-title">問題4-3：自動化プロセスの理論と応用（20点）</div>
+
+        <div class="question-header">
+            <span class="question-number">熟練化と自動化</span>
+            <span class="question-points">(20点)</span>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="question-text">
+            自動的処理と統制的処理について、以下を論じなさい。
+            <ol>
+                <li><strong>特徴の比較</strong>：意識性、容量、速度、干渉への抵抗性</li>
+                <li><strong>自動化の発達</strong>：練習による変化、シフリン＝シュナイダー実験</li>
+                <li><strong>ストループ効果</strong>：自動化の実証例</li>
+                <li><strong>アクション・スリップ</strong>：自動化の弊害</li>
+                <li><strong>技能習得への応用</strong>：専門家の自動化プロセス</li>
+            </ol>
+        </div>
+        <div
