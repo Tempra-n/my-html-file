@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>和文英訳技能習得 3段階練習法</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 300;
+        }
+        
+        .stages-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        
+        .stage {
+            position: relative;
+            padding: 40px;
+            border-bottom: 3px solid #ecf0f1;
+        }
+        
+        .stage:last-child {
+            border-bottom: none;
+        }
+        
+        .stage-1 {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        }
+        
+        .stage-2 {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+        
+        .stage-3 {
+            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+        }
+        
+        .stage-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .stage-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-right: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .stage-title {
+            flex: 1;
+        }
+        
+        .stage-title h2 {
+            margin: 0;
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .stage-subtitle {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+        
+        .method-box, .science-box {
+            background: rgba(255,255,255,0.9);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+        }
+        
+        .method-box h3, .science-box h3 {
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+        }
+        
+        .method-box h3::before {
+            content: "📝";
+            margin-right: 10px;
+        }
+        
+        .science-box h3::before {
+            content: "🧠";
+            margin-right: 10px;
+        }
+        
+        .method-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .method-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ecf0f1;
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .method-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .method-list li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .science-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .flow-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .flow-arrow {
+            font-size: 1.5em;
+            color: #e74c3c;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .example-box {
+            grid-column: 1 / -1;
+            background: rgba(255,255,255,0.95);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border-left: 5px solid #f39c12;
+        }
+        
+        .example-box h4 {
+            margin: 0 0 15px 0;
+            color: #f39c12;
+            font-size: 1.2em;
+        }
+        
+        .word-boxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .word-box {
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        
+        .reorder-arrow {
+            font-size: 2em;
+            color: #e74c3c;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .checklist li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 35px;
+        }
+        
+        .checklist li::before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+            color: #27ae60;
+        }
+        
+        .time-progression {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .time-box {
+            background: #e74c3c;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .progress-arrow {
+            font-size: 1.5em;
+            color: #7f8c8d;
+        }
+        
+        .brain-connection {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        
+        .brain-area {
+            background: #9b59b6;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            text-align: center;
+            flex: 1;
+            margin: 0 5px;
+        }
+        
+        .connection-arrow {
+            color: #e74c3c;
+            font-size: 1.2em;
+        }
+        
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .time-progression {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .progress-arrow {
+                transform: rotate(90deg);
+            }
+            
+            .word-boxes {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>和文英訳技能習得 3段階練習法</h1>
+            <p>科学的根拠に基づく段階的アプローチ</p>
+        </div>
+        
+        <div class="stages-container">
+            <!-- Stage 1 -->
+            <div class="stage stage-1">
+                <div class="stage-header">
+                    <div class="stage-number">1</div>
+                    <div class="stage-title">
+                        <h2>語順変換練習</h2>
+                        <div class="stage-subtitle">運動記憶形成フェーズ</div>
+                    </div>
+                </div>
+                
+                <div class="content-grid">
+                    <div class="method-box">
+                        <h3>練習方法</h3>
+                        <ul class="method-list">
+                            <li>日本語文を単語単位に分解</li>
+                            <li>英語語順で並び替え（紙上で）</li>
+                            <li>手で書きながら語順感覚を体得</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="science-box">
+                        <h3>科学的根拠</h3>
+                        <div class="science-flow">
+                            <div class="flow-item">手書き動作</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="brain-connection">
+                                <div class="brain-area">運動野</div>
+                                <div class="connection-arrow">+</div>
+                                <div class="brain-area">体性感覚野</div>
+                            </div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="flow-item">語順パターンの運動記憶化</div>
+                        </div>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>📋 実践例：文の分解と並び替え</h4>
+                        <p><strong>日本語文：</strong>「個人の属性と環境の属性が合致している時に、最適なアウトカムがもたらされる」</p>
+                        
+                        <p><strong>Step 1: 単語分解</strong></p>
+                        <div class="word-boxes">
+                            <div class="word-box">個人の属性</div>
+                            <div class="word-box">環境の属性</div>
+                            <div class="word-box">合致している</div>
+                            <div class="word-box">時に</div>
+                            <div class="word-box">最適なアウトカム</div>
+                            <div class="word-box">もたらされる</div>
+                        </div>
+                        
+                        <div class="reorder-arrow">⬇️ 英語語順で並び替え</div>
+                        
+                        <p><strong>Step 2: 語順変換</strong></p>
+                        <div class="word-boxes">
+                            <div class="word-box">When</div>
+                            <div class="word-box">individual attributes</div>
+                            <div class="word-box">match</div>
+                            <div class="word-box">environmental attributes</div>
+                            <div class="word-box">optimal outcomes</div>
+                            <div class="word-box">are produced</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stage 2 -->
+            <div class="stage stage-2">
+                <div class="stage-header">
+                    <div class="stage-number">2</div>
+                    <div class="stage-title">
+                        <h2>時間制限作文</h2>
+                        <div class="stage-subtitle">自動化促進フェーズ</div>
+                    </div>
+                </div>
+                
+                <div class="content-grid">
+                    <div class="method-box">
+                        <h3>練習設定</h3>
+                        <div class="time-progression">
+                            <div class="time-box">10分</div>
+                            <div class="progress-arrow">→</div>
+                            <div class="time-box">8分</div>
+                            <div class="progress-arrow">→</div>
+                            <div class="time-box">5分</div>
+                        </div>
+                        <ul class="method-list">
+                            <li>必ず手書き（タイピングより思考が深い）</li>
+                            <li>ストップウォッチで厳密時間管理</li>
+                            <li>段階的な時間短縮で圧迫感を創出</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="science-box">
+                        <h3>神経科学的効果</h3>
+                        <div class="science-flow">
+                            <div class="brain-connection">
+                                <div class="brain-area">時間圧迫</div>
+                                <div class="connection-arrow">→</div>
+                                <div class="brain-area">前頭前野活性化</div>
+                                <div class="connection-arrow">→</div>
+                                <div class="brain-area">集中力向上</div>
+                            </div>
+                            <div class="flow-arrow">+</div>
+                            <div class="brain-connection">
+                                <div class="brain-area">手書き動作</div>
+                                <div class="connection-arrow">→</div>
+                                <div class="brain-area">海馬活性化</div>
+                                <div class="connection-arrow">→</div>
+                                <div class="brain-area">記憶定着促進</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>⏱️ タイマー練習の実際</h4>
+                        <p><strong>Week 1-2:</strong> 10分制限 → 構文パターンを確認しながら慎重に作文</p>
+                        <p><strong>Week 3-4:</strong> 8分制限 → パターン想起の自動化を促進</p>
+                        <p><strong>Week 5-6:</strong> 5分制限 → 瞬間的な語順変換能力を完成</p>
+                        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #ffc107;">
+                            <strong>🎯 目標：</strong> 5分以内で心理学論文レベルの英文を正確に作成
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stage 3 -->
+            <div class="stage stage-3">
+                <div class="stage-header">
+                    <div class="stage-number">3</div>
+                    <div class="stage-title">
+                        <h2>品質向上練習</h2>
+                        <div class="stage-subtitle">メタ認知強化フェーズ</div>
+                    </div>
+                </div>
+                
+                <div class="content-grid">
+                    <div class="method-box">
+                        <h3>チェックリスト</h3>
+                        <ul class="checklist">
+                            <li>主語・動詞の対応確認</li>
+                            <li>冠詞の適切性検証</li>
+                            <li>前置詞の正確性チェック</li>
+                            <li>語法の自然性評価</li>
+                            <li>論理関係の明確性</li>
+                            <li>専門用語の正確性</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="science-box">
+                        <h3>メタ認知理論</h3>
+                        <div class="science-flow">
+                            <div class="flow-item">自己監視能力向上</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="flow-item">エラー検出精度向上</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="flow-item">自己修正能力獲得</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="flow-item">学習効率の最大化</div>
+                        </div>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>🔍 品質チェック実践例</h4>
+                        <p><strong>作成文:</strong> "When individual attributes matches environmental attributes, optimal outcome are produced."</p>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                            <div style="background: #ffebee; padding: 15px; border-radius: 8px;">
+                                <h5 style="color: #c62828; margin: 0 0 10px 0;">❌ エラー検出</h5>
+                                <ul style="margin: 0; padding-left: 20px;">
+                                    <li>matches → match (主語複数)</li>
+                                    <li>outcome → outcomes (複数形)</li>
+                                </ul>
+                            </div>
+                            <div style="background: #e8f5e8; padding: 15px; border-radius: 8px;">
+                                <h5 style="color: #2e7d32; margin: 0 0 10px 0;">✅ 修正後</h5>
+                                <p style="margin: 0;">"When individual attributes <strong>match</strong> environmental attributes, optimal <strong>outcomes</strong> are produced."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
